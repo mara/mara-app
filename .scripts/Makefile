@@ -8,11 +8,14 @@ update-scripts:=rsync -avq packages/mara-app/.scripts/Makefile ./Makefile; \
                 rsync -avq packages/mara-app/.scripts/ensure-pushed.sh ./.scripts/ensure-pushed.sh; \
                 rsync -avq packages/mara-app/.scripts/makeshell ./.scripts/makeshell;
 
+# run auto-migrations
+migrate:=.venv/bin/flask mara_app.migrate
 
 # install packages collected by pip freeze
 install-packages: update-virtual-env check-for-uncommitted-changes
 	.venv/bin/pip install --requirement=requirements.txt.freeze --src=./packages --upgrade
 	$(call update-scripts)
+	$(call migrate)
 	echo -e "done. Get started with\n   $$ source .venv/bin/activate\n   $$ flask"
 
 # create or update virtualenv
@@ -36,7 +39,14 @@ update-packages: check-for-uncommitted-changes .venv/bin/python
 	$(call update-scripts)
 	.venv/bin/pipdeptree --warn=fail
 	.venv/bin/pip freeze > requirements.txt.freeze
+	$(call migrate)
 	echo -e "\033[32msucceeded, please check output above for warnings\033[0m"
+
+update-scripts:
+	$(call update-scripts)
+
+migrate:
+	$(call migrate)
 
 
 pipdeptree:
@@ -44,7 +54,7 @@ pipdeptree:
 
 clean:
 	rm -rf .venv/*
-	rm -rf .packages/*
+	rm -rf packages/*
 
 
 

@@ -1,5 +1,5 @@
 """
-Flask app with auto-discovery of blueprint, cli commands etc.
+Flask app with auto-discovery of blueprints, cli commands etc.
 """
 
 import gc
