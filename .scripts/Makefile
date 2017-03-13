@@ -1,4 +1,4 @@
-# this Makefile is maintained inside the mara-app package: https://github.com/mara/mara-app/scripts/Makefile
+# this Makefile is maintained inside the mara-app package: https://github.com/mara/mara-app/blob/master/.scripts/Makefile
 
 SHELL=.scripts/makeshell $(or $@,-) # coloring + timing
 .SILENT: # disable command echoing, will be done by .makeshell
