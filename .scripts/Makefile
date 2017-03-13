@@ -23,7 +23,7 @@ update-virtual-env: .venv/bin/python
 
 .venv/bin/python: Makefile # rebuild virtuenv whenever Makefile changes
 # prevent warnings when virtualenv is activated
-	rm -f .venv/bin/python
+	rm -f .venv/bin/python*
 	python3.6 -m venv --copies --prompt='[$(shell basename `pwd`)/.venv]' .venv
 # set environment variables
 	echo export FLASK_DEBUG=1 >> .venv/bin/activate
