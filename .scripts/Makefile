@@ -9,7 +9,7 @@ update-scripts:=rsync -avq packages/mara-app/.scripts/Makefile ./Makefile; \
                 rsync -avq packages/mara-app/.scripts/makeshell ./.scripts/makeshell;
 
 # run auto-migrations
-migrate:=.venv/bin/flask mara_app.migrate
+migrate:=FLASK_APP=app/app.py .venv/bin/flask mara_app.migrate
 
 # install packages collected by pip freeze
 install-packages: update-virtual-env check-for-uncommitted-changes
