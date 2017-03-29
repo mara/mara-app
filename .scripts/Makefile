@@ -3,6 +3,8 @@
 SHELL=.scripts/makeshell $(or $@,-) # coloring + timing
 .SILENT: # disable command echoing, will be done by .makeshell
 
+SYSTEM_PYTHON36:=$(shell PATH=$(subst $(CURDIR)/.venv/bin:,,$(PATH)) which python3.6)
+
 # update scripts from mara-app
 update-scripts:=rsync -avq packages/mara-app/.scripts/Makefile ./Makefile; \
                 rsync -avq packages/mara-app/.scripts/ensure-pushed.sh ./.scripts/ensure-pushed.sh; \
@@ -22,9 +24,7 @@ install-packages: update-virtual-env check-for-uncommitted-changes
 update-virtual-env: .venv/bin/python
 
 .venv/bin/python: Makefile # rebuild virtuenv whenever Makefile changes
-# prevent warnings when virtualenv is activated
-	rm -f .venv/bin/python
-	python3.6 -m venv --copies --prompt='[$(shell basename `pwd`)/.venv]' .venv
+	$(SYSTEM_PYTHON36) -m venv --copies --prompt='[$(shell basename `pwd`)/.venv]' .venv
 # set environment variables
 	echo export FLASK_DEBUG=1 >> .venv/bin/activate
 	echo export FLASK_APP=$(shell pwd)/app/app.py >> .venv/bin/activate
