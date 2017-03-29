@@ -2,11 +2,13 @@
 
 import html
 import inspect
+import pathlib
 import pprint
 import sys
 
-import flask
 from mara_page import navigation, response, _
+
+import flask
 
 mara_app = flask.Blueprint('mara_app', __name__, url_prefix='/admin', static_folder='static')
 
@@ -15,8 +17,10 @@ mara_app = flask.Blueprint('mara_app', __name__, url_prefix='/admin', static_fol
 def configuration_page():
     # gather all config functions by package
     config_modules = {}
+    package_path = str(pathlib.Path(__file__).parent.parent.parent)
     for module_name, module in sys.modules.items():
-        if module_name.split('.')[-1] == 'config' and module.__package__ not in ['flask', 'gunicorn', 'logging']:
+        if (hasattr(module, '__file__')) and module.__file__.startswith(package_path) \
+                and module_name.split('.')[-1] == 'config':
             if not module_name in config_modules:
                 config_modules[module_name] = {'doc': module.__doc__, 'functions': {}}
 

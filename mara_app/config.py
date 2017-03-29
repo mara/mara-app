@@ -3,6 +3,9 @@
 import flask
 from mara_page import navigation
 
+def flask_config() -> {}:
+    return flask.Flask.default_config
+
 
 def navigation_root() -> navigation.NavigationEntry:
     """

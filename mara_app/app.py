@@ -20,6 +20,7 @@ class MaraApp(flask.Flask):
         self.register_page_layout()
         self.register_error_handlers()
         self.secret_key = '123'
+        self.config.update()
 
     def register_blueprints(self):
         """Searches for all instances of flask.Blueprint and adds them to the app"""
