@@ -1,5 +1,13 @@
 # Changelog
 
+
+## 1.0.3
+*2017-04-05*
+
+- migrations work without activating the virtualenv first
+- improved updating of virtualenvs
+
+
 ## 1.0.2
 *2017-03-29*
 
