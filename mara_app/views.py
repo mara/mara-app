@@ -18,8 +18,9 @@ def configuration_page():
     # gather all config functions by package
     config_modules = {}
     package_path = str(pathlib.Path(__file__).parent.parent.parent)
+    app_path = str(pathlib.Path(__file__).parent.parent.parent.parent.joinpath('app'))
     for module_name, module in sys.modules.items():
-        if (hasattr(module, '__file__')) and module.__file__.startswith(package_path) \
+        if (hasattr(module, '__file__')) and (module.__file__.startswith(package_path) or module.__file__.startswith(app_path)) \
                 and module_name.split('.')[-1] == 'config':
             if not module_name in config_modules:
                 config_modules[module_name] = {'doc': module.__doc__, 'functions': {}}
@@ -49,7 +50,7 @@ def configuration_page():
         return [_.h3[module_name], _.p[str(config['doc'])],
                 _.table(_class='table table-hover table-sm', style='table-layout:fixed')[
                     [render_function(function_name, function) for function_name, function in
-                     config['functions'].items()]]]
+                     config['functions'].items()]]] if config['functions'] else ''
 
     return response.Response(
         [render_module(module_name, config) for module_name, config in sorted(config_modules.items())],
