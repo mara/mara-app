@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.4
+*2017-04-15* 
+
+- minor improvements for _/admin/configuration_ page
+
 
 ## 1.0.3
 *2017-04-05*

@@ -30,7 +30,7 @@ def configuration_page():
                     value = ''
                     try:
                         value = member()
-                    except TypeError:
+                    except Exception:
                         value = 'error calling function'
 
                     config_modules[module_name]['functions'][member_name] \
