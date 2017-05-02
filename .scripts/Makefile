@@ -24,7 +24,10 @@ install-packages: update-virtual-env check-for-uncommitted-changes
 update-virtual-env: .venv/bin/python
 
 .venv/bin/python: Makefile # rebuild virtuenv whenever Makefile changes
-	$(SYSTEM_PYTHON36) -m venv --copies --prompt='[$(shell basename `pwd`)/.venv]' .venv
+# if .venv is already a symlink, don't overwrite it
+	mkdir -p .venv
+# go into the new dir and build it there as venv doesn't work if the target is a symlink 
+	cd .venv && $(SYSTEM_PYTHON36) -m venv --copies --prompt='[$(shell basename `pwd`)/.venv]' .
 # set environment variables
 	echo export FLASK_DEBUG=1 >> .venv/bin/activate
 	echo export FLASK_APP=$(shell pwd)/app/app.py >> .venv/bin/activate
