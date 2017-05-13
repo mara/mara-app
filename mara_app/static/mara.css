@@ -19,6 +19,15 @@ a:hover {
     padding-right: 15px;
 }
 
+/*
+make sure that anchor links are not hidden behind the header
+https://css-tricks.com/hash-tag-links-padding/
+*/
+.anchor {
+    margin-top: -90px;
+    padding-top: 90px;
+    display: inline-block;
+}
 #mara-page-header > * {
     display: inline-block;
     line-height: 60px;
