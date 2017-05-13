@@ -93,10 +93,10 @@ body.touch.navigation-collapsed > #mara-navigation {
     transition: width 0s;
 }
 
+/*
+ nav entry
+*/
 #mara-navigation div.mara-nav-entry {
-    padding: 0px;
-    marging-right: 15px;
-    position: relative;
     width: 224px;
 }
 
@@ -142,25 +142,32 @@ body.touch.navigation-collapsed > #mara-navigation {
 #mara-navigation div.mara-nav-entry > a {
     padding-top: 5px;
     padding-bottom: 5px;
-    display: block;
+    padding-right: 16px;
+    display: table;
+    width: 100%;
     color: #aaa;
     text-decoration: none;
     cursor: pointer;
-    vertical-align: middle;
 }
 
-#mara-navigation div.mara-nav-entry.level-1 > a > span.fa {
-    padding-right: 36px;
+#mara-navigation div.mara-nav-entry > a > div {
+    display: table-cell;
 }
 
-#mara-navigation div.mara-nav-entry:not(level-1) > a > span.fa {
-    padding-right: 22px;
+#mara-navigation div.mara-nav-entry.level-1 > a > div.mara-nav-entry-icon {
+    padding-right: 16px;
 }
 
-#mara-navigation div.mara-nav-entry .mara-caret {
-    position: absolute;
-    top: 5px;
-    right: 10px;
+#mara-navigation div.mara-nav-entry:not(level-1) > a > div.mara-nav-entry-icon {
+    padding-right: 8px;
+}
+
+#mara-navigation .mara-nav-entry > a > div.mara-nav-entry-text {
+    width: 100%;
+}
+
+#mara-navigation .mara-nav-entry > a > div.mara-caret {
+    padding-left: 8px;
     opacity: 1;
     transition: opacity 0.3s;
     transition-delay: 0.2s;
@@ -171,9 +178,9 @@ body.navigation-collapsed > #mara-navigation div.mara-nav-entry .mara-caret {
     transition: opacity 0s;
 }
 
-#mara-navigation div.mara-nav-entry.level-1 > a > .mara-caret {
-    top: 17px;
-}
+/*
+* main area
+*/
 
 body > #mara-main {
     position: absolute;
@@ -185,7 +192,7 @@ body > #mara-main {
     padding-left: 69px; /* nav collapsed + 15 */
 }
 
-body.navigation-collapsed > #mara-main,body.navigation-collapsed > #alerts {
+body.navigation-collapsed > #mara-main, body.navigation-collapsed > #alerts {
     left: 0px;
     transition: left .3s;
 }
@@ -210,13 +217,12 @@ body > #alerts {
     left: 170px; /* nav expanded 224 - nav collapsed 54 */
     transition: left .3s;
     width: 100%;
-    bottom:0px;
+    bottom: 0px;
     padding-left: 69px; /* nav collapsed + 15 */
     padding-right: 15px;
     opacity: 0.95;
 
 }
-
 
 body > #alerts > div.alert {
 

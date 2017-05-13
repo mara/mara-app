@@ -19,7 +19,7 @@ def configuration_page():
     config_modules = {}
     package_path = str(pathlib.Path(__file__).parent.parent.parent)
     app_path = str(pathlib.Path(__file__).parent.parent.parent.parent.joinpath('app'))
-    for module_name, module in sys.modules.items():
+    for module_name, module in list(sys.modules.items()):
         if (hasattr(module, '__file__')) and (module.__file__.startswith(package_path) or module.__file__.startswith(app_path)) \
                 and module_name.split('.')[-1] == 'config':
             if not module_name in config_modules:

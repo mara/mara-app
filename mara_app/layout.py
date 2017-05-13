@@ -88,7 +88,7 @@ def navigation_bar(response: mara_page.response.Response) -> xml.XMLElement:
             if entry.children:
                 attrs.update({'onClick': 'toggleNavigationEntry(this)'})
             else:
-                attrs.update({'onClick': 'highlightNavigationEntry(\'' + entry.uri_fn() + '\');collapseNavigation()',
+                attrs.update({'onClick': 'highlightNavigationEntry(\'' + entry.uri_fn() + '\');',
                               'href': entry.uri_fn()})
 
             if entry.description:
@@ -97,9 +97,9 @@ def navigation_bar(response: mara_page.response.Response) -> xml.XMLElement:
             return _.div(_class='mara-nav-entry level-' + str(level),
                          style='display:none' if level > 1 else '')[
                 _.a(**attrs)[
-                    _.span(_class='fa fa-fw fa-' + entry.icon + (' fa-lg' if level == 1 else ''))[
+                    _.div(_class='mara-nav-entry-icon fa fa-fw fa-' + entry.icon + (' fa-lg' if level == 1 else ''))[
                         ''] if entry.icon else '',
-                    entry.label.replace('_', '_<wbr>'),
+                    _.div(_class='mara-nav-entry-text')[entry.label.replace('_', '_<wbr>')],
                     _.div(_class='mara-caret fa fa-caret-down')[''] if entry.children else ''],
                 render_entries(entry.children, level + 1)
             ]

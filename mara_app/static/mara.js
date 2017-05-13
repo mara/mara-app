@@ -3,12 +3,12 @@ $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
     if (!isTouchDevice) {
-        $('#mara-navigation').mouseenter(expandNavigation);
+        $('#mara-navigation').mouseover(expandNavigation);
         $('#mara-navigation').mouseleave(collapseNavigation);
     }
 
     // highlight navigation entry for current uri
-    highlightNavigationEntry(decodeURIComponent(window.location.pathname + window.location.search + window.location.hash));
+    highlightNavigationEntry(window.location.pathname + window.location.search + window.location.hash);
 });
 
 // the nav entry that matches the current page uri best
@@ -65,17 +65,17 @@ function expandNavigation() {
     $('body').removeClass('navigation-collapsed');
     $('#mara-navigation .mara-nav-entry.visible:not(.level-1)')
         .css('height', '') // reset height if it was left over from a previous slide action
-        .slideDown({queue: false});
+        .show(0);
     if (currentNavigationEntry) {
         currentNavigationEntry[0].scrollIntoView();
         currentNavigationEntry = null;
     }
 }
 
-// collapses the navitation side bar
+// collapses the navigation side bar
 function collapseNavigation() {
     $('body').addClass('navigation-collapsed');
-    $('#mara-navigation .mara-nav-entry.level-2.visible').slideUp({queue: false});
+    $('#mara-navigation .mara-nav-entry.level-2.visible').slideUp({queue: true});
 }
 
 // expands or collapses the navigation side bar
