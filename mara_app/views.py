@@ -6,9 +6,8 @@ import pathlib
 import pprint
 import sys
 
-from mara_page import navigation, response, _
-
 import flask
+from mara_page import navigation, response, _, bootstrap
 
 mara_app = flask.Blueprint('mara_app', __name__, url_prefix='/admin', static_folder='static')
 
@@ -20,7 +19,8 @@ def configuration_page():
     package_path = str(pathlib.Path(__file__).parent.parent.parent)
     app_path = str(pathlib.Path(__file__).parent.parent.parent.parent.joinpath('app'))
     for module_name, module in list(sys.modules.items()):
-        if (hasattr(module, '__file__')) and (module.__file__.startswith(package_path) or module.__file__.startswith(app_path)) \
+        if (hasattr(module, '__file__')) and (
+                    module.__file__.startswith(package_path) or module.__file__.startswith(app_path)) \
                 and module_name.split('.')[-1] == 'config':
             if not module_name in config_modules:
                 config_modules[module_name] = {'doc': module.__doc__, 'functions': {}}
@@ -36,24 +36,19 @@ def configuration_page():
                     config_modules[module_name]['functions'][member_name] \
                         = {'doc': member.__doc__ or '', 'value': value}
 
-    def render_function(function_name, function):
-        return _.tr[
-            _.td(style='max-width:15%;')[_.div(style='display:block;overflow:hidden;text-overflow:ellipsis')[
-                function_name.replace('_', '_<wbr/>')]],
-            _.td(style='width:30%')[_.em[function['doc']]],
-            _.td(style='width:55%;')[
-                _.pre(style='margin:0px;padding-top:3px;overflow:hidden;text-overflow:ellipsis;')[
-                    html.escape(pprint.pformat(function['value']))]],
-        ]
-
-    def render_module(module_name, config):
-        return [_.h3[module_name], _.p[str(config['doc'])],
-                _.table(_class='table table-hover table-sm', style='table-layout:fixed')[
-                    [render_function(function_name, function) for function_name, function in
-                     config['functions'].items()]]] if config['functions'] else ''
-
     return response.Response(
-        [render_module(module_name, config) for module_name, config in sorted(config_modules.items())],
+        html=[(bootstrap.card(
+            title_left=_.b[html.escape(module_name)],
+            body=[_.p[html.escape(str(config['doc']))],
+                  bootstrap.documentation_table(
+                      [],
+                      [_.tr[
+                           _.td[function_name.replace('_', '_<wbr/>')],
+                           _.td[_.em[function['doc']]],
+                           _.td[_.pre[html.escape(pprint.pformat(function['value']))]]]
+                       for function_name, function in config['functions'].items()])
+                  ]) if config['functions'] else '') for module_name, config in
+              sorted(config_modules.items())],
         title='Mara Configuration')
 
 

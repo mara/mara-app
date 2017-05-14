@@ -28,6 +28,7 @@ https://css-tricks.com/hash-tag-links-padding/
     padding-top: 90px;
     display: inline-block;
 }
+
 #mara-page-header > * {
     display: inline-block;
     line-height: 60px;
@@ -193,6 +194,7 @@ body.navigation-collapsed > #mara-navigation div.mara-nav-entry .mara-caret {
 
 body > #mara-main {
     position: absolute;
+    background-color: #e0e0e0;
     left: 170px; /* nav expanded 224 - nav collapsed 54 */
     transition: left .3s;
     top: 60px;
@@ -233,6 +235,53 @@ body > #alerts {
 
 }
 
-body > #alerts > div.alert {
+/*
+* Cards
+*/
 
+body > #mara-main div.card {
+    margin-bottom: 16px;
+}
+
+body > #mara-main div.card div.card-title.fixed-title-height {
+    height: 24px;
+    max-height: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+body > #mara-main div.card div.card-title.fixed-title-height > * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body > #mara-main div.card div.card-title > div.card-title-right {
+    text-align: right;
+}
+
+body > #mara-main div.card > div.card-block > *:not(.card-title) {
+    overflow-x: auto;
+}
+
+/*
+* documentation tables
+*/
+
+body > #mara-main table.mara-documentation-table {
+    width: 100%;
+}
+
+body > #mara-main table.mara-documentation-table > thead > tr > th {
+    border-top: none;
+}
+
+/*
+* Misc
+*/
+
+body > #mara-main code {
+    background-color: transparent;
+    padding: 0px;
+    border-radius: 0px;
+    color: black;
 }
