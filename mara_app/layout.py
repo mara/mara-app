@@ -1,6 +1,7 @@
 """Page layout of mara app"""
 
-from functools import partial
+import functools
+import subprocess
 
 import flask
 import mara_page.response
@@ -27,8 +28,8 @@ def head_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
         _.meta(charset='utf-8'),
         _.meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no'),
         _.title[response.title],
-        map(lambda url: _.link(rel='stylesheet', href=url)[''], css_files(response)),
-        _.link(rel='icon', type='image/png', href=config.favicon_url())
+        [_.link(rel='stylesheet', href=url + '?' + _current_git_commit())[''] for url in css_files(response)],
+        _.link(rel='icon', type='image/png', href=config.favicon_url() + '?' + _current_git_commit())
     ]
 
 
@@ -40,7 +41,7 @@ def body_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
         page_header(response),
         navigation_bar(response),
         content_area(response),
-        map(lambda url: _.script(src=url)[''], js_files(response)),
+        [_.script(src=url + '?' + _current_git_commit())[''] for url in js_files(response)],
         flash_messages(response)
     ]
 
@@ -68,7 +69,7 @@ def page_header(response: mara_page.response.Response):
     return _.nav(id='mara-page-header', _class='navbar fixed-top')[
         _.a(_class='navigation-toggle-button fa fa-lg fa-reorder', onclick='toggleNavigation()')[' '],
         _.h1()[response.title],
-        _.img(src=config.logo_url()),
+        _.img(src=config.logo_url() + '?' + _current_git_commit()),
         _.span(_class='action-buttons')[map(action_button, response.action_buttons)]]
 
 
@@ -104,7 +105,8 @@ def navigation_bar(response: mara_page.response.Response) -> xml.XMLElement:
                 render_entries(entry.children, level + 1)
             ]
 
-        return map(partial(render_entry, level=level), sorted([entry for entry in entries if entry.visible], key=lambda x: x.rank))
+        return map(functools.partial(render_entry, level=level),
+                   sorted([entry for entry in entries if entry.visible], key=lambda x: x.rank))
 
     return _.nav(id='mara-navigation', _class='nav')[render_entries(flask.current_app.navigation_root.children)]
 
@@ -125,3 +127,10 @@ def flash_messages(response: mara_page.response.Response) -> xml.XMLElement:
                     flask.get_flashed_messages(True))
 
             ]]
+
+
+@functools.lru_cache(maxsize=None)
+def _current_git_commit():
+    """Returns the current git commit of the mara application"""
+    command = f'git --git-dir {flask.current_app.root_path}/.git rev-parse HEAD'
+    return subprocess.getoutput(command)
