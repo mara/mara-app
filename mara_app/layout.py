@@ -104,7 +104,7 @@ def navigation_bar(response: mara_page.response.Response) -> xml.XMLElement:
                 render_entries(entry.children, level + 1)
             ]
 
-        return map(partial(render_entry, level=level), sorted(entries, key=lambda x: x.rank))
+        return map(partial(render_entry, level=level), sorted([entry for entry in entries if entry.visible], key=lambda x: x.rank))
 
     return _.nav(id='mara-navigation', _class='nav')[render_entries(flask.current_app.navigation_root.children)]
 
