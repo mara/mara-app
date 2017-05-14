@@ -2,6 +2,7 @@ body {
     position: relative;
 }
 
+
 a:hover {
     cursor: pointer;
 }
@@ -199,6 +200,7 @@ body > #mara-main {
     transition: left .3s;
     top: 60px;
     width: 100%;
+    min-height: 100vh;
     padding: 15px;
     padding-left: 69px; /* nav collapsed + 15 */
 }
