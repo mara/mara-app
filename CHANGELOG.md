@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.5
+*2017-05-16*
+
+- Improved navigation side bar
+- Anchor offsetting via `.anchor` css class
+- Config page beautifications
+- Navigation entries can be hidden by setting `visible=False`
+
+
 ## 1.0.4
 *2017-04-15* 
 
