@@ -1,10 +1,11 @@
 # Changelog
 
-## 1.1.5
+## 1.1.0
 *2017-05-16*
 
 - Improved navigation side bar
 - Git commit of app appended to asset urls (e.g. `styles.css?efcfbaddfa4a..`)
+- Decreased font size to 12px
 - Anchor offsetting via `.anchor` css class
 - Config page beautifications
 - Navigation entries can be hidden by setting `visible=False`

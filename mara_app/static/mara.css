@@ -1,3 +1,7 @@
+html {
+    font-size: 14px;
+}
+
 body {
     position: relative;
 }
@@ -27,6 +31,7 @@ https://css-tricks.com/hash-tag-links-padding/
 .anchor {
     margin-top: -90px;
     padding-top: 90px;
+    z-index: -1;
     display: inline-block;
 }
 
@@ -132,6 +137,7 @@ body.touch.navigation-collapsed > #mara-navigation {
     padding-left: 18px;
     padding-top: 12px;
     padding-bottom: 12px;
+    font-size: 16px;
 }
 
 #mara-navigation div.mara-nav-entry.level-2 > a {
@@ -245,20 +251,26 @@ body > #mara-main div.card {
     margin-bottom: 16px;
 }
 
-body > #mara-main div.card div.card-title.fixed-title-height {
-    height: 24px;
-    max-height: 24px;
-    white-space: nowrap;
-    overflow: hidden;
+body > #mara-main div.card div.card-title {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
 }
 
-body > #mara-main div.card div.card-title.fixed-title-height > * {
-    overflow: hidden;
-    text-overflow: ellipsis;
+body > #mara-main div.card div.card-title > div {
+    display: table-cell;
 }
 
-body > #mara-main div.card div.card-title > div.card-title-right {
+body > #mara-main div.card div.card-title div.card-title-right {
     text-align: right;
+    padding-left: 5px;
+}
+
+
+body > #mara-main div.card div.card-title.fixed-title-height > div {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 body > #mara-main div.card > div.card-block > *:not(.card-title) {
