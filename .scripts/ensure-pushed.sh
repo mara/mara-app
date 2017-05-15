@@ -12,7 +12,7 @@ set -o pipefail
 cd $1
 
 
-( if [[ $(git ls-files --other --directory --exclude-standard) ]]; then false; fi && 
+( if [[ $(git ls-files --other --directory --no-empty-directory --exclude-standard) ]]; then false; fi &&
   git diff-files --quiet -- && 
   git diff-index --quiet HEAD -- &&
   if [[ $(git log --branches --not --remotes) ]]; then false; fi
