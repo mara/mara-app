@@ -6,13 +6,18 @@ import pathlib
 import pprint
 import sys
 
+from mara_page import acl
+
 import flask
 from mara_page import navigation, response, _, bootstrap
 
 mara_app = flask.Blueprint('mara_app', __name__, url_prefix='/admin', static_folder='static')
 
+acl_resource = acl.AclResource('Configuration')
+
 
 @mara_app.route('/configuration')
+@acl.require_permission(acl_resource)
 def configuration_page():
     # gather all config functions by package
     config_modules = {}
@@ -40,7 +45,7 @@ def configuration_page():
         html=[(bootstrap.card(
             title_left=_.b[html.escape(module_name)],
             body=[_.p[html.escape(str(config['doc']))],
-                  bootstrap.documentation_table(
+                  bootstrap.table(
                       [],
                       [_.tr[
                            _.td[function_name.replace('_', '_<wbr/>')],

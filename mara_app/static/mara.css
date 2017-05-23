@@ -4,6 +4,7 @@ html {
 
 body {
     position: relative;
+    background-color: #e0e0e0;
 }
 
 
@@ -54,7 +55,7 @@ https://css-tricks.com/hash-tag-links-padding/
     white-space: nowrap;
     text-overflow: ellipsis;
     max-width: 100%;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: normal;
 }
 
@@ -134,10 +135,9 @@ body.touch.navigation-collapsed > #mara-navigation {
 }
 
 #mara-navigation div.mara-nav-entry.level-1 > a {
-    padding-left: 18px;
+    padding-left: 0px;
     padding-top: 12px;
     padding-bottom: 12px;
-    font-size: 16px;
 }
 
 #mara-navigation div.mara-nav-entry.level-2 > a {
@@ -172,10 +172,12 @@ body.touch.navigation-collapsed > #mara-navigation {
 }
 
 #mara-navigation div.mara-nav-entry.level-1 > a > div.mara-nav-entry-icon {
-    padding-right: 16px;
+    min-width: 54px;
+    font-size: 20px;
+    text-align: center;
 }
 
-#mara-navigation div.mara-nav-entry:not(level-1) > a > div.mara-nav-entry-icon {
+#mara-navigation div.mara-nav-entry:not(.level-1) > a > div.mara-nav-entry-icon {
     padding-right: 8px;
 }
 
@@ -201,12 +203,10 @@ body.navigation-collapsed > #mara-navigation div.mara-nav-entry .mara-caret {
 
 body > #mara-main {
     position: absolute;
-    background-color: #e0e0e0;
     left: 170px; /* nav expanded 224 - nav collapsed 54 */
     transition: left .3s;
     top: 60px;
     width: 100%;
-    min-height: 100vh;
     padding: 15px;
     padding-left: 69px; /* nav collapsed + 15 */
 }
@@ -281,11 +281,11 @@ body > #mara-main div.card > div.card-block > *:not(.card-title) {
 * documentation tables
 */
 
-body > #mara-main table.mara-documentation-table {
+body > #mara-main table.mara-table {
     width: 100%;
 }
 
-body > #mara-main table.mara-documentation-table > thead > tr > th {
+body > #mara-main table.mara-table > thead > tr > th {
     border-top: none;
 }
 

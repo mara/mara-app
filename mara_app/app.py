@@ -7,7 +7,7 @@ import gc
 import click
 import flask
 from mara_app import config, layout
-from mara_page import navigation, response, _
+from mara_page import navigation, response, _, bootstrap
 from werkzeug import exceptions
 
 
@@ -60,9 +60,10 @@ class MaraApp(flask.Flask):
         def error_handler(error):
             if not isinstance(error, exceptions.HTTPException):
                 error = exceptions.InternalServerError()
-            return response.Response(_.span[_.p(style='color:#888')[error.description or ''],
-                                            _.img(src=flask.url_for('mara_app.static', filename='mara.jpg'),
-                                                  style='margin-top:30px;max-width:100%;')],
+            return response.Response(bootstrap.card(body=_.span[_.p(style='color:#888')[error.description or ''],
+                                                                _.img(src=flask.url_for('mara_app.static',
+                                                                                        filename='mara.jpg'),
+                                                                      style='margin-top:30px;max-width:100%;')]),
                                      title=error.name,
                                      status_code=error.code)
 

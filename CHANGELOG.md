@@ -1,7 +1,7 @@
 # Changelog
 
 ## 1.1.0
-*2017-05-16*
+*2017-05-24*
 
 - Improved navigation side bar
 - Git commit of app appended to asset urls (e.g. `styles.css?efcfbaddfa4a..`)
