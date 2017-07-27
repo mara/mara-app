@@ -16,7 +16,7 @@ def layout(response: mara_page.response.Response) -> str:
             _.head[
                 head_elements(response)
             ],
-            _.body(_class='navigation-collapsed')[
+            _.body(class_='navigation-collapsed')[
                 body_elements(response)
             ]
         ])
@@ -66,17 +66,17 @@ def js_files(response: mara_page.response.Response):
 
 def page_header(response: mara_page.response.Response):
     """Renders the fixed top part of the page"""
-    return _.nav(id='mara-page-header', _class='navbar fixed-top')[
-        _.a(_class='navigation-toggle-button fa fa-lg fa-reorder', onclick='toggleNavigation()')[' '],
+    return _.nav(id='mara-page-header', class_='navbar fixed-top')[
+        _.a(class_='navigation-toggle-button fa fa-lg fa-reorder', onclick='toggleNavigation()')[' '],
         _.h1()[response.title],
         _.img(src=config.logo_url() + '?' + _current_git_commit()),
-        _.span(_class='action-buttons')[map(action_button, response.action_buttons)]]
+        _.span(class_='action-buttons')[map(action_button, response.action_buttons)]]
 
 
 def action_button(button: mara_page.response.ActionButton):
     """Renders an action button"""
-    return [_.a(_class='btn', href=button.action, title=button.title)[
-                _.span(_class='fa fa-' + button.icon)[''], ' ',
+    return [_.a(class_='btn', href=button.action, title=button.title)[
+                _.span(class_='fa fa-' + button.icon)[''], ' ',
                 button.label]]
 
 
@@ -95,25 +95,25 @@ def navigation_bar(response: mara_page.response.Response) -> xml.XMLElement:
             if entry.description:
                 attrs.update({'title': entry.description, 'data-toggle': 'tooltip',
                               'data-container': 'body', 'data-placement': 'right'})
-            return _.div(_class='mara-nav-entry level-' + str(level),
+            return _.div(class_='mara-nav-entry level-' + str(level),
                          style='display:none' if level > 1 else '')[
                 _.a(**attrs)[
-                    _.div(_class='mara-nav-entry-icon fa fa-fw fa-' + entry.icon + (' fa-lg' if level == 1 else ''))[
+                    _.div(class_='mara-nav-entry-icon fa fa-fw fa-' + entry.icon + (' fa-lg' if level == 1 else ''))[
                         ''] if entry.icon else '',
-                    _.div(_class='mara-nav-entry-text')[entry.label.replace('_', '_<wbr>')],
-                    _.div(_class='mara-caret fa fa-caret-down')[''] if entry.children else ''],
+                    _.div(class_='mara-nav-entry-text')[entry.label.replace('_', '_<wbr>')],
+                    _.div(class_='mara-caret fa fa-caret-down')[''] if entry.children else ''],
                 render_entries(entry.children, level + 1)
             ]
 
         return map(functools.partial(render_entry, level=level),
                    sorted([entry for entry in entries if entry.visible], key=lambda x: x.rank))
 
-    return _.nav(id='mara-navigation', _class='nav')[render_entries(flask.current_app.navigation_root.children)]
+    return _.nav(id='mara-navigation', class_='nav')[render_entries(flask.current_app.navigation_root.children)]
 
 
 def content_area(response: mara_page.response.Response) -> xml.XMLElement:
     """Renders the main content area"""
-    return _.div(id='mara-main', _class='container-fluid')[
+    return _.div(id='mara-main', class_='container-fluid')[
         response.get_data(as_text=True)
     ]
 
