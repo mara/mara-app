@@ -41,7 +41,9 @@ update-packages: check-for-uncommitted-changes .venv/bin/python
 	PYTHONWARNINGS="ignore" .venv/bin/pip install --requirement=requirements.txt --src=./packages --upgrade --process-dependency-links
 	$(call update-scripts)
 	.venv/bin/pipdeptree --warn=fail
-	.venv/bin/pip freeze > requirements.txt.freeze
+	# pkg-ressources is automatically added on ubunut, but breaks the install.
+	# https://stackoverflow.com/a/40167445/1380673
+	.venv/bin/pip freeze | grep -v "pkg-resources" > requirements.txt.freeze
 	$(call migrate)
 	echo -e "\033[32msucceeded, please check output above for warnings\033[0m"
 
