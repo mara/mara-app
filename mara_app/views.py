@@ -43,8 +43,8 @@ def configuration_page():
 
     return response.Response(
         html=[(bootstrap.card(
-            title_left=_.b[html.escape(module_name)],
-            body=[_.p[html.escape(str(config['doc']))],
+            header_left=html.escape(module_name),
+            body=[_.p[_.em[html.escape(str(config['doc']))]],
                   bootstrap.table(
                       [],
                       [_.tr[
