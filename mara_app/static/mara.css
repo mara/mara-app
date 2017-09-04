@@ -7,7 +7,6 @@ body {
     background-color: #e0e0e0;
 }
 
-
 a:hover {
     cursor: pointer;
 }
@@ -247,53 +246,88 @@ body > #alerts {
 * Cards
 */
 
-body > #mara-main div.card {
+#mara-main div.card {
     margin-bottom: 16px;
 }
 
-body > #mara-main div.card div.card-title {
+#mara-main div.card div.card-header {
     width: 100%;
     display: table;
     table-layout: fixed;
+    background-color: white;
+    border: none;
 }
 
-body > #mara-main div.card div.card-title > div {
+#mara-main div.card div.card-header > div {
     display: table-cell;
 }
 
-body > #mara-main div.card div.card-title div.card-title-right {
+#mara-main div.card div.card-header div.card-header-right {
     text-align: right;
     padding-left: 5px;
 }
 
-
-body > #mara-main div.card div.card-title.fixed-title-height > div {
+#mara-main div.card div.card-header.fixed-header-height > div {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-body > #mara-main div.card > div.card-block > *:not(.card-title) {
+#mara-main div.card div.card-block > div.overflow-wrapper {
     overflow-x: auto;
+    overflow-y: hidden;
+}
+
+#mara-main div.card div.card-block > div.overflow-wrapper > *:first-child {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+#mara-main div.card div.card-block > div.overflow-wrapper > *:last-child {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+#mara-main div.card div.card-block {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 /*
-* documentation tables
+* tables
 */
 
-body > #mara-main table.mara-table {
+table.mara-table {
     width: 100%;
+    border-collapse: collapse;
 }
 
-body > #mara-main table.mara-table > thead > tr > th {
+table.mara-table th, table.mara-table tbody > tr:first-child > td {
     border-top: none;
+}
+
+table.mara-table th:first-child, table.mara-table td:first-child {
+    padding-left: 0;
+}
+
+table.mara-table th, table.mara-table td {
+    padding-left: 15px;
+}
+
+table.mara-table th:last-child, table.mara-table td:last-child {
+    padding-right: 0px;
+}
+
+table.mara-table td pre, table.mara-table code {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 /*
 * Misc
 */
 
-body > #mara-main code {
+#mara-main code {
     background-color: transparent;
     padding: 0px;
     border-radius: 0px;
