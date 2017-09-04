@@ -69,3 +69,10 @@ class MaraApp(flask.Flask):
 
         for cls in exceptions.HTTPException.__subclasses__():
             self.register_error_handler(cls, error_handler)
+
+    def patch_flask_url_for(self):
+        """Caches calls to flask.url_for because it's kind of slow
+
+        https://stackoverflow.com/questions/16713644/why-is-flask-url-for-too-slow"""
+        original_url_for = flask.url_for
+        flask.url_for = functools.lru_cache(maxsize=None)(original_url_for)
