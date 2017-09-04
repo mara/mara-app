@@ -114,7 +114,7 @@ def navigation_bar() -> str:
 
 def content_area(response: mara_page.response.Response) -> xml.XMLElement:
     """Renders the main content area"""
-    return _.div(id='mara-main', class_='container-fluid')[response.html]
+    return _.div(id='mara-main', class_='container-fluid')[response.response]
 
 
 def flash_messages(response: mara_page.response.Response) -> xml.XMLElement:
