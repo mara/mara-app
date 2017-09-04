@@ -62,13 +62,14 @@ function toggleNavigationEntry(a) {
 
 // expands the navigation sidebar
 function expandNavigation() {
-    $('body').removeClass('navigation-collapsed');
-    $('#mara-navigation .mara-nav-entry.visible:not(.level-1)')
-        .css('height', '') // reset height if it was left over from a previous slide action
-        .show(0);
-    if (currentNavigationEntry) {
-        currentNavigationEntry[0].scrollIntoView();
-        currentNavigationEntry = null;
+    if ($('body').hasClass('navigation-collapsed')) {
+        $('body').removeClass('navigation-collapsed');
+        $('#mara-navigation .mara-nav-entry.visible:not(.level-1)')
+            .css('height', '') // reset height if it was left over from a previous slide action
+            .show(0);
+        if (currentNavigationEntry) {
+            currentNavigationEntry[0].scrollIntoView();
+        }
     }
 }
 
