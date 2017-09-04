@@ -17,7 +17,7 @@ def layout(response: mara_page.response.Response) -> str:
             _.head[
                 head_elements(response)
             ],
-            _.body(_class='navigation-collapsed')[
+            _.body(class_='navigation-collapsed')[
                 body_elements(response)
             ]
         ])
