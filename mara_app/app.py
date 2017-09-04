@@ -2,10 +2,13 @@
 Flask app with auto-discovery of blueprints, cli commands etc.
 """
 
+import functools
 import gc
 
 import click
 import flask
+import sys
+import typing
 from mara_app import config, layout
 from mara_page import navigation, response, _, bootstrap
 from werkzeug import exceptions
@@ -19,6 +22,7 @@ class MaraApp(flask.Flask):
         self.register_navigation_entries()
         self.register_page_layout()
         self.register_error_handlers()
+        self.patch_flask_url_for()
         self.secret_key = '123'
         self.config.update()
 
@@ -43,6 +47,23 @@ class MaraApp(flask.Flask):
         for navigation_entry in ([obj for obj in gc.get_objects() if isinstance(obj, navigation.NavigationEntry)]):
             if not navigation_entry.parent and navigation_entry != self.navigation_root:
                 self.navigation_root.add_child(navigation_entry)
+        for name, module in sys.modules.items():
+            if 'MARA_NAVIGATION_ENTRY_FNS' in dir(module):
+                fns = getattr(sys.modules['data_integration'], 'MARA_NAVIGATION_ENTRY_FNS')
+                if not isinstance(fns, typing.Iterable):
+                    raise ValueError(
+                        f'MARA_NAVIGATION_ENTRY_FNS in module "{module.__name__}" is not bound to an array')
+                for fn in fns:
+                    if not isinstance(fn, typing.Callable):
+                        raise ValueError(
+                            f'{str(fn)} in MARA_NAVIGATION_ENTRY_FNS of module "{module.__name__}" is not a function')
+
+                    navigation_entry = fn()
+                    if not isinstance(navigation_entry, navigation.NavigationEntry):
+                        raise ValueError(
+                            f'Function {fn.__module__}.{fn.__name__} did not return an instance of NavigationEntry')
+                    if not navigation_entry.parent and navigation_entry != self.navigation_root:
+                        self.navigation_root.add_child(navigation_entry)
 
     def register_page_layout(self):
         """Adds a global layout with navigation etc. to pages"""
