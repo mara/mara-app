@@ -40,7 +40,7 @@ def body_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
         _.script['var isTouchDevice = ("ontouchstart" in document.documentElement); ',
                  'window.document.getElementsByTagName("body")[0].className += isTouchDevice ? " touch" : " no-touch";'],
         page_header(response),
-        navigation_bar(response),
+        navigation_bar(),
         content_area(response),
         [_.script(src=url + '?' + _current_git_commit())[''] for url in js_files(response)],
         flash_messages(response)
@@ -80,8 +80,8 @@ def action_button(button: mara_page.response.ActionButton):
                 _.span(_class='fa fa-' + button.icon)[''], ' ',
                 button.label]]
 
-
-def navigation_bar(response: mara_page.response.Response) -> xml.XMLElement:
+@functools.lru_cache(maxsize=None)
+def navigation_bar() -> str:
     """Renders the navigation sidebar"""
 
     def render_entries(entries: [navigation.NavigationEntry] = [], level: int = 1):
