@@ -206,7 +206,7 @@ body > #mara-main {
     transition: left .3s;
     top: 60px;
     width: 100%;
-    padding: 15px;
+    padding-top: 15px;
     padding-left: 69px; /* nav collapsed + 15 */
 }
 
