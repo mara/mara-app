@@ -28,7 +28,7 @@ def head_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
     return [
         _.meta(charset='utf-8'),
         _.meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no'),
-        _.title[re.sub(r'<[^>]*?>', '', response.title)],
+        _.title[re.sub(r'<[^>]*?>', '', str(xml.render(response.title)))],
         [_.link(rel='stylesheet', href=url + '?' + _current_git_commit())[''] for url in css_files(response)],
         _.link(rel='icon', type='image/png', href=config.favicon_url() + '?' + _current_git_commit())
     ]
