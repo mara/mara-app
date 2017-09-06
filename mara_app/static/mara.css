@@ -252,20 +252,20 @@ body > #alerts {
 
 #mara-main div.card div.card-header {
     width: 100%;
-    display: table;
-    table-layout: fixed;
+    display: flex;
     background-color: white;
     border: none;
 }
 
 #mara-main div.card div.card-header > div {
-    display: table-cell;
+    flex-grow: 1;
 }
 
 #mara-main div.card div.card-header div.card-header-right {
     text-align: right;
-    padding-left: 5px;
+    padding-left: 10px;
 }
+
 
 #mara-main div.card div.card-header.fixed-header-height > div {
     overflow: hidden;
