@@ -6,9 +6,8 @@ import pathlib
 import pprint
 import sys
 
-from mara_page import acl
-
 import flask
+from mara_page import acl
 from mara_page import navigation, response, _, bootstrap
 
 mara_app = flask.Blueprint('mara_app', __name__, url_prefix='/admin', static_folder='static')
@@ -57,6 +56,7 @@ def configuration_page():
         title='Mara Configuration')
 
 
-navigation_entry = navigation.NavigationEntry('Configuration',
-                                              uri_fn=lambda: flask.url_for('mara_app.configuration_page'),
-                                              icon='cogs', rank=100)
+def navigation_entry():
+    return navigation.NavigationEntry('Configuration',
+                                      uri_fn=lambda: flask.url_for('mara_app.configuration_page'),
+                                      icon='cogs', rank=100)

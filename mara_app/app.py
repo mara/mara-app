@@ -44,12 +44,9 @@ class MaraApp(flask.Flask):
     def register_navigation_entries(self):
         """Collects and merges all instances of NavigationEntry"""
         self.navigation_root = config.navigation_root()
-        for navigation_entry in ([obj for obj in gc.get_objects() if isinstance(obj, navigation.NavigationEntry)]):
-            if not navigation_entry.parent and navigation_entry != self.navigation_root:
-                self.navigation_root.add_child(navigation_entry)
         for name, module in sys.modules.items():
             if 'MARA_NAVIGATION_ENTRY_FNS' in dir(module):
-                fns = getattr(sys.modules['data_integration'], 'MARA_NAVIGATION_ENTRY_FNS')
+                fns = getattr(module, 'MARA_NAVIGATION_ENTRY_FNS')
                 if not isinstance(fns, typing.Iterable):
                     raise ValueError(
                         f'MARA_NAVIGATION_ENTRY_FNS in module "{module.__name__}" is not bound to an array')
