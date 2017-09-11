@@ -2,13 +2,14 @@
 Flask app with auto-discovery of blueprints, cli commands etc.
 """
 
+import copy
 import functools
 import gc
+import sys
+import typing
 
 import click
 import flask
-import sys
-import typing
 from mara_app import config, layout
 from mara_page import navigation, response, _, bootstrap
 from werkzeug import exceptions
@@ -44,7 +45,7 @@ class MaraApp(flask.Flask):
     def register_navigation_entries(self):
         """Collects and merges all instances of NavigationEntry"""
         self.navigation_root = config.navigation_root()
-        for name, module in sys.modules.items():
+        for name, module in copy.copy(sys.modules).items():
             if 'MARA_NAVIGATION_ENTRY_FNS' in dir(module):
                 fns = getattr(module, 'MARA_NAVIGATION_ENTRY_FNS')
                 if not isinstance(fns, typing.Iterable):
