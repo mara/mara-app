@@ -273,17 +273,17 @@ body > #alerts {
     text-overflow: ellipsis;
 }
 
-#mara-main div.card div.card-block > div.overflow-wrapper {
+#mara-main div.card div.card-block > div.card-block-content {
     overflow-x: auto;
     overflow-y: hidden;
 }
 
-#mara-main div.card div.card-block > div.overflow-wrapper > *:first-child {
+#mara-main div.card div.card-block > div.card-block-content > *:first-child {
     padding-top: 0px;
     margin-top: 0px;
 }
 
-#mara-main div.card div.card-block > div.overflow-wrapper > *:last-child {
+#mara-main div.card div.card-block > div.card-block-content > *:last-child {
     padding-bottom: 0px;
     margin-bottom: 0px;
 }
@@ -291,6 +291,10 @@ body > #alerts {
 #mara-main div.card div.card-block {
     padding-top: 1rem;
     padding-bottom: 1rem;
+}
+
+#mara-main div.card div.card-section {
+    border-top: 1px solid rgba(0,0,0,.1);
 }
 
 /*
