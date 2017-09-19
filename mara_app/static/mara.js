@@ -9,6 +9,9 @@ $(document).ready(function () {
 
     // highlight navigation entry for current uri
     highlightNavigationEntry(window.location.pathname + window.location.search + window.location.hash);
+
+    // float headers of all tables with class `.mara-table`
+    floatMaraTableHeaders();
 });
 
 // the nav entry that matches the current page uri best
@@ -97,5 +100,13 @@ function showAlert(message, category) {
         '</button>' + message + '</div>');
     $('#alerts').append(alert);
     alert.fadeIn(2000);
+}
+
+// floats all mara table headers
+function floatMaraTableHeaders() {
+    $('.mara-table-float-header').removeClass('mara-table-float-header').floatThead({
+        top: 60,
+        position: 'absolute'
+    });
 }
 

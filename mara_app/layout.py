@@ -61,6 +61,7 @@ def js_files(response: mara_page.response.Response):
     return [flask.url_for('mara_app.static', filename='jquery-3.1.1.min.js'),
             flask.url_for('mara_app.static', filename='tether-1.3.3/tether.min.js'),
             flask.url_for('mara_app.static', filename='bootstrap-4.0.0-alpha.6/bootstrap.min.js'),
+            flask.url_for('mara_app.static', filename='jquery.floatThead.2.0.3.min.js'),
             flask.url_for('mara_app.static', filename='mara.js')
             ] + response.js_files
 
