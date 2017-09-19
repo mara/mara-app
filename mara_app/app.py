@@ -83,8 +83,8 @@ class MaraApp(flask.Flask):
                                                                 _.img(src=flask.url_for('mara_app.static',
                                                                                         filename='mara.jpg'),
                                                                       style='margin-top:30px;max-width:100%;')]),
-                                     title=error.name,
-                                     status_code=error.code)
+                                     title=f'{error.code}  {error.name}',
+                                     status=error.code)
 
         for cls in exceptions.HTTPException.__subclasses__():
             self.register_error_handler(cls, error_handler)
