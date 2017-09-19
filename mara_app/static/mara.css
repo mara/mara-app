@@ -228,6 +228,10 @@ body.touch > #mara-main, body.touch > #alerts {
     padding-left: 15px;
 }
 
+body.touch > #alerts {
+    padding-left: 30px;
+}
+
 body.touch.navigation-collapsed > #mara-main, body.touch.navigation-collapsed > #alerts {
     left: 0px;
     transition: left 0s;
@@ -243,10 +247,9 @@ body > #alerts {
     transition: left .3s;
     width: 100%;
     bottom: 0px;
-    padding-left: 69px; /* nav collapsed + 15 */
-    padding-right: 15px;
+    padding-left: 84px; /* nav collapsed + 30 */
+    padding-right: 30px;
     opacity: 0.95;
-
 }
 
 /*
@@ -272,7 +275,6 @@ body > #alerts {
     text-align: right;
     padding-left: 10px;
 }
-
 
 #mara-main div.card div.card-header.fixed-header-height > div {
     overflow: hidden;
@@ -301,7 +303,7 @@ body > #alerts {
 }
 
 #mara-main div.card div.card-section {
-    border-top: 1px solid rgba(0,0,0,.1);
+    border-top: 1px solid rgba(0, 0, 0, .1);
 }
 
 /*
@@ -311,6 +313,10 @@ body > #alerts {
 table.mara-table {
     width: 100%;
     border-collapse: collapse;
+}
+
+table.mara-table th {
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
 table.mara-table th, table.mara-table tbody > tr:first-child > td {
