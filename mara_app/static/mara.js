@@ -104,9 +104,33 @@ function showAlert(message, category) {
 
 // floats all mara table headers
 function floatMaraTableHeaders() {
-    $('.mara-table-float-header').removeClass('mara-table-float-header').floatThead({
+    $('.mara-table-float-header').floatThead({
         top: 60,
         position: 'absolute'
+    });
+}
+
+// when the page layout drastically changes,
+// then the floating headers need to be re-positioned
+function reflowMaraTableHeaders() {
+    $('.mara-table-float-header').floatThead('reflow');
+}
+
+// Replaces the content of the element with id `containerId` with the result of calling url
+// When the requests succeeds, the content of the onSuccess variable is evaluated
+function loadContentAsynchronously(containerId, url, onSuccess) {
+    $.ajax({
+        url: url,
+        error: function (xhr, textStatus, errorThrown) {
+            var icon = '<span class="fa fa-bug"> </span> ';
+            showAlert(icon + textStatus + ' while fetching "<a href="' + url + '">' + url + '</a>": ' + errorThrown,
+                'danger');
+            $('#' + containerId).empty().append(icon);
+        },
+        success: function (data) {
+            $('#' + containerId).empty().hide().append(data).slideDown(100, complete = reflowMaraTableHeaders);
+            eval(onSuccess);
+        }
     });
 }
 
