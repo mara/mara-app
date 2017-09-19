@@ -13,15 +13,66 @@ a:hover {
 
 /* page header */
 #mara-page-header {
-    display: block;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
     height: 60px;
     max-height: 60px;
-    overflow: hidden;
     border-bottom: 1px solid #ddd;
     background-color: #ffffff;
     padding: 0px;
     padding-left: 15px;
     padding-right: 15px;
+}
+
+#mara-page-header > * {
+    align-self: center;
+    margin: 0px;
+}
+
+#mara-page-header > div.action-buttons, #mara-page-header > h1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 600px) {
+    #mara-page-header > img {
+        display: none;
+    }
+}
+
+#mara-page-header > img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+#mara-page-header > h1 {
+    font-size: 20px;
+    font-weight: normal;
+}
+
+#mara-page-header > .action-buttons {
+    flex-grow: 1;
+    text-align: right;
+    margin-left: 20px;
+}
+
+#mara-page-header > .action-buttons > a.btn {
+    padding: 0px;
+    margin-left: 20px;
+}
+
+#mara-page-header > .navigation-toggle-button {
+    display: none;
+    padding-right: 10px;
+    text-decoration: none;
+}
+
+body.touch > #mara-page-header > .navigation-toggle-button {
+    display: block;
 }
 
 /*
@@ -33,50 +84,6 @@ https://css-tricks.com/hash-tag-links-padding/
     padding-top: 90px;
     z-index: -1;
     display: inline-block;
-}
-
-#mara-page-header > * {
-    display: inline-block;
-    line-height: 60px;
-    vertical-align: middle;
-    margin: 0px;
-}
-
-#mara-page-header > img {
-    height: 40px;
-    float: left;
-    margin-top: 10px;
-    margin-right: 10px;
-}
-
-#mara-page-header > h1 {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 100%;
-    font-size: 20px;
-    font-weight: normal;
-}
-
-#mara-page-header > .action-buttons {
-    float: right;
-    margin-left: 20px;
-}
-
-#mara-page-header > .action-buttons > a.btn {
-    padding: 0px;
-    margin-left: 20px;
-}
-
-#mara-page-header > .navigation-toggle-button {
-    display: none;
-    float: left;
-    padding-right: 10px;
-    text-decoration: none;
-}
-
-body.touch > #mara-page-header > .navigation-toggle-button {
-    display: block;
 }
 
 /* navigation */
