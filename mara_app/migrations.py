@@ -5,13 +5,13 @@ import gc
 import io
 import sys
 
-import alembic.migration
-
 import alembic
 import alembic.autogenerate
+import alembic.migration
 import alembic.operations
 import sqlalchemy
 import sqlalchemy.ext.declarative.api
+import sqlalchemy_utils
 
 
 def get_migration_ddl(engine: sqlalchemy.engine.Engine) -> [str]:
@@ -62,9 +62,18 @@ def get_migration_ddl(engine: sqlalchemy.engine.Engine) -> [str]:
 
 def auto_migrate(engine: sqlalchemy.engine.Engine):
     """Compares the current database with all defined models and applies the diff"""
+    try:
+        if not sqlalchemy_utils.database_exists(engine.url):
+            sqlalchemy_utils.create_database(engine.url)
+            print(f'Created database "{engine.url}"')
+    except Exception as e:
+        print(f'Could not access or create database "{engine.url}":\n{e}', file=sys.stderr)
+        return False
+
     ddl = get_migration_ddl(engine)
 
     with engine.begin() as connection:
         for statement in ddl:
             sys.stdout.write('\033[1;32m' + statement + '\033[0;0m')
             connection.execute(statement)
+    return True
