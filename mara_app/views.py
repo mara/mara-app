@@ -27,7 +27,7 @@ def configuration_page():
             assert(isinstance(modules, typing.Iterable))
             for config_module in modules:
                 assert(isinstance(config_module, types.ModuleType))
-                config_modules[config_module.__name__] = {'doc': module.__doc__, 'functions': {}}
+                config_modules[config_module.__name__] = {'doc': config_module.__doc__, 'functions': {}}
 
                 for member_name, member in config_module.__dict__.items():
                     if inspect.isfunction(member) and member.__module__ == config_module.__name__:
