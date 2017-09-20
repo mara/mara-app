@@ -5,40 +5,39 @@ import inspect
 import pathlib
 import pprint
 import sys
+import copy
 
-import flask
+import flask, typing, types
 from mara_page import acl
 from mara_page import navigation, response, _, bootstrap
 
-mara_app = flask.Blueprint('mara_app', __name__, url_prefix='/admin', static_folder='static')
+blueprint = flask.Blueprint('mara_app', __name__, url_prefix='/admin', static_folder='static')
 
 acl_resource = acl.AclResource('Configuration')
 
 
-@mara_app.route('/configuration')
+@blueprint.route('/configuration')
 @acl.require_permission(acl_resource)
 def configuration_page():
     # gather all config functions by package
     config_modules = {}
-    package_path = str(pathlib.Path(__file__).parent.parent.parent)
-    app_path = str(pathlib.Path(__file__).parent.parent.parent.parent.joinpath('app'))
-    for module_name, module in list(sys.modules.items()):
-        if (hasattr(module, '__file__')) and (
-                    module.__file__.startswith(package_path) or module.__file__.startswith(app_path)) \
-                and module_name.split('.')[-1] == 'config':
-            if not module_name in config_modules:
-                config_modules[module_name] = {'doc': module.__doc__, 'functions': {}}
+    for name, module in copy.copy(sys.modules).items():
+        if 'MARA_CONFIG_MODULES' in dir(module):
+            modules = getattr(module, 'MARA_CONFIG_MODULES')
+            assert(isinstance(modules, typing.Iterable))
+            for config_module in modules:
+                assert(isinstance(config_module, types.ModuleType))
+                config_modules[config_module.__name__] = {'doc': module.__doc__, 'functions': {}}
 
-            for member_name, member in module.__dict__.items():
-                if inspect.isfunction(member) and member.__module__ == module_name:
-                    value = ''
-                    try:
-                        value = member()
-                    except Exception:
-                        value = 'error calling function'
+                for member_name, member in config_module.__dict__.items():
+                    if inspect.isfunction(member) and member.__module__ == config_module.__name__:
+                        try:
+                            value = member()
+                        except Exception:
+                            value = 'error calling function'
 
-                    config_modules[module_name]['functions'][member_name] \
-                        = {'doc': member.__doc__ or '', 'value': value}
+                        config_modules[config_module.__name__]['functions'][member_name] \
+                            = {'doc': member.__doc__ or '', 'value': value}
 
     return response.Response(
         html=[(bootstrap.card(

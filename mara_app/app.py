@@ -4,11 +4,9 @@ Flask app with auto-discovery of blueprints, cli commands etc.
 
 import copy
 import functools
-import gc
 import sys
 import typing
 
-import click
 import flask
 from mara_app import config, layout
 from mara_page import navigation, response, _, bootstrap
@@ -28,19 +26,28 @@ class MaraApp(flask.Flask):
         self.config.update()
 
     def register_blueprints(self):
-        """Searches for all instances of flask.Blueprint and adds them to the app"""
-        for blueprint in ([obj for obj in gc.get_objects() if isinstance(obj, flask.Blueprint)]):
-            blueprint.static_url_path = '/static/_' + blueprint.name
-            self.register_blueprint(blueprint)
+        """Searches for all declared blueprints and adds them to the app"""
+        for name, module in copy.copy(sys.modules).items():
+            if 'MARA_FLASK_BLUEPRINTS' in dir(module):
+                blueprints = getattr(module, 'MARA_FLASK_BLUEPRINTS')
+                assert (isinstance(blueprints, typing.Iterable))
+                for blueprint in blueprints:
+                    assert (isinstance(blueprint, flask.Blueprint))
+                    blueprint.static_url_path = '/static/_' + blueprint.name
+                    self.register_blueprint(blueprint)
 
     def register_commands(self):
-        """Searches for all instances of click.Command and adds them to the app, grouped by package"""
-        for command in ([obj for obj in gc.get_objects() if isinstance(obj, click.Command)]):
-            if 'callback' in command.__dict__ and command.__dict__['callback']:
-                package = command.__dict__['callback'].__module__.rpartition('.')[0]
-                if package != 'flask':
-                    command.name = package + '.' + command.name
-                    self.cli.add_command(command)
+        """Searches for all declared click commands and adds them to the app, grouped by package"""
+        for name, module in copy.copy(sys.modules).items():
+            if 'MARA_CLICK_COMMANDS' in dir(module):
+                commands = getattr(module, 'MARA_CLICK_COMMANDS')
+                assert (isinstance(commands, typing.Iterable))
+                for command in commands:
+                    if 'callback' in command.__dict__ and command.__dict__['callback']:
+                        package = command.__dict__['callback'].__module__.rpartition('.')[0]
+                        if package != 'flask':
+                            command.name = package + '.' + command.name
+                            self.cli.add_command(command)
 
     def register_navigation_entries(self):
         """Collects and merges all instances of NavigationEntry"""
@@ -48,18 +55,12 @@ class MaraApp(flask.Flask):
         for name, module in copy.copy(sys.modules).items():
             if 'MARA_NAVIGATION_ENTRY_FNS' in dir(module):
                 fns = getattr(module, 'MARA_NAVIGATION_ENTRY_FNS')
-                if not isinstance(fns, typing.Iterable):
-                    raise ValueError(
-                        f'MARA_NAVIGATION_ENTRY_FNS in module "{module.__name__}" is not bound to an array')
+                assert (isinstance(fns, typing.Iterable))
                 for fn in fns:
-                    if not isinstance(fn, typing.Callable):
-                        raise ValueError(
-                            f'{str(fn)} in MARA_NAVIGATION_ENTRY_FNS of module "{module.__name__}" is not a function')
+                    assert (isinstance(fn, typing.Callable))
 
                     navigation_entry = fn()
-                    if not isinstance(navigation_entry, navigation.NavigationEntry):
-                        raise ValueError(
-                            f'Function {fn.__module__}.{fn.__name__} did not return an instance of NavigationEntry')
+                    assert (isinstance(navigation_entry, navigation.NavigationEntry))
                     if not navigation_entry.parent and navigation_entry != self.navigation_root:
                         self.navigation_root.add_child(navigation_entry)
 
