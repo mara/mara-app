@@ -2,12 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name='mara-app',
-    version='1.1.0',
+    version='1.2.0',
 
     description="Framework for distributing flask apps across separate packages with minimal dependencies",
 
     install_requires=[
-        'mara-page>=1.1.0',
+        'mara-page>=1.2.0',
         'mara-db>=1.0.0',
         'flask>=0.12',
         'alembic>=0.8.10',
