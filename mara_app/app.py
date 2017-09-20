@@ -21,6 +21,7 @@ class MaraApp(flask.Flask):
         self.register_navigation_entries()
         self.register_page_layout()
         self.register_error_handlers()
+        self.disable_caching()
         self.patch_flask_url_for()
         self.config.update(config.flask_config())
 
@@ -69,6 +70,19 @@ class MaraApp(flask.Flask):
         def after_request(r: flask.Response):
             if isinstance(r, response.Response):
                 r.set_data(layout.layout(r))
+            return r
+
+        self.after_request(after_request)
+
+    def disable_caching(self):
+        """
+        Disable caching for dynamic content (not static files).
+        See https://stackoverflow.com/questions/23112316/using-flask-how-do-i-modify-the-cache-control-header-for-all-output/37331139#37331139
+        """
+
+        def after_request(r: flask.Response):
+            if 'Cache-Control' not in r.headers:
+                r.headers['Cache-Control'] = 'no-store'
             return r
 
         self.after_request(after_request)
