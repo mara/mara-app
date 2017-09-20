@@ -342,6 +342,19 @@ table.mara-table td pre, table.mara-table code {
     margin-bottom: 5px;
 }
 
+
+/*
+* Buttons
+*/
+
+a.mara-button {
+    padding: 0px;
+}
+
+a.mara-button:focus, a.mara-button:active {
+    box-shadow: none !important;
+}
+
 /*
 * Misc
 */
