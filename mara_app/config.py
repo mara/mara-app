@@ -4,8 +4,12 @@ import flask
 from mara_page import navigation
 
 
-def flask_config() -> {}:
-    return flask.Flask.default_config
+def flask_config() -> {str:str}:
+    """
+    Settings for the flask App.
+    See http://flask.pocoo.org/docs/latest/config/#builtin-configuration-values for values and their defaults
+    """
+    return {'SECRET_KEY': '123-change-me-on-production'}
 
 
 def navigation_root() -> navigation.NavigationEntry:

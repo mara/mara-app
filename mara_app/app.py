@@ -22,8 +22,7 @@ class MaraApp(flask.Flask):
         self.register_page_layout()
         self.register_error_handlers()
         self.patch_flask_url_for()
-        self.secret_key = '123'
-        self.config.update()
+        self.config.update(config.flask_config())
 
     def register_blueprints(self):
         """Searches for all declared blueprints and adds them to the app"""
