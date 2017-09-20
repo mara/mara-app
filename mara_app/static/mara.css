@@ -269,6 +269,8 @@ body > #alerts {
 
 #mara-main div.card div.card-header > div {
     flex-grow: 1;
+    align-self: center;
+    margin: 0px;
 }
 
 #mara-main div.card div.card-header div.card-header-right {
