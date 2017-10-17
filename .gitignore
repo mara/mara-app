@@ -1,3 +1,8 @@
 *.egg-info/
 __pycache__
 .idea
+.cache
+.tox
+build/
+dist/
+

@@ -9,12 +9,21 @@ There are other excellent libraries for this, which unfortunately don't excactly
 - https://bitbucket.org/schesis/ook
 """
 
+import collections
 import functools
+import inspect
+import logging
 import sys
 import typing
 
+# list of applied patches, used to later generate a 'report' of them
+Patch = collections.namedtuple('Patch', 'replaces original_module original_name description patcher_frame')
+__applied_patches = []
 
-def patch(original_function: typing.Callable) -> typing.Callable:
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+def patch(original_function: typing.Callable, patch_description: str = '') -> typing.Callable:
     """
     A decorator for replacing a function in another module
 
@@ -41,6 +50,13 @@ def patch(original_function: typing.Callable) -> typing.Callable:
 
     Returns: The replaced function
     """
+    logger.warning(
+        f'function {original_function.__module__}.{original_function.__name__} is being replaced (change: {patch_description})')
+    __applied_patches.append(Patch(replaces=True,
+                                   original_module=original_function.__module__,
+                                   original_name=original_function.__name__,
+                                   description=patch_description,
+                                   patcher_frame=inspect.stack()[0]))
 
     def decorator(new_function):
         if not isinstance(original_function, typing.Callable):
@@ -56,7 +72,7 @@ def patch(original_function: typing.Callable) -> typing.Callable:
     return decorator
 
 
-def wrap(original_function: typing.Callable) -> typing.Callable:
+def wrap(original_function: typing.Callable, wrap_description: str = '') -> typing.Callable:
     """
     A decorator for wrapping a function in another module
 
@@ -77,25 +93,45 @@ def wrap(original_function: typing.Callable) -> typing.Callable:
 
     Args:
         original_function: The function or method to wrap
+        patch_description (optional): The description of the patch
 
     Returns: The wrapped function
     """
+    logger.warning(
+        f'function {original_function.__module__}.{original_function.__name__} is being wrapped (change: {wrap_description})')
+    __applied_patches.append(Patch(replaces=False,
+                                   original_module=original_function.__module__,
+                                   original_name=original_function.__name__,
+                                   description=wrap_description,
+                                   patcher_frame=inspect.stack()[0]))
 
     def decorator(new_function):
         if not isinstance(original_function, typing.Callable):
             raise TypeError("Argument passed to @wrap decorator must be a Callable")
 
-        # supply orginal_function as first argument to new_function
+        # supply original_function as first argument to new_function
         def wrapper(*args, **kwargs):
             return new_function(original_function, *args, **kwargs)
 
         # copy properties such as __doc__, __module__ from original_function to the wrapper
         functools.update_wrapper(wrapper, original_function)
 
-
         # replace function
         setattr(sys.modules[original_function.__module__], original_function.__name__, wrapper)
         return wrapper
 
     return decorator
+
+
+def list_patches():
+    """
+    List the applied patches, for each one gives a named tuple containing:
+     - whether the function was replaced or wrapped
+     - name of the module containing the patched function
+     - name of the patched function
+     - the provided reason for the patch, if any
+     - the frame of the caller
+    :return:
+    """
+    return __applied_patches
 

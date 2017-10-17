@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0
+*2017-10-18*
+
+- Monkey patching function logs the changes being applied and list them when calling `monkey_patch.list_patches()`, allowing for an optional description
+
+
 ## 1.2.0
 *2017-09-21*
 
