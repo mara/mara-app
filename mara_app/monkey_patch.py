@@ -20,8 +20,7 @@ import typing
 Patch = collections.namedtuple('Patch', 'replaces original_module original_name description patcher_frame')
 __applied_patches = []
 
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 
 def patch(original_function: typing.Callable, patch_description: str = '') -> typing.Callable:
@@ -51,7 +50,7 @@ def patch(original_function: typing.Callable, patch_description: str = '') -> ty
 
     Returns: The replaced function
     """
-    logging.info(
+    logger.warn(
         'function {}.{} is being replaced (change: {})'.format(original_function.__module__, original_function.__name__,
                                                               patch_description))
     __applied_patches.append(Patch(replaces=True,
@@ -99,7 +98,7 @@ def wrap(original_function: typing.Callable, wrap_description: str = '') -> typi
 
     Returns: The wrapped function
     """
-    logging.info(
+    logger.warn(
         'function {}.{} is being wrapped (change: {})'.format(original_function.__module__, original_function.__name__,
                                                               wrap_description))
     __applied_patches.append(Patch(replaces=False,
