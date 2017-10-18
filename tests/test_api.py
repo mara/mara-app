@@ -2,7 +2,7 @@ import unittest
 
 from flask import Flask
 
-from mara_app import MaraApp
+from mara_app.app import MaraApp
 
 
 class AppTest(unittest.TestCase):

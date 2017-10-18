@@ -1,0 +1,2 @@
+-e git+git@github.com:mara/mara-db.git@master#egg=mara-db
+-e git+git@github.com:mara/mara-page.git@master#egg=mara-page
