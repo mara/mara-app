@@ -1,3 +1,4 @@
 -e git+https://github.com/mara/mara-db.git#egg=mara-db
 -e git+https://github.com/mara/mara-page.git#egg=mara-page
-Flask
+Flask==0.11.1
+
