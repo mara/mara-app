@@ -13,12 +13,6 @@ setup(
         'alembic>=0.8.10',
         'sqlalchemy-utils>=0.32.14'
     ],
-
-    dependency_links=[
-        'http://github.com/mara/mara-page/tarball/master#egg=mara-page-1.2.0',
-        'http://github.com/mara/mara-db/tarball/master#egg=mara-db-1.0.1'
-    ],
-
     packages=find_packages(),
 
     author='Mara contributors',
