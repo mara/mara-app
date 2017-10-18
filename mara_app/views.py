@@ -15,7 +15,6 @@ blueprint = flask.Blueprint('mara_app', __name__, url_prefix='/admin', static_fo
 
 acl_resource = acl.AclResource('Configuration')
 
-
 @blueprint.route('/configuration')
 @acl.require_permission(acl_resource)
 def configuration_page():

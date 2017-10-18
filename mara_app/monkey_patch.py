@@ -51,7 +51,7 @@ def patch(original_function: typing.Callable, patch_description: str = '') -> ty
     Returns: The replaced function
     """
     logger.warning(
-        f'function {original_function.__module__}.{original_function.__name__} is being replaced (change: {patch_description})'.)
+        f'function {original_function.__module__}.{original_function.__name__} is being replaced (change: {patch_description})')
     __applied_patches.append(Patch(replaces=True,
                                    original_module=original_function.__module__,
                                    original_name=original_function.__name__,

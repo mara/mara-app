@@ -4,7 +4,7 @@ import flask
 from mara_page import navigation
 
 
-def flask_config() -> {str:str}:
+def flask_config() -> {str: str}:
     """
     Settings for the flask App.
     See http://flask.pocoo.org/docs/latest/config/#builtin-configuration-values for values and their defaults

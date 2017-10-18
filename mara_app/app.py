@@ -109,3 +109,5 @@ class MaraApp(flask.Flask):
         https://stackoverflow.com/questions/16713644/why-is-flask-url-for-too-slow"""
         original_url_for = flask.url_for
         flask.url_for = functools.lru_cache(maxsize=None)(original_url_for)
+
+
