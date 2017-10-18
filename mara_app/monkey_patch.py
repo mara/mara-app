@@ -51,8 +51,7 @@ def patch(original_function: typing.Callable, patch_description: str = '') -> ty
     Returns: The replaced function
     """
     logger.warning(
-        'function {}.{} is being replaced (change: {})'.format(original_function.__module__, original_function.__name__,
-                                                              patch_description))
+        f'function {original_function.__module__}.{original_function.__name__} is being replaced (change: {patch_description})'.)
     __applied_patches.append(Patch(replaces=True,
                                    original_module=original_function.__module__,
                                    original_name=original_function.__name__,
@@ -99,8 +98,7 @@ def wrap(original_function: typing.Callable, wrap_description: str = '') -> typi
     Returns: The wrapped function
     """
     logger.warning(
-        'function {}.{} is being wrapped (change: {})'.format(original_function.__module__, original_function.__name__,
-                                                              wrap_description))
+        f'function {original_function.__module__}.{original_function.__name__} is being wrapped (change: {wrap_description})')
     __applied_patches.append(Patch(replaces=False,
                                    original_module=original_function.__module__,
                                    original_name=original_function.__name__,

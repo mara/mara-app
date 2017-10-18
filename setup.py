@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='mara-app',
-    version='1.2.0',
+    version='1.3.0',
 
     description="Framework for distributing flask apps across separate packages with minimal dependencies",
 
@@ -15,7 +15,7 @@ setup(
     ],
 
     dependency_links=[
-        'https://github.com/mara/mara-page.git@ui-improvements#egg=mara-page'
+        'https://github.com/mara/mara-page.git@master#egg=mara-page'
         'https://github.com/mara/mara-db.git@1.0.0#egg=mara-db'
     ],
 
@@ -25,5 +25,7 @@ setup(
     license='MIT',
 
     entry_points={
-    }
+    },
+    python_requires='>=3.6'
+
 )
