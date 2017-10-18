@@ -134,3 +134,4 @@ def list_patches():
     :return:
     """
     return __applied_patches
+

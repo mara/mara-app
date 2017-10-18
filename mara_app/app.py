@@ -110,4 +110,3 @@ class MaraApp(flask.Flask):
         original_url_for = flask.url_for
         flask.url_for = functools.lru_cache(maxsize=None)(original_url_for)
 
-

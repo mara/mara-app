@@ -1,6 +1,6 @@
 # Mara App
 
-[![Build Status](https://travis-ci.org/mara/mara-app.svg?branch=log-monkey-patching)](https://travis-ci.org/mara/mara-app)
+[![Build Status](https://travis-ci.org/mara/mara-app.svg?branch=master)](https://travis-ci.org/mara/mara-app)
 
 A flask app for building backends that are distributed across separate packages. Provides 
 - a Bootstrap 4 based page layout 
