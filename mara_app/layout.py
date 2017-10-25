@@ -80,8 +80,9 @@ def page_header(response: mara_page.response.Response):
 def action_button(button: mara_page.response.ActionButton):
     """Renders an action button"""
     return [_.a(class_='btn', href=button.action, title=button.title)[
-                _.span(class_='fa fa-' + button.icon)[''], ' ',
-                button.label]]
+            _.span(class_='fa fa-' + button.icon)[''], ' ',
+            button.label]]
+
 
 @functools.lru_cache(maxsize=None)
 def navigation_bar() -> str:
@@ -127,7 +128,6 @@ def flash_messages(response: mara_page.response.Response) -> xml.XMLElement:
                 map(lambda m: 'showAlert("' + m[1].replace('"', '&quot;') + '","' + (
                     m[0] if m[0] != 'message' else 'info') + '");',
                     flask.get_flashed_messages(True))
-
             ]]
 
 

@@ -1,13 +1,15 @@
 """Mara admin views"""
 
+import copy
 import html
 import inspect
-import pathlib
 import pprint
 import sys
-import copy
+import types
+import typing
 
-import flask, typing, types
+import flask
+
 from mara_page import acl
 from mara_page import navigation, response, _, bootstrap
 
