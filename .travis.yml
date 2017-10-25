@@ -5,6 +5,5 @@ python:
   - "3.6-dev" # 3.6 development branch
   - "3.7-dev" # 3.7 development branch
   - "nightly" # currently points to 3.7-dev
-install: pip3 install -r requirements.txt
-script:
-  - python setup.py test
+install: pip3 install -r requirements-dev.txt
+script: pytest
