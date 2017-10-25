@@ -49,7 +49,8 @@ def get_migration_ddl(engine: sqlalchemy.engine.Engine) -> [str]:
             # Step 2: autogenerate a python statement from the operation, e.g. "executor.drop_table('bar')"
             renderer = alembic.autogenerate.renderers.dispatch(operation)
             statement = renderer(autogen_context, operation)
-            if isinstance(statement, list): statement = statement[0]
+            if isinstance(statement, list):
+                statement = statement[0]
 
             # Step 3: "execute" python statement and get sql from buffer, e.g. "DROP TABLE bar;"
             eval(statement)

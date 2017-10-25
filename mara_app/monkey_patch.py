@@ -1,7 +1,7 @@
 """
 Functions for monkey patching functions in other modules. See https://en.wikipedia.org/wiki/Monkey_patch
 
-There are other excellent libraries for this, which unfortunately don't excactly match our use case:
+There are other excellent libraries for this, which unfortunately don't exactly match our use case:
 
 - https://github.com/christophercrouzet/gorilla
 - https://github.com/iki/monkeypatch
@@ -9,19 +9,27 @@ There are other excellent libraries for this, which unfortunately don't excactly
 - https://bitbucket.org/schesis/ook
 """
 
-import collections
 import functools
 import inspect
 import logging
 import sys
 import typing
 
+
 # list of applied patches, used to later generate a 'report' of them
-Patch = collections.namedtuple('Patch', 'replaces original_module original_name description patcher_frame')
+class Patch(typing.NamedTuple):
+    replaces: bool
+    original_module: str
+    original_name: str
+    description: str
+    patcher_frame: typing.Any
+
+
 __applied_patches = []
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
 
 def patch(original_function: typing.Callable, patch_description: str = '') -> typing.Callable:
     """
@@ -51,7 +59,8 @@ def patch(original_function: typing.Callable, patch_description: str = '') -> ty
     Returns: The replaced function
     """
     logger.warning(
-        f'function {original_function.__module__}.{original_function.__name__} is being replaced (change: {patch_description})')
+        f'function {original_function.__module__}.{original_function.__name__}'
+        f'is being replaced (change: {patch_description})')
     __applied_patches.append(Patch(replaces=True,
                                    original_module=original_function.__module__,
                                    original_name=original_function.__name__,
@@ -98,7 +107,8 @@ def wrap(original_function: typing.Callable, wrap_description: str = '') -> typi
     Returns: The wrapped function
     """
     logger.warning(
-        f'function {original_function.__module__}.{original_function.__name__} is being wrapped (change: {wrap_description})')
+        f'function {original_function.__module__}.{original_function.__name__}'
+        f'is being wrapped (change: {wrap_description})')
     __applied_patches.append(Patch(replaces=False,
                                    original_module=original_function.__module__,
                                    original_name=original_function.__name__,
@@ -134,4 +144,3 @@ def list_patches():
     :return:
     """
     return __applied_patches
-
