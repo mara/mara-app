@@ -13,6 +13,7 @@ setup(
         'alembic>=0.8.10',
         'sqlalchemy-utils>=0.32.14'
     ],
+    tests_require=['pytest'],
     packages=find_packages(),
 
     author='Mara contributors',
