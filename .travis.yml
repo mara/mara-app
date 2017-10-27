@@ -4,7 +4,7 @@ python:
   - "3.6"
   - "3.7-dev"
 # install pipenv. Nasty bugs when installed with pip3 :(
-install: "pip install pipenv"
+install: "pip2 install pipenv"
 # command to run tests
 script: pipenv run pytest
 
