@@ -28,7 +28,6 @@ class Patch(typing.NamedTuple):
 __applied_patches = []
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
 
 def patch(original_function: typing.Callable, patch_description: str = '') -> typing.Callable:
