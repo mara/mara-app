@@ -59,7 +59,7 @@ def patch(original_function: typing.Callable, patch_description: str = '') -> ty
     """
     logger.warning(
         f'function {original_function.__module__}.{original_function.__name__}'
-        f'is being replaced (change: {patch_description})')
+        f' is being replaced (change: {patch_description})')
     __applied_patches.append(Patch(replaces=True,
                                    original_module=original_function.__module__,
                                    original_name=original_function.__name__,
@@ -107,7 +107,7 @@ def wrap(original_function: typing.Callable, wrap_description: str = '') -> typi
     """
     logger.warning(
         f'function {original_function.__module__}.{original_function.__name__}'
-        f'is being wrapped (change: {wrap_description})')
+        f' is being wrapped (change: {wrap_description})')
     __applied_patches.append(Patch(replaces=False,
                                    original_module=original_function.__module__,
                                    original_name=original_function.__name__,
