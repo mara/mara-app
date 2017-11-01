@@ -8,7 +8,7 @@ setup(
 
     install_requires=[
         'mara-page>=1.2.0',
-        'mara-db>=1.0.1',
+        'mara-db',
         'flask>=0.12',
         'alembic>=0.8.10',
         'sqlalchemy-utils>=0.32.14'
