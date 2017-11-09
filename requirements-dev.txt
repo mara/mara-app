@@ -3,3 +3,4 @@
 Flask==0.12.2
 alembic>=0.8.10
 sqlalchemy_utils>=0.32.19
+pytest
