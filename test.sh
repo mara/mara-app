@@ -1,4 +1,5 @@
 #!/bin/sh
+#ensure that a command error aborts the whole script
 set -euf
 echo "deleting virtualenv folder, if any"
 rm -rf .venv
@@ -8,6 +9,7 @@ echo "installing from requirements-dev.txt"
 .venv/bin/pip3 install -r requirements-dev.txt
 echo "running tests"
 .venv/bin/pytest
+echo "👍 installation and test OK 👍"
 echo "removing virtualenv folder"
 rm -rf .venv
 

@@ -10,3 +10,6 @@ A flask app for building backends that are distributed across separate packages.
 - hassle-free alembic auto-migrations
 
 Please have a look at the mara example application for an example of how to use this.
+
+## Test
+To test the library, run `./test.sh`
