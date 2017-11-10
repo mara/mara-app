@@ -1,6 +1,8 @@
 """Mara admin command line interface"""
 
-import click, sys
+import sys
+
+import click
 from mara_app import migrations
 from mara_db import dbs
 import mara_db.config
