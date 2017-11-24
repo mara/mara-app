@@ -15,7 +15,7 @@ setup(
     ],
 
     dependency_links=[
-        'https://github.com/mara/mara-page.git@ui-improvements#egg=mara-page'
+        'https://github.com/mara/mara-page.git@1.2.0#egg=mara-page'
         'https://github.com/mara/mara-db.git@1.0.0#egg=mara-db'
     ],
 
