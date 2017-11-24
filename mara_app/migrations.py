@@ -9,9 +9,11 @@ import alembic
 import alembic.autogenerate
 import alembic.migration
 import alembic.operations
-import sqlalchemy
 import sqlalchemy.ext.declarative.api
 import sqlalchemy_utils
+from sqlalchemy import *   # unfortunately needed to get the eval part further down working
+from sqlalchemy.dialects import *
+import sqlalchemy.engine
 
 
 def get_migration_ddl(engine: sqlalchemy.engine.Engine) -> [str]:
@@ -19,7 +21,7 @@ def get_migration_ddl(engine: sqlalchemy.engine.Engine) -> [str]:
     Creates a diff between the defined SQLAlchemy models and the current database and applies it.
     Prints the executed statements to stdout
     """
-    combined_meta_data = sqlalchemy.MetaData()
+    combined_meta_data = MetaData()
 
     # merge all loaded SQL alchemy models into a single metadata object
     for declarative_base in (
@@ -48,14 +50,20 @@ def get_migration_ddl(engine: sqlalchemy.engine.Engine) -> [str]:
         for operation in operations:
             # Step 2: autogenerate a python statement from the operation, e.g. "executor.drop_table('bar')"
             renderer = alembic.autogenerate.renderers.dispatch(operation)
-            statement = renderer(autogen_context, operation)
-            if isinstance(statement, list): statement = statement[0]
+            statements = renderer(autogen_context, operation)
+            if not isinstance(statements, list):
+                statements = [statements]
 
-            # Step 3: "execute" python statement and get sql from buffer, e.g. "DROP TABLE bar;"
-            eval(statement)
-            ddl.append(output.getvalue())
-            output.truncate(0)
-            output.seek(0)
+            for statement in statements:
+                # Step 3: "execute" python statement and get sql from buffer, e.g. "DROP TABLE bar;"
+                try:
+                    eval(statement)
+                except Exception as e:
+                    print('statement: ' + statement)
+                    raise(e)
+                ddl.append(output.getvalue())
+                output.truncate(0)
+                output.seek(0)
 
     return ddl
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1
+*2017-11-25*
+
+Bug fix: auto-migration did not execute multiple changes per table
+ 
+
 ## 1.2.0
 *2017-09-21*
 
