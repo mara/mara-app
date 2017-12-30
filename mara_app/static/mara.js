@@ -137,6 +137,7 @@ function loadContentAsynchronously(containerId, url, divHeightKey, onSuccess) {
             $('#' + containerId).empty().append(icon);
         },
         success: function (data) {
+            $('#' + containerId).css('height', '');
             $('#' + containerId).empty().hide().append(data).fadeIn(300);
             eval(onSuccess);
             reflowMaraTableHeaders();
