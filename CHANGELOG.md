@@ -1,9 +1,31 @@
 # Changelog
 
+## 1.3.0
+*2017-12-30*
+
+- modularize Makefile and stop overwriting project Makefile from package 
+- asynchronous loading of navigation bar for better page rendering experience
+- store height of asynchronously loaded content in local storage for improved rendering experience
+
+**required changes**
+
+- Copy `mara-app/.scripts` directory to `.scripts/mara-app` in project code (will be updated automatically)
+- Include mara Makefiles in Project Makefile:
+
+```
+# output coloring & timing
+include .scripts/mara-app/init.mk
+
+# virtual env creation, package updates, db migration
+include .scripts/mara-app/install.mk
+
+# ... your own stuff
+```
+
 ## 1.2.1
 *2017-11-25*
 
-Bug fix: auto-migration did not execute multiple changes per table
+- Bug fix: auto-migration did not execute multiple changes per table
  
 
 ## 1.2.0
