@@ -2,6 +2,7 @@
 
 # a shell wrapper for running commands from make. Adds colors, command echoing and timing
 
+
 # make sure that the whole pipeline fails when a command fails
 # https://www.gnu.org/software/bash/manual/html_node/Pipelines.html
 set -o pipefail
@@ -68,7 +69,7 @@ elif [ -t 1 ]; then
     exit $return_code
 else
     # the command is invoked from make via $(shell command)
-    /bin/bash -o pipefail -c "${@:3}"
+    /bin/bash -o pipefail -c "$COMMAND_WITH_ARGS"
 fi
 
 
