@@ -83,36 +83,20 @@ def action_button(button: mara_page.response.ActionButton):
                 _.span(class_='fa fa-' + button.icon)[''], ' ',
                 button.label]]
 
-@functools.lru_cache(maxsize=None)
 def navigation_bar() -> str:
     """Renders the navigation sidebar"""
 
-    def render_entries(entries: [navigation.NavigationEntry] = [], level: int = 1):
-        def render_entry(entry: navigation.NavigationEntry, level: int = 1):
-            attrs = {}
-            if entry.children:
-                attrs.update({'onClick': 'toggleNavigationEntry(this)'})
-            else:
-                attrs.update({'onClick': 'highlightNavigationEntry(\'' + entry.uri_fn() + '\');',
-                              'href': entry.uri_fn()})
-
-            if entry.description:
-                attrs.update({'title': entry.description, 'data-toggle': 'tooltip',
-                              'data-container': 'body', 'data-placement': 'right'})
-            return _.div(class_='mara-nav-entry level-' + str(level),
-                         style='display:none' if level > 1 else '')[
-                _.a(**attrs)[
-                    _.div(class_='mara-nav-entry-icon fa fa-fw fa-' + entry.icon + (' fa-lg' if level == 1 else ''))[
-                        ''] if entry.icon else '',
-                    _.div(class_='mara-nav-entry-text')[entry.label.replace('_', '_<wbr>')],
-                    _.div(class_='mara-caret fa fa-caret-down')[''] if entry.children else ''],
-                render_entries(entry.children, level + 1)
-            ]
-
-        return [functools.partial(render_entry, level=level)(entry)
-                for entry in sorted([entry for entry in entries if entry.visible], key=lambda x: x.rank)]
-
-    return str(_.nav(id='mara-navigation', class_='nav')[render_entries(flask.current_app.navigation_root.children)])
+    # the navigation bar content is loaded asynchronously.
+    # Until that happens, the previous version from local storage is displayed
+    return [_.nav(id='mara-navigation', class_='nav')[' '],
+            _.script["""
+(function () {
+    var navigationEntries = localStorage.getItem('navigation-bar');
+    if (navigationEntries) {
+        document.getElementById('mara-navigation').innerHTML = navigationEntries;
+    }
+})();            
+            """]]
 
 
 def content_area(response: mara_page.response.Response) -> xml.XMLElement:

@@ -1,14 +1,23 @@
 $(document).ready(function () {
-    // enable tooltips
-    $('[data-toggle="tooltip"]').tooltip();
-
     if (!isTouchDevice) {
         $('#mara-navigation').mouseover(expandNavigation);
         $('#mara-navigation').mouseleave(collapseNavigation);
     }
 
-    // highlight navigation entry for current uri
-    highlightNavigationEntry(window.location.pathname + window.location.search + window.location.hash);
+    $.ajax({
+        url: '/admin/navigation-bar',
+        success: function (navigationEntries) {
+            $('#mara-navigation').empty().append(navigationEntries).fadeIn(500);
+
+            // enable tooltips
+            $('[data-toggle="tooltip"]').tooltip();
+
+            // highlight navigation entry for current uri
+            highlightNavigationEntry(window.location.pathname + window.location.search + window.location.hash);
+
+            localStorage.setItem('navigation-bar', navigationEntries);
+        }
+    });
 
     // float headers of all tables with class `.mara-table`
     floatMaraTableHeaders();
