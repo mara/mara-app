@@ -33,7 +33,6 @@ class MaraApp(flask.Flask):
                 assert (isinstance(blueprints, typing.Iterable))
                 for blueprint in blueprints:
                     assert (isinstance(blueprint, flask.Blueprint))
-                    blueprint.static_url_path = '/static/_' + blueprint.name
                     self.register_blueprint(blueprint)
 
     def register_commands(self):
