@@ -9,9 +9,17 @@ There are other excellent libraries for this, which unfortunately don't excactly
 - https://bitbucket.org/schesis/ook
 """
 
-import functools
 import sys
 import typing
+
+REPLACED_FUNCTIONS: [(str, str, str)] = []
+"""
+A list of all functions that have been replaced or wrapped by other functions, for documentation purposes
+Each tuple consists of 
+- the module and name of the original function
+- 'patch' or 'wrap', depending on whether the function was patched or wrapped
+- the module and name of the new function
+"""
 
 
 def patch(original_function: typing.Callable) -> typing.Callable:
@@ -46,14 +54,17 @@ def patch(original_function: typing.Callable) -> typing.Callable:
         if not isinstance(original_function, typing.Callable):
             raise TypeError("Argument passed to @patch decorator must be a Callable")
 
-        # copy properies such as __doc__, __module__ from original_function to new_function
-        functools.update_wrapper(new_function, original_function)
+        # record function replacement for inspection purposes
+        REPLACED_FUNCTIONS.append((f'{sys.modules[original_function.__module__].__name__}.{original_function.__name__}',
+                                   'patch',
+                                   f'{sys.modules[new_function.__module__].__name__}.{new_function.__name__}'))
 
         # replace function
         setattr(sys.modules[original_function.__module__], original_function.__name__, new_function)
         return new_function
 
     return decorator
+
 
 
 def wrap(original_function: typing.Callable) -> typing.Callable:
@@ -85,17 +96,17 @@ def wrap(original_function: typing.Callable) -> typing.Callable:
         if not isinstance(original_function, typing.Callable):
             raise TypeError("Argument passed to @wrap decorator must be a Callable")
 
+        # record function replacement for inspection purposes
+        REPLACED_FUNCTIONS.append((f'{sys.modules[original_function.__module__].__name__}.{original_function.__name__}',
+                                   'wrap',
+                                   f'{sys.modules[new_function.__module__].__name__}.{new_function.__name__}'))
+
         # supply orginal_function as first argument to new_function
         def wrapper(*args, **kwargs):
             return new_function(original_function, *args, **kwargs)
-
-        # copy properties such as __doc__, __module__ from original_function to the wrapper
-        functools.update_wrapper(wrapper, original_function)
-
 
         # replace function
         setattr(sys.modules[original_function.__module__], original_function.__name__, wrapper)
         return wrapper
 
     return decorator
-

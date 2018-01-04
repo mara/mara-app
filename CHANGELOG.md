@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.2
+*2018-01-04*
+
+- show a list of all patched and wrapped functions in /configuration page 
+
+
 ## 1.3.1
 *2017-12-31*
 
