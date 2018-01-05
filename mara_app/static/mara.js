@@ -4,8 +4,9 @@ $(document).ready(function () {
         $('#mara-navigation').mouseleave(collapseNavigation);
     }
 
+    var navigationUrl = '/admin/navigation-bar';
     $.ajax({
-        url: '/admin/navigation-bar',
+        url: navigationUrl,
         success: function (navigationEntries) {
             $('#mara-navigation').empty().append(navigationEntries).fadeIn(500);
 
@@ -16,7 +17,12 @@ $(document).ready(function () {
             highlightNavigationEntry(window.location.pathname + window.location.search + window.location.hash);
 
             localStorage.setItem('navigation-bar', navigationEntries);
-        }
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            showAlert(icon + textStatus + ' while fetching "<a href="' + navigationUrl + '">' + navigationUrl + '</a>": ' + errorThrown,
+                'danger');
+            $('#mara-navigation').empty().append('<div class="fa fa-bug"> </div>');
+        },
     });
 
     // float headers of all tables with class `.mara-table`
