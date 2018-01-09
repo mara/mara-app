@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.3
+
+- improve configuration ui
+- add error handling for asynchronous loading of navigation 
+
 ## 1.3.2
 *2018-01-04*
 
