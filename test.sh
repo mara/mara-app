@@ -7,7 +7,7 @@ echo "creating virtualenv in .venv folder"
 python3 -m venv .venv
 echo "installing from setup.py"
 ls .venv/bin
-.venv/bin/python3 -m pip install
+.venv/bin/python3 -m pip install --upgrade pip
 ls .venv/bin
 .venv/bin/pip install -e . --process-dependency-links --allow-all-external
 echo "installing pytest"
