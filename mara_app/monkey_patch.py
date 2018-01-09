@@ -12,13 +12,10 @@ There are other excellent libraries for this, which unfortunately don't excactly
 import sys
 import typing
 
-REPLACED_FUNCTIONS: [(str, str, str)] = []
+REPLACED_FUNCTIONS: {str: str} = {}
 """
 A list of all functions that have been replaced or wrapped by other functions, for documentation purposes
-Each tuple consists of 
-- the module and name of the original function
-- 'patch' or 'wrap', depending on whether the function was patched or wrapped
-- the module and name of the new function
+The dictionary maps the module and name of the original function to a tuple  to the module and name of the new function
 """
 
 
@@ -55,16 +52,18 @@ def patch(original_function: typing.Callable) -> typing.Callable:
             raise TypeError("Argument passed to @patch decorator must be a Callable")
 
         # record function replacement for inspection purposes
-        REPLACED_FUNCTIONS.append((f'{sys.modules[original_function.__module__].__name__}.{original_function.__name__}',
-                                   'patch',
-                                   f'{sys.modules[new_function.__module__].__name__}.{new_function.__name__}'))
+        REPLACED_FUNCTIONS[f'{sys.modules[original_function.__module__].__name__}.{original_function.__name__}'] \
+            = f'{sys.modules[new_function.__module__].__name__}.{new_function.__name__}'
+
+        # update function name and doc (but not module)
+        setattr(new_function, '__doc__', original_function.__doc__)
+        setattr(new_function, '__name__', original_function.__name__)
 
         # replace function
         setattr(sys.modules[original_function.__module__], original_function.__name__, new_function)
         return new_function
 
     return decorator
-
 
 
 def wrap(original_function: typing.Callable) -> typing.Callable:
@@ -97,13 +96,16 @@ def wrap(original_function: typing.Callable) -> typing.Callable:
             raise TypeError("Argument passed to @wrap decorator must be a Callable")
 
         # record function replacement for inspection purposes
-        REPLACED_FUNCTIONS.append((f'{sys.modules[original_function.__module__].__name__}.{original_function.__name__}',
-                                   'wrap',
-                                   f'{sys.modules[new_function.__module__].__name__}.{new_function.__name__}'))
+        REPLACED_FUNCTIONS[f'{sys.modules[original_function.__module__].__name__}.{original_function.__name__}'] \
+            = f'{sys.modules[new_function.__module__].__name__}.{new_function.__name__}'
 
         # supply orginal_function as first argument to new_function
         def wrapper(*args, **kwargs):
             return new_function(original_function, *args, **kwargs)
+
+        # update function name and doc (but not module)
+        setattr(wrapper, '__doc__', original_function.__doc__)
+        setattr(wrapper, '__name__', original_function.__name__)
 
         # replace function
         setattr(sys.modules[original_function.__module__], original_function.__name__, wrapper)

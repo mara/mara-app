@@ -32,36 +32,34 @@ def configuration_page():
                 config_modules[config_module.__name__] = {'doc': config_module.__doc__, 'functions': {}}
 
                 for member_name, member in config_module.__dict__.items():
-                    if inspect.isfunction(member) and member.__module__ == config_module.__name__:
+                    if inspect.isfunction(member):
                         try:
                             value = member()
                         except Exception:
                             value = 'error calling function'
 
+                        new_function = monkey_patch.REPLACED_FUNCTIONS.get(
+                            config_module.__name__ + '.' + member_name, '')
+
                         config_modules[config_module.__name__]['functions'][member_name] \
-                            = {'doc': member.__doc__ or '', 'value': value}
+                            = {'doc': member.__doc__ or '', 'value': value, 'new_function': new_function}
 
     return response.Response(
-        html=[
-            bootstrap.card(
-                header_left='Patched or wrapped functions',
-                body=bootstrap.table(
-                    headers=[],
-                    rows=[_.tr[_.td[_.tt[html.escape(original_fn)], _.td['→'],
-                                    _.td[_.tt[html.escape(new_fn)], _.td[f'({type})']]]]
-                          for (original_fn, type, new_fn) in monkey_patch.REPLACED_FUNCTIONS])),
-            [(bootstrap.card(
-                header_left=html.escape(module_name),
-                body=[_.p[_.em[html.escape(str(config['doc']))]],
-                      bootstrap.table(
-                          [],
-                          [_.tr[
-                               _.td[function_name.replace('_', '_<wbr/>')],
-                               _.td[_.em[function['doc']]],
-                               _.td[_.pre[html.escape(pprint.pformat(function['value']))]]]
-                           for function_name, function in config['functions'].items()])
-                      ]) if config['functions'] else '') for module_name, config in
-             sorted(config_modules.items())]],
+        html=[(bootstrap.card(
+            header_left=html.escape(module_name),
+            body=[_.p[_.em[html.escape(str(config['doc']))]],
+                  bootstrap.table(
+                      [],
+                      [_.tr[
+                           _.td[_.tt[html.escape(function_name).replace('_', '_<wbr/>')],
+                                [_.br, ' ⟵ ', _.tt[html.escape(function['new_function'])
+                                    .replace('.', '<wbr/>.').replace('_', '_<wbr/>')]]
+                                if function['new_function'] else ''],
+                           _.td[_.em[html.escape(function['doc'])]],
+                           _.td[_.pre[html.escape(pprint.pformat(function['value']))]]]
+                       for function_name, function in config['functions'].items()])
+                  ]) if config['functions'] else '') for module_name, config in
+              sorted(config_modules.items())],
         title='Mara Configuration')
 
 
