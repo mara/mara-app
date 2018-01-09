@@ -13,6 +13,10 @@ setup(
         'alembic>=0.8.10',
         'sqlalchemy-utils>=0.32.14'
     ],
+    dependency_links=[
+        'git+ssh://git@github.com/mara/mara-page.git@1.2.1#egg=mara-page-1.2.1',
+        'git+ssh://git@github.com/mara/mara-db.git@2.0.0#egg=mara-db-2.0.0',
+    ],
     tests_require=['pytest'],
     packages=find_packages(),
 
