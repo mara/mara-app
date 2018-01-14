@@ -1,7 +1,7 @@
 """Automigration of sql alchemy models with alembic. Automigration means that no intermediate files are created,
  instead diffs are immediately applied. Use with care.
 """
-import gc
+import copy
 import io
 import sys
 
@@ -9,11 +9,9 @@ import alembic
 import alembic.autogenerate
 import alembic.migration
 import alembic.operations
-import sqlalchemy.ext.declarative.api
-import sqlalchemy_utils
-from sqlalchemy import *   # unfortunately needed to get the eval part further down working
-from sqlalchemy.dialects import *
 import sqlalchemy.engine
+import sqlalchemy_utils
+from sqlalchemy import *  # unfortunately needed to get the eval part further down working
 
 
 def get_migration_ddl(engine: sqlalchemy.engine.Engine) -> [str]:
@@ -21,13 +19,15 @@ def get_migration_ddl(engine: sqlalchemy.engine.Engine) -> [str]:
     Creates a diff between the defined SQLAlchemy models and the current database and applies it.
     Prints the executed statements to stdout
     """
-    combined_meta_data = MetaData()
 
     # merge all loaded SQL alchemy models into a single metadata object
-    for declarative_base in (
-            [obj for obj in gc.get_objects() if isinstance(obj, sqlalchemy.ext.declarative.api.DeclarativeMeta)]):
-        for (table_name, table) in declarative_base.metadata.tables.items():
-            combined_meta_data._add_table(table_name, table.schema, table)
+    combined_meta_data = MetaData()
+
+    for name, module in copy.copy(sys.modules).items():
+        if 'MARA_AUTOMIGRATE_SQLALCHEMY_MODELS' in dir(module):
+            for table in getattr(module, 'MARA_AUTOMIGRATE_SQLALCHEMY_MODELS'):
+                for t in table.metadata.tables.values():
+                    t.tometadata(combined_meta_data)
 
     with engine.connect() as connection:
         output = io.StringIO()
