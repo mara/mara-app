@@ -1,6 +1,15 @@
 # Changelog
 
+## 1.3.4
+*2018-01-14*
+
+- use MARA_AUTOMIGRATE_SQLALCHEMY_MODELS for finding sqlalchemy models (instead of walking through GC)
+- add workaround for failing pip on Ubuntu/Debian (#22)
+- fix dependency links
+
+
 ## 1.3.3
+*2018-01-09*
 
 - improve configuration ui
 - add error handling for asynchronous loading of navigation 
