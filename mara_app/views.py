@@ -77,10 +77,9 @@ def navigation_bar() -> [str]:
         def render_entry(entry: navigation.NavigationEntry, level: int = 1):
             attrs = {}
             if entry.children:
-                attrs.update({'onClick': 'toggleNavigationEntry(this)'})
+                attrs['onClick'] = 'toggleNavigationEntry(this)'
             else:
-                attrs.update({'onClick': 'highlightNavigationEntry(\'' + entry.uri_fn() + '\');',
-                              'href': entry.uri_fn()})
+                attrs['href'] = entry.uri_fn()
 
             if entry.description:
                 attrs.update({'title': entry.description, 'data-toggle': 'tooltip',
