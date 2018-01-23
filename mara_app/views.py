@@ -13,7 +13,7 @@ import flask
 from mara_app import monkey_patch
 from mara_page import acl, navigation, response, _, bootstrap, xml
 
-blueprint = flask.Blueprint('mara_app', __name__, url_prefix='/admin', static_folder='static')
+blueprint = flask.Blueprint('mara_app', __name__, url_prefix='/mara-app', static_folder='static')
 
 acl_resource = acl.AclResource('Configuration')
 
@@ -64,7 +64,7 @@ def configuration_page():
 
 
 def navigation_entry():
-    return navigation.NavigationEntry('Configuration',
+    return navigation.NavigationEntry('Package Configs', description='Package config functions with project replacements',
                                       uri_fn=lambda: flask.url_for('mara_app.configuration_page'),
                                       icon='cogs', rank=100)
 

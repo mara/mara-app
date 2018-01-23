@@ -4,7 +4,7 @@ $(document).ready(function () {
         $('#mara-navigation').mouseleave(collapseNavigation);
     }
 
-    var navigationUrl = '/admin/navigation-bar';
+    var navigationUrl = '/mara-app/navigation-bar';
     $.ajax({
         url: navigationUrl,
         success: function (navigationEntries) {
