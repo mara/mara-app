@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.5
+*2018-01-23*
+
+- improvements around navigation tree
+
+
 ## 1.3.4
 *2018-01-14*
 
