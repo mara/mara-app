@@ -51,16 +51,25 @@ class MaraApp(flask.Flask):
     def register_navigation_entries(self):
         """Collects and merges all instances of NavigationEntry"""
         self.navigation_root = config.navigation_root()
+
+        def all_children(navigation_entry: navigation.NavigationEntry) -> {navigation.NavigationEntry}:
+            return functools.reduce(set.union, [all_children(child) for child in navigation_entry.children],
+                                    set([navigation_entry]))
+
+        # all navigation entries that have already been registered via `config.navigation_root`
+        existing_navigation_entries = all_children(self.navigation_root)
+
         for name, module in copy.copy(sys.modules).items():
             if 'MARA_NAVIGATION_ENTRY_FNS' in dir(module):
                 fns = getattr(module, 'MARA_NAVIGATION_ENTRY_FNS')
                 assert (isinstance(fns, typing.Iterable))
                 for fn in fns:
                     assert (isinstance(fn, typing.Callable))
-
                     navigation_entry = fn()
                     assert (isinstance(navigation_entry, navigation.NavigationEntry))
-                    if not navigation_entry.parent and navigation_entry != self.navigation_root:
+
+                    # only add navigation entries that have not been added yet via `config.navigation_root`
+                    if not navigation_entry in existing_navigation_entries and navigation_entry != self.navigation_root:
                         self.navigation_root.add_child(navigation_entry)
 
     def register_page_layout(self):
