@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# a shell wrapper for running commands from make. Adds colors, command echoing and timing
-
+# A shell wrapper for running commands from make. Adds colors, command echoing and timing.
+# To disable this behavior, explicitly prepend command with "DISABLE_MAKESHELL" in make targets
 
 # make sure that the whole pipeline fails when a command fails
 # https://www.gnu.org/software/bash/manual/html_node/Pipelines.html
@@ -34,8 +34,12 @@ MAGENTA=`echo -e "\033[35m"`
 CYAN=`echo -e "\033[36m"`
 WHITE=`echo -e "\033[37m"`
 
-
-if [ "$COMMAND" == "make" ]; then
+if [ "$COMMAND" == "DISABLE_MAKESHELL" ]; then
+    # output prefixing explicitly disabled
+    COMMAND=`echo $3 | cut -d ' ' -f2-`
+    echo $GREEN$TARGET:$YELLOW $COMMAND$NO_COLOR
+    /bin/bash -o pipefail -c "$COMMAND"
+elif [ "$COMMAND" == "make" ]; then
     # The command is a sub make. Print the command and run it
     echo $GREEN$TARGET:$YELLOW $COMMAND_WITH_ARGS$NO_COLOR
     $COMMAND_WITH_ARGS
