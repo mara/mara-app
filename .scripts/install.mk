@@ -7,7 +7,7 @@
 setup-mara:
 	make install-packages
 	make -j .copy-mara-app-scripts migrate-mara-db
-	echo -e "done. Get started with\n   $$ source .venv/bin/activate\n   $$ flask"
+	echo -e "done. Get started with\n   $$ source .venv/bin/activate\n   $$ flask --help\n   $$ make run-flask"
 
 
 # install exact package versions from requirements.txt.freeze
@@ -67,3 +67,6 @@ check-for-unpushed-package-changes: $(addprefix .ensure-pushed-,$(subst ./,,$(sh
 	.scripts/mara-app/ensure-pushed.sh packages/$*
 
 
+# run flask development server
+run-flask:
+	. .venv/bin/activate; flask run --with-threads --reload --eager-loading 2>&1

@@ -8,7 +8,7 @@ SHELL=.scripts/mara-app/makeshell $(or $@,-)
 
 # copy scripts from mara-app package to project code
 .copy-mara-app-scripts:
-	rsync --archive --recursive --delete packages/mara-app/.scripts/ .scripts/mara-app/
+	rsync --archive --recursive --itemize-changes  --delete packages/mara-app/.scripts/ .scripts/mara-app/
 
 
 
