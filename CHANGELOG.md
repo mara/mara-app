@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.6
+*2018-01-28*
+
+- Allow disabling makeshell in make targets (by prepending DISABLE_MAKESHELL)
+- provide hints and make target for running flask threaded
+
+
 ## 1.3.5
 *2018-01-23*
 
