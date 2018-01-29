@@ -54,6 +54,11 @@ migrate-mara-db:
 	FLASK_APP=app/app.py .venv/bin/flask mara_app.migrate
 
 
+# run flask development server
+run-flask:
+	. .venv/bin/activate; flask run --with-threads --reload --eager-loading 2>&1
+
+
 # run https://github.com/naiquevin/pipdeptree to check whether the currently installed packages have
 # incompatible dependencies
 check-for-inconstent-package-dependencies:
@@ -61,12 +66,16 @@ check-for-inconstent-package-dependencies:
 
 
 # check whether there are unpushed changes in the /packages directory
-check-for-unpushed-package-changes: $(addprefix .ensure-pushed-,$(subst ./,,$(shell mkdir -p packages; cd packages; find . -maxdepth 1 -mindepth 1 -type d)))
+check-for-unpushed-package-changes:
+	make -j $(addprefix .ensure-pushed-,$(subst ./,,$(shell mkdir -p packages; cd packages; find . -maxdepth 1 -mindepth 1 -type d)))
 
 .ensure-pushed-%:
 	.scripts/mara-app/ensure-pushed.sh packages/$*
 
 
-# run flask development server
-run-flask:
-	. .venv/bin/activate; flask run --with-threads --reload --eager-loading 2>&1
+# check whether there are newer versions of the installed packages available
+check-for-newer-package-versions:
+	make -j $(addprefix .check-newer-,$(subst ./,,$(shell cd packages; find . -maxdepth 1 -mindepth 1 -type d)))
+
+.check-newer-%:
+	.scripts/mara-app/check-newer.sh packages/$*

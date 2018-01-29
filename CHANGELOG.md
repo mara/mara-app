@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.0 
+*2018-01-29*
+
+- Add new Makefile target 'check-for-newer-package-versions' which list all packages that have newer tags than the current checkout
+ 
+
 ## 1.3.6
 *2018-01-28*
 
