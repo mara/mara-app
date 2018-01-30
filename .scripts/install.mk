@@ -67,7 +67,9 @@ check-for-inconstent-package-dependencies:
 
 # check whether there are unpushed changes in the /packages directory
 check-for-unpushed-package-changes:
-	make -j $(addprefix .ensure-pushed-,$(subst ./,,$(shell mkdir -p packages; cd packages; find . -maxdepth 1 -mindepth 1 -type d)))
+	make -j .check-for-unpushed-package-changes
+
+.check-for-unpushed-package-changes: $(addprefix .ensure-pushed-,$(subst ./,,$(shell mkdir -p packages; cd packages; find . -maxdepth 1 -mindepth 1 -type d)))
 
 .ensure-pushed-%:
 	.scripts/mara-app/ensure-pushed.sh packages/$*
@@ -75,7 +77,9 @@ check-for-unpushed-package-changes:
 
 # check whether there are newer versions of the installed packages available
 check-for-newer-package-versions:
-	make -j $(addprefix .check-newer-,$(subst ./,,$(shell cd packages; find . -maxdepth 1 -mindepth 1 -type d)))
+	make -j .check-for-newer-package-versions
+
+.check-for-newer-package-versions: $(addprefix .check-newer-,$(subst ./,,$(shell cd packages; find . -maxdepth 1 -mindepth 1 -type d)))
 
 .check-newer-%:
 	.scripts/mara-app/check-newer.sh packages/$*
