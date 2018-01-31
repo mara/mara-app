@@ -132,8 +132,7 @@ function reflowMaraTableHeaders() {
 }
 
 // Replaces the content of the element with id `containerId` with the result of calling url
-// When the requests succeeds, the content of the onSuccess variable is evaluated
-function loadContentAsynchronously(containerId, url, divHeightKey, onSuccess) {
+function loadContentAsynchronously(containerId, url, divHeightKey) {
     $.ajax({
         url: url,
         error: function (xhr, textStatus, errorThrown) {
@@ -145,9 +144,10 @@ function loadContentAsynchronously(containerId, url, divHeightKey, onSuccess) {
         success: function (data) {
             $('#' + containerId).css('height', '');
             $('#' + containerId).empty().hide().append(data).fadeIn(300);
-            eval(onSuccess);
             reflowMaraTableHeaders();
-            localStorage.setItem(divHeightKey, $('#' + containerId).height());
+            if (divHeightKey) {
+                localStorage.setItem(divHeightKey, $('#' + containerId).height());
+            }
         }
     });
 }
