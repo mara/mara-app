@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.2
+
+- Always check for newer package versions in `make update-packages`
+- make `divHeightKey` optional in `loadContentAsynchronously`
+
 ## 1.4.0 - 1.4.1   
 *2018-01-29*
 
