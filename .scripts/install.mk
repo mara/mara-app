@@ -25,6 +25,7 @@ update-packages:
 	# pkg-ressources is automatically added on ubuntu, but breaks the install.
 	# https://stackoverflow.com/a/40167445/1380673
 	.venv/bin/pip freeze | grep -v "pkg-resources" > requirements.txt.freeze
+	make check-for-newer-package-versions
 	make migrate-mara-db
 	echo -e "\033[32msucceeded, please check output above for warnings\033[0m"
 
