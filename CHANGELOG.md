@@ -1,6 +1,13 @@
 # Changelog
 
+## 1.4.3
+*2018-01-30*
+
+- bug fixes for auto-migration
+
+
 ## 1.4.2
+*2018-01-30*
 
 - Always check for newer package versions in `make update-packages`
 - make `divHeightKey` optional in `loadContentAsynchronously`

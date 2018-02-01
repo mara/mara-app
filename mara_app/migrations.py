@@ -12,6 +12,8 @@ import alembic.operations
 import sqlalchemy.engine
 import sqlalchemy_utils
 from sqlalchemy import *  # unfortunately needed to get the eval part further down working
+# noinspection PyUnresolvedReferences
+from sqlalchemy.dialects import *  # unfortunately needed to get the eval part further down working
 
 
 def get_migration_ddl(engine: sqlalchemy.engine.Engine) -> [str]:
@@ -26,8 +28,7 @@ def get_migration_ddl(engine: sqlalchemy.engine.Engine) -> [str]:
     for name, module in copy.copy(sys.modules).items():
         if 'MARA_AUTOMIGRATE_SQLALCHEMY_MODELS' in dir(module):
             for table in getattr(module, 'MARA_AUTOMIGRATE_SQLALCHEMY_MODELS'):
-                for t in table.metadata.tables.values():
-                    t.tometadata(combined_meta_data)
+                table.metadata.tables[table.__tablename__].tometadata(combined_meta_data)
 
     with engine.connect() as connection:
         output = io.StringIO()
@@ -60,7 +61,7 @@ def get_migration_ddl(engine: sqlalchemy.engine.Engine) -> [str]:
                     eval(statement)
                 except Exception as e:
                     print('statement: ' + statement)
-                    raise(e)
+                    raise (e)
                 ddl.append(output.getvalue())
                 output.truncate(0)
                 output.seek(0)
