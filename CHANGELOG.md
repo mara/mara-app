@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.4
+*2018-02-06*
+
+- bug fixes for monkey patching
+
+
 ## 1.4.3
 *2018-01-30*
 

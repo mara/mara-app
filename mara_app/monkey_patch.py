@@ -9,6 +9,7 @@ There are other excellent libraries for this, which unfortunately don't excactly
 - https://bitbucket.org/schesis/ook
 """
 
+import functools
 import sys
 import typing
 
@@ -55,9 +56,8 @@ def patch(original_function: typing.Callable) -> typing.Callable:
         REPLACED_FUNCTIONS[f'{sys.modules[original_function.__module__].__name__}.{original_function.__name__}'] \
             = f'{sys.modules[new_function.__module__].__name__}.{new_function.__name__}'
 
-        # update function name and doc (but not module)
-        setattr(new_function, '__doc__', original_function.__doc__)
-        setattr(new_function, '__name__', original_function.__name__)
+        # copy properies such as __doc__, __module__ from original_function to new_function
+        functools.update_wrapper(new_function, original_function)
 
         # replace function
         setattr(sys.modules[original_function.__module__], original_function.__name__, new_function)
@@ -103,9 +103,8 @@ def wrap(original_function: typing.Callable) -> typing.Callable:
         def wrapper(*args, **kwargs):
             return new_function(original_function, *args, **kwargs)
 
-        # update function name and doc (but not module)
-        setattr(wrapper, '__doc__', original_function.__doc__)
-        setattr(wrapper, '__name__', original_function.__name__)
+        # copy properies such as __doc__, __module__ from original_function to wrapper
+        functools.update_wrapper(wrapper, original_function)
 
         # replace function
         setattr(sys.modules[original_function.__module__], original_function.__name__, wrapper)
