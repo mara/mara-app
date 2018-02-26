@@ -217,22 +217,22 @@ body > #mara-main {
     padding-left: 69px; /* nav collapsed + 15 */
 }
 
-body.navigation-collapsed > #mara-main, body.navigation-collapsed > #alerts {
+body.navigation-collapsed > #mara-main, body.navigation-collapsed > #mara-main > #alerts {
     left: 0px;
     transition: left .3s;
 }
 
-body.touch > #mara-main, body.touch > #alerts {
+body.touch > #mara-main, body.touch > #mara-main > #alerts {
     left: 224px;
     transition: left 0s;
     padding-left: 15px;
 }
 
-body.touch > #alerts {
+body.touch > #mara-main > #alerts {
     padding-left: 30px;
 }
 
-body.touch.navigation-collapsed > #mara-main, body.touch.navigation-collapsed > #alerts {
+body.touch.navigation-collapsed > #mara-main, body.touch.navigation-collapsed > #mara-main > #alerts {
     left: 0px;
     transition: left 0s;
 }
@@ -241,7 +241,7 @@ body > #mara-main div.container-fluid {
     padding: 0px;
 }
 
-body > #alerts {
+body > #mara-main > #alerts {
     position: fixed;
     left: 170px; /* nav expanded 224 - nav collapsed 54 */
     transition: left .3s;
