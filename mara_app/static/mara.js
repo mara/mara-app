@@ -16,6 +16,10 @@ $(document).ready(function () {
             // highlight navigation entry for current uri
             highlightNavigationEntry(window.location.pathname + window.location.search + window.location.hash);
 
+            window.onhashchange = function () {
+                highlightNavigationEntry(window.location.pathname + window.location.search + window.location.hash);
+            };
+
             localStorage.setItem('navigation-bar', navigationEntries);
         },
         error: function (xhr, textStatus, errorThrown) {
