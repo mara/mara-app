@@ -10,6 +10,7 @@ import types
 import typing
 
 import flask
+
 from mara_app import monkey_patch
 from mara_page import acl, navigation, response, _, bootstrap, xml
 
@@ -18,10 +19,8 @@ blueprint = flask.Blueprint('mara_app', __name__, url_prefix='/mara-app', static
 acl_resource = acl.AclResource('Configuration')
 
 
-@blueprint.route('/configuration')
-@acl.require_permission(acl_resource)
-def configuration_page():
-    # gather all config functions by package
+def _config_modules(with_functions=True):
+    """Gathers all configuration modules and their functions"""
     config_modules = {}
     for name, module in copy.copy(sys.modules).items():
         if 'MARA_CONFIG_MODULES' in dir(module):
@@ -31,21 +30,30 @@ def configuration_page():
                 assert (isinstance(config_module, types.ModuleType))
                 config_modules[config_module.__name__] = {'doc': config_module.__doc__, 'functions': {}}
 
-                for member_name, member in config_module.__dict__.items():
-                    if inspect.isfunction(member):
-                        try:
-                            value = member()
-                        except Exception:
-                            value = 'error calling function'
+                if with_functions:
+                    for member_name, member in config_module.__dict__.items():
+                        if inspect.isfunction(member):
+                            try:
+                                value = member()
+                            except Exception:
+                                value = 'error calling function'
 
-                        new_function = monkey_patch.REPLACED_FUNCTIONS.get(
-                            config_module.__name__ + '.' + member_name, '')
+                            new_function = monkey_patch.REPLACED_FUNCTIONS.get(
+                                config_module.__name__ + '.' + member_name, '')
 
-                        config_modules[config_module.__name__]['functions'][member_name] \
-                            = {'doc': member.__doc__ or '', 'value': value, 'new_function': new_function}
+                            config_modules[config_module.__name__]['functions'][member_name] \
+                                = {'doc': member.__doc__ or '', 'value': value, 'new_function': new_function}
+    return config_modules
+
+
+@blueprint.route('/configuration')
+def configuration_page():
+    # gather all config functions by package
+
+    current_user_has_permission = acl.current_user_has_permission(acl_resource)
 
     return response.Response(
-        html=[(bootstrap.card(
+        html=[(bootstrap.card(id=module_name,
             header_left=html.escape(module_name),
             body=[_.p[_.em[html.escape(str(config['doc']))]],
                   bootstrap.table(
@@ -56,17 +64,27 @@ def configuration_page():
                                     .replace('.', '<wbr/>.').replace('_', '_<wbr/>')]]
                                 if function['new_function'] else ''],
                            _.td[_.em[html.escape(function['doc'])]],
-                           _.td[_.pre[html.escape(pprint.pformat(function['value']))]]]
-                       for function_name, function in config['functions'].items()])
-                  ]) if config['functions'] else '') for module_name, config in
-              sorted(config_modules.items())],
+                           _.td[
+                               _.pre[html.escape(pprint.pformat(function['value']))]
+                               if current_user_has_permission
+                               else acl.inline_permission_denied_message()
+                           ]] for function_name, function in config['functions'].items()])
+                  ]) if config['functions'] else '')
+              for module_name, config in sorted(_config_modules().items())],
         title='Mara Configuration')
 
 
 def navigation_entry():
-    return navigation.NavigationEntry('Package Configs', description='Package config functions with project replacements',
-                                      uri_fn=lambda: flask.url_for('mara_app.configuration_page'),
-                                      icon='cogs', rank=100)
+    return navigation.NavigationEntry(
+        label='Package Configs', icon='cogs', rank=100,
+        description='Package config functions with project replacements',
+        uri_fn=lambda: flask.url_for('mara_app.configuration_page'),
+        children=[
+            navigation.NavigationEntry(
+                label=module_name, icon='list',description=config['doc'],
+                uri_fn=lambda _module_name=module_name: flask.url_for('mara_app.configuration_page',_anchor=_module_name))
+            for module_name, config in sorted(_config_modules().items())]
+    )
 
 
 @blueprint.route('/navigation-bar')
