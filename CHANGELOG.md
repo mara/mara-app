@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.5
+*2018-03-19*
+
+- improve configuration page
+
+
 ## 1.4.4
 *2018-02-06*
 
