@@ -5,6 +5,5 @@ A flask app for building backends that are distributed across separate packages.
 - auto-detection of flask blueprints
 - auto-detection of navigation entries
 - auto-detection of click command line interfaces
-- hassle-free alembic auto-migrations
 
-Please have a look at the mara example application for an example of how to use this.
+Please have a look at the [mara example application](https://github.com/mara/mara-example-project) for an example of how to use this.
