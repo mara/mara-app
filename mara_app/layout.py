@@ -119,4 +119,5 @@ def flash_messages(response: mara_page.response.Response) -> xml.XMLElement:
 def _current_git_commit():
     """Returns the current git commit of the mara application"""
     command = f'git --git-dir {flask.current_app.root_path}/.git rev-parse HEAD'
-    return subprocess.getoutput(command)
+    status, output = subprocess.getstatusoutput(command)
+    return output if status == 0 else ''
