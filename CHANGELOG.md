@@ -1,9 +1,10 @@
 # Changelog
 
-## 1.5.0 (2018-04-08)
+## 1.5.0 - 1.5.1 (2018-04-08)
 
 - Move auto-migrate feature to mara-db package
 - cope with absense of local git checkout in layout._current_git_commit
+- Wipe incompatible local copies when pip installing packages 
 
 
 
