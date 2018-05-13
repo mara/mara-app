@@ -2,55 +2,68 @@
 Flask app with auto-discovery of blueprints, cli commands etc.
 """
 
-import copy
 import functools
 import sys
 import typing
 
 import flask
 from mara_app import config, layout
+from mara_config import declare_config, get_contributed_functionality
 from mara_page import navigation, response, _, bootstrap
 from werkzeug import exceptions
 
-def _iter(callable_or_list):
-    if callable(callable_or_list):
-        callable_or_list = callable_or_list()
-    return callable_or_list
+
+@declare_config()
+def FEATURE_disable_register_all() -> bool:
+    """A feature flag which can disable the old style registration of all imported modules"""
+    return False
+
+
+@declare_config()
+def FEATURE_disable_mara_commands_in_flask() -> bool:
+    """A feature flag which can disable the integration of MARA_CLICK_COMMANDS in the flask command"""
+    return False
+
 
 class MaraApp(flask.Flask):
     def __init__(self):
         super().__init__('mara')
+        # This is needed here to make `flask run` working
+        if 'flask' in sys.argv[0]:
+            from mara_config.config_system import add_config_from_local_setup_py
+            from mara_config import call_app_composing_function
+            add_config_from_local_setup_py()
+            call_app_composing_function()
+            if not FEATURE_disable_register_all():
+                from mara_config import register_functionality_in_all_imported_modules
+                register_functionality_in_all_imported_modules()
+            if not FEATURE_disable_mara_commands_in_flask():
+                self.register_commands()
+
         self.register_blueprints()
-        self.register_commands()
         self.register_navigation_entries()
         self.register_page_layout()
         self.register_error_handlers()
+
         self.disable_caching()
         self.patch_flask_url_for()
         self.config.update(config.flask_config())
 
     def register_blueprints(self):
         """Searches for all declared blueprints and adds them to the app"""
-        for name, module in copy.copy(sys.modules).items():
-            if 'MARA_FLASK_BLUEPRINTS' in dir(module):
-                blueprints = _iter(getattr(module, 'MARA_FLASK_BLUEPRINTS'))
-                assert isinstance(blueprints, typing.Iterable)
-                for blueprint in blueprints:
-                    assert (isinstance(blueprint, flask.Blueprint))
-                    self.register_blueprint(blueprint)
+
+        for module, blueprint in get_contributed_functionality('MARA_FLASK_BLUEPRINTS'):
+            assert (isinstance(blueprint, flask.Blueprint))
+            self.register_blueprint(blueprint)
 
     def register_commands(self):
         """Searches for all declared click commands and adds them to the app, grouped by package"""
-        for name, module in copy.copy(sys.modules).items():
-            if 'MARA_CLICK_COMMANDS' in dir(module):
-                commands = _iter(getattr(module, 'MARA_CLICK_COMMANDS'))
-                assert (isinstance(commands, typing.Iterable))
-                for command in commands:
-                    if 'callback' in command.__dict__ and command.__dict__['callback']:
-                        package = command.__dict__['callback'].__module__.rpartition('.')[0]
-                        if package != 'flask':
-                            command.name = package + '.' + command.name
-                            self.cli.add_command(command)
+        for module, command in get_contributed_functionality('MARA_CLICK_COMMANDS'):
+            if 'callback' in command.__dict__ and command.__dict__['callback']:
+                package = command.__dict__['callback'].__module__.rpartition('.')[0]
+                if package != 'flask':
+                    command.name = package + '.' + command.name
+                    self.cli.add_command(command)
 
     def register_navigation_entries(self):
         """Collects and merges all instances of NavigationEntry"""
@@ -63,18 +76,14 @@ class MaraApp(flask.Flask):
         # all navigation entries that have already been registered via `config.navigation_root`
         existing_navigation_entries = all_children(self.navigation_root)
 
-        for name, module in copy.copy(sys.modules).items():
-            if 'MARA_NAVIGATION_ENTRY_FNS' in dir(module):
-                fns = _iter(getattr(module, 'MARA_NAVIGATION_ENTRY_FNS'))
-                assert (isinstance(fns, typing.Iterable))
-                for fn in fns:
-                    assert (isinstance(fn, typing.Callable))
-                    navigation_entry = fn()
-                    assert (isinstance(navigation_entry, navigation.NavigationEntry))
+        for module, fn in get_contributed_functionality('MARA_NAVIGATION_ENTRY_FNS'):
+            assert (isinstance(fn, typing.Callable))
+            navigation_entry = fn()
+            assert (isinstance(navigation_entry, navigation.NavigationEntry))
 
-                    # only add navigation entries that have not been added yet via `config.navigation_root`
-                    if not navigation_entry in existing_navigation_entries and navigation_entry != self.navigation_root:
-                        self.navigation_root.add_child(navigation_entry)
+            # only add navigation entries that have not been added yet via `config.navigation_root`
+            if not navigation_entry in existing_navigation_entries and navigation_entry != self.navigation_root:
+                self.navigation_root.add_child(navigation_entry)
 
     def register_page_layout(self):
         """Adds a global layout with navigation etc. to pages"""
