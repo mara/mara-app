@@ -12,6 +12,10 @@ from mara_app import config, layout
 from mara_page import navigation, response, _, bootstrap
 from werkzeug import exceptions
 
+def _iter(callable_or_list):
+    if callable(callable_or_list):
+        callable_or_list = callable_or_list()
+    return callable_or_list
 
 class MaraApp(flask.Flask):
     def __init__(self):
@@ -29,8 +33,8 @@ class MaraApp(flask.Flask):
         """Searches for all declared blueprints and adds them to the app"""
         for name, module in copy.copy(sys.modules).items():
             if 'MARA_FLASK_BLUEPRINTS' in dir(module):
-                blueprints = getattr(module, 'MARA_FLASK_BLUEPRINTS')
-                assert (isinstance(blueprints, typing.Iterable))
+                blueprints = _iter(getattr(module, 'MARA_FLASK_BLUEPRINTS'))
+                assert isinstance(blueprints, typing.Iterable)
                 for blueprint in blueprints:
                     assert (isinstance(blueprint, flask.Blueprint))
                     self.register_blueprint(blueprint)
@@ -39,7 +43,7 @@ class MaraApp(flask.Flask):
         """Searches for all declared click commands and adds them to the app, grouped by package"""
         for name, module in copy.copy(sys.modules).items():
             if 'MARA_CLICK_COMMANDS' in dir(module):
-                commands = getattr(module, 'MARA_CLICK_COMMANDS')
+                commands = _iter(getattr(module, 'MARA_CLICK_COMMANDS'))
                 assert (isinstance(commands, typing.Iterable))
                 for command in commands:
                     if 'callback' in command.__dict__ and command.__dict__['callback']:
@@ -61,7 +65,7 @@ class MaraApp(flask.Flask):
 
         for name, module in copy.copy(sys.modules).items():
             if 'MARA_NAVIGATION_ENTRY_FNS' in dir(module):
-                fns = getattr(module, 'MARA_NAVIGATION_ENTRY_FNS')
+                fns = _iter(getattr(module, 'MARA_NAVIGATION_ENTRY_FNS'))
                 assert (isinstance(fns, typing.Iterable))
                 for fn in fns:
                     assert (isinstance(fn, typing.Callable))
