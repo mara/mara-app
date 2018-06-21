@@ -29,7 +29,8 @@ def head_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
         _.meta(charset='utf-8'),
         _.meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no'),
         _.title[re.sub(r'<[^>]*?>', '', ''.join(xml.render(response.title)))],
-        [_.link(rel='stylesheet', href=url + '?' + _current_git_commit())[''] for url in css_files(response)],
+        [_.link(rel='stylesheet', href=url + ('&' if '?' in  url else '?') + _current_git_commit())['']
+         for url in css_files(response)],
         _.link(rel='icon', type='image/png', href=config.favicon_url() + '?' + _current_git_commit())
     ]
 
