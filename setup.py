@@ -10,7 +10,7 @@ setup(
         'mara-page>=1.2.3',
         'mara-db>=3.0.0',
         'mara-config>=0.1',
-        'flask>=0.12'
+        'flask>=1.0'
     ],
 
     dependency_links=[
