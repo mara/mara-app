@@ -36,8 +36,6 @@ update-packages:
 	mkdir -p .venv
 	# go into the new dir and build it there as venv doesn't work if the target is a symlink
 	cd .venv && $(.PYTHON36) -m venv --copies --prompt='[$(shell basename `pwd`)/.venv]' .
-	# set environment variables
-	echo export FLASK_DEBUG=1 >> .venv/bin/activate
 	# add the project directory to path
 	echo $(shell pwd) > `echo .venv/lib/*/site-packages`/mara-path.pth
 	# install minimum set of required packages
@@ -55,8 +53,13 @@ migrate-mara-db:
 
 
 # run flask development server
-run-flask:
-	. .venv/bin/activate; flask run --with-threads --reload --eager-loading 2>&1
+run-flask: run-flask-with-reload
+
+run-flask-with-reload:
+	. .venv/bin/activate; flask run --with-threads --reload --debugger --eager-loading 2>&1
+
+run-flask-without-reload:
+	. .venv/bin/activate; flask run --with-threads --no-reload --debugger --eager-loading 2>&1
 
 
 # run https://github.com/naiquevin/pipdeptree to check whether the currently installed packages have
