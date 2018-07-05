@@ -49,7 +49,7 @@ update-packages:
 
 # auto-migrate the mara db
 migrate-mara-db:
-	FLASK_APP=app/app.py .venv/bin/flask mara_db.migrate
+	.venv/bin/mara mara_db.migrate
 
 
 # run flask development server
