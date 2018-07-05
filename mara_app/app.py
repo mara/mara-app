@@ -8,7 +8,7 @@ import typing
 
 import flask
 from mara_app import config, layout
-from mara_config import declare_config, get_contributed_functionality
+from mara_config import declare_config, get_contributed_functionality, init_mara_config_once
 from mara_page import navigation, response, _, bootstrap
 from werkzeug import exceptions
 
@@ -28,17 +28,12 @@ def FEATURE_disable_mara_commands_in_flask() -> bool:
 class MaraApp(flask.Flask):
     def __init__(self):
         super().__init__('mara')
-        # This is needed here to make `flask run` working
-        if 'flask' in sys.argv[0]:
-            from mara_config.config_system import add_config_from_local_setup_py
-            from mara_config import call_app_composing_function
-            add_config_from_local_setup_py()
-            call_app_composing_function()
-            if not FEATURE_disable_register_all():
-                from mara_config import register_functionality_in_all_imported_modules
-                register_functionality_in_all_imported_modules()
-            if not FEATURE_disable_mara_commands_in_flask():
-                self.register_commands()
+        init_mara_config_once()
+        if not FEATURE_disable_register_all():
+            from mara_config import register_functionality_in_all_imported_modules
+            register_functionality_in_all_imported_modules()
+        if not FEATURE_disable_mara_commands_in_flask():
+            self.register_commands()
 
         self.register_blueprints()
         self.register_navigation_entries()
