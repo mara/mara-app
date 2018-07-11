@@ -107,6 +107,9 @@ class MaraApp(flask.Flask):
         """Sets up error pages for all http exceptions"""
 
         def error_handler(error):
+            if getattr(error, 'code', None) in [301, 302]:
+                # Redirections, should just generate the redirect code
+                return error
             if not isinstance(error, exceptions.HTTPException):
                 error = exceptions.InternalServerError()
             return response.Response(bootstrap.card(body=_.span[_.p(style='color:#888')[error.description or ''],
