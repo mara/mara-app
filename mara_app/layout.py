@@ -8,7 +8,7 @@ import flask
 import mara_page.response
 from mara_app import config
 from mara_page import navigation, _, xml
-
+from mara_config import declare_config
 
 def layout(response: mara_page.response.Response) -> str:
     """Renders a complete html page for the response"""
@@ -48,6 +48,7 @@ def body_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
     ]
 
 
+@declare_config()
 def css_files(response: mara_page.response.Response) -> [xml.XMLElement]:
     """The list of all css files to include in the page"""
     return [flask.url_for('mara_app.static', filename='bootstrap-4.0.0-alpha.6/bootstrap.min.css'),
@@ -57,7 +58,8 @@ def css_files(response: mara_page.response.Response) -> [xml.XMLElement]:
             ] + response.css_files
 
 
-def js_files(response: mara_page.response.Response):
+@declare_config()
+def js_files(response: mara_page.response.Response) -> [xml.XMLElement]:
     """The list of all js files to include in the page"""
     return [flask.url_for('mara_app.static', filename='jquery-3.1.1.min.js'),
             flask.url_for('mara_app.static', filename='tether-1.3.3/tether.min.js'),
