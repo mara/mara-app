@@ -1,4 +1,4 @@
-def MARA_CONFIG():
+def MARA_CONFIG_MODULES():
     import mara_app.config
     return [mara_app.config]
 
