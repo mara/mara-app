@@ -1,8 +1,4 @@
 $(document).ready(function () {
-    if (!isTouchDevice) {
-        $('#mara-navigation').mouseover(expandNavigation);
-        $('#mara-navigation').mouseleave(collapseNavigation);
-    }
 
     var navigationUrl = '/mara-app/navigation-bar';
     $.ajax({
@@ -15,6 +11,9 @@ $(document).ready(function () {
 
             // highlight navigation entry for current uri
             highlightNavigationEntry(window.location.pathname + window.location.search + window.location.hash);
+
+            // debugging
+            toggleNavigation();
 
             window.onhashchange = function () {
                 highlightNavigationEntry(window.location.pathname + window.location.search + window.location.hash);
@@ -31,6 +30,7 @@ $(document).ready(function () {
 
     // float headers of all tables with class `.mara-table`
     floatMaraTableHeaders();
+
 });
 
 // the nav entry that matches the current page uri best
@@ -68,12 +68,21 @@ function highlightNavigationEntry(uri) {
 
 // expands or collapses a navigation entry
 function toggleNavigationEntry(a) {
+
     if ($(a).parent().hasClass('expanded')) {
         $(a).parent().removeClass('expanded');
         $(a).siblings().removeClass('visible')
             .css('height', '') // reset height if it was left over from a previous slide action
             .slideUp({queue: true});
     } else {
+        console.log($(a).parent().siblings());
+        $(a).parent().siblings().parent().find('.expanded > a').each(function() {
+            $(this).parent().removeClass('expanded');
+            $(this).siblings().removeClass('visible')
+                .css('height', '') // reset height if it was left over from a previous slide action
+                .slideUp({queue: true});
+        });
+
         $(a).parent().addClass('expanded');
         $(a).siblings().addClass('visible')
             .css('height', '') // reset height if it was left over from a previous slide action
@@ -98,7 +107,7 @@ function expandNavigation() {
 // collapses the navigation side bar
 function collapseNavigation() {
     $('body').addClass('navigation-collapsed');
-    $('#mara-navigation .mara-nav-entry.level-2.visible').slideUp({queue: true});
+    // $('#mara-navigation .mara-nav-entry.level-2.visible').slideUp({queue: true});
 }
 
 // expands or collapses the navigation side bar

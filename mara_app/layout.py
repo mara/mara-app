@@ -38,8 +38,6 @@ def head_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
 def body_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
     """All elements inside the body section of the html page"""
     return [
-        _.script['var isTouchDevice = ("ontouchstart" in document.documentElement); ',
-                 'window.document.getElementsByTagName("body")[0].className += isTouchDevice ? " touch" : " no-touch";'],
         page_header(response),
         navigation_bar(),
         content_area(response),

@@ -54,22 +54,22 @@ def configuration_page():
 
     return response.Response(
         html=[(bootstrap.card(id=module_name,
-            header_left=html.escape(module_name),
-            body=[_.p[_.em[html.escape(str(config['doc']))]],
-                  bootstrap.table(
-                      [],
-                      [_.tr[
-                           _.td[_.tt[html.escape(function_name).replace('_', '_<wbr/>')],
-                                [_.br, ' ⟵ ', _.tt[html.escape(function['new_function'])
-                                    .replace('.', '<wbr/>.').replace('_', '_<wbr/>')]]
-                                if function['new_function'] else ''],
-                           _.td[_.em[html.escape(function['doc'])]],
-                           _.td[
-                               _.pre[html.escape(pprint.pformat(function['value']))]
-                               if current_user_has_permission
-                               else acl.inline_permission_denied_message()
-                           ]] for function_name, function in config['functions'].items()])
-                  ]) if config['functions'] else '')
+                              header_left=html.escape(module_name),
+                              body=[_.p[_.em[html.escape(str(config['doc']))]],
+                                    bootstrap.table(
+                                        [],
+                                        [_.tr[
+                                             _.td[_.tt[html.escape(function_name).replace('_', '_<wbr/>')],
+                                                  [_.br, ' ⟵ ', _.tt[html.escape(function['new_function'])
+                                                      .replace('.', '<wbr/>.').replace('_', '_<wbr/>')]]
+                                                  if function['new_function'] else ''],
+                                             _.td[_.em[html.escape(function['doc'])]],
+                                             _.td[
+                                                 _.pre[html.escape(pprint.pformat(function['value']))]
+                                                 if current_user_has_permission
+                                                 else acl.inline_permission_denied_message()
+                                             ]] for function_name, function in config['functions'].items()])
+                                    ]) if config['functions'] else '')
               for module_name, config in sorted(_config_modules().items())],
         title='Mara Configuration')
 
@@ -81,8 +81,9 @@ def navigation_entry():
         uri_fn=lambda: flask.url_for('mara_app.configuration_page'),
         children=[
             navigation.NavigationEntry(
-                label=module_name, icon='list',description=config['doc'],
-                uri_fn=lambda _module_name=module_name: flask.url_for('mara_app.configuration_page',_anchor=_module_name))
+                label=module_name, icon='list', description=config['doc'],
+                uri_fn=lambda _module_name=module_name: flask.url_for('mara_app.configuration_page',
+                                                                      _anchor=_module_name))
             for module_name, config in sorted(_config_modules().items())]
     )
 
@@ -106,7 +107,7 @@ def navigation_bar() -> [str]:
                          style='display:none' if level > 1 else '')[
                 _.a(**attrs)[
                     _.div(class_='mara-nav-entry-icon fa fa-fw fa-' + entry.icon + (' fa-lg' if level == 1 else ''))[
-                        ''] if entry.icon else '',
+                        ''] if entry.icon and level == 1 else '',
                     _.div(class_='mara-nav-entry-text')[entry.label.replace('_', '_<wbr>')],
                     _.div(class_='mara-caret fa fa-caret-down')[''] if entry.children else ''],
                 render_entries(entry.children, level + 1)
