@@ -69,8 +69,8 @@ def js_files(response: mara_page.response.Response):
 def page_header(response: mara_page.response.Response):
     """Renders the fixed top part of the page"""
     return _.nav(id='mara-page-header', class_='navbar fixed-top')[
-        _.a(class_='navigation-toggle-button fa fa-lg fa-reorder', onclick='toggleNavigation()')[' '],
-        _.img(src=config.logo_url() + '?' + _current_git_commit()),
+        _.a(class_='navigation-toggle-button fa fa-bars', onclick='toggleNavigation()')[' '],
+        _.img(class_='logo', src=config.logo_url() + '?' + _current_git_commit()),
         _.h1[response.title],
         _.div(class_='action-buttons')[map(action_button, response.action_buttons)],
 

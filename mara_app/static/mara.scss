@@ -4,9 +4,6 @@
  Build with `sass --watch mara.scss:mara.css`
  */
 
-
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese');
-
 $color-grey-1: #222B36;
 
 $color-grey-2: #7F858C;
@@ -21,14 +18,22 @@ $navigation-bar-width: 272px;
 
 $navigation-bar-padding: 24px;
 
+$content-area-padding: 32px;
+
+$page-header-height: 60px;
+
+$card-padding: 17.5px;
+
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese');
+
 html {
   font-size: 14px;
 }
 
 body {
   position: relative;
-  background-color: white;
   font-family: 'Source Sans Pro', sans-serif;
+  background-color: $color-grey-4;
 }
 
 a:hover {
@@ -42,57 +47,59 @@ a:hover {
   flex-direction: row;
   flex-wrap: nowrap;
   flex-shrink: 0;
-  height: 60px;
-  max-height: 60px;
+  height: $page-header-height;
+  max-height: $page-header-height;
   border-bottom: 1px solid #ddd;
   background-color: #ffffff;
   padding: 0px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
+  padding-left: $content-area-padding + $card-padding;
+  padding-right: $content-area-padding + $card-padding;
 
-#mara-page-header > * {
-  align-self: center;
-  margin: 0px;
-}
-
-#mara-page-header > div.action-buttons, #mara-page-header > h1 {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-@media (max-width: 600px) {
-  #mara-page-header > img {
-    display: none;
+  > * {
+    align-self: center;
+    margin: 0px;
   }
+
+  > .navigation-toggle-button {
+    padding-right: 20px;
+    font-size: 26px;
+    text-decoration: none;
+  }
+
+  > img.logo {
+    height: 30px;
+    margin-right: 10px;
+  }
+
+  > h1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 20px;
+    font-weight: normal;
+
+  }
+
+  > div.action-buttons {
+    white-space: nowrap;
+    flex-grow: 1;
+    text-align: right;
+    margin-left: 20px;
+
+    > a.btn {
+      padding: 0px;
+      margin-left: 20px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    > img {
+      display: none;
+    }
+  }
+
 }
 
-#mara-page-header > img {
-  height: 40px;
-  margin-right: 10px;
-}
-
-#mara-page-header > h1 {
-  font-size: 20px;
-  font-weight: normal;
-}
-
-#mara-page-header > .action-buttons {
-  flex-grow: 1;
-  text-align: right;
-  margin-left: 20px;
-}
-
-#mara-page-header > .action-buttons > a.btn {
-  padding: 0px;
-  margin-left: 20px;
-}
-
-#mara-page-header > .navigation-toggle-button {
-  padding-right: 10px;
-  text-decoration: none;
-}
 
 /*
 make sure that anchor links are not hidden behind the header
@@ -111,7 +118,7 @@ https://css-tricks.com/hash-tag-links-padding/
   position: fixed;
   z-index: 1000;
   left: 0;
-  top: 60px;
+  top: $page-header-height;
   bottom: 0;
   width: $navigation-bar-width;
   transition: width .3s;
@@ -119,13 +126,15 @@ https://css-tricks.com/hash-tag-links-padding/
   overflow-y: auto;
   display: block;
   color: $color-grey-1;
+  background-color: white;
 
   .mara-nav-entry {
-    width: $navigation-bar-width - 2* $navigation-bar-padding;
+    width: $navigation-bar-width - 2 * $navigation-bar-padding;
   }
 
   .mara-nav-entry > a:hover {
     border-radius: 3px;
+    color: $color-blue;
     background-color: rgba(2, 145, 255, 0.05);
   }
 
@@ -147,11 +156,7 @@ https://css-tricks.com/hash-tag-links-padding/
 
     .mara-caret {
       padding-left: 8px;
-      opacity: 1;
-      transition: opacity 0.3s;
-      transition-delay: 0.2s;
     }
-
   }
 
   .level-1:not(:first-child) > a {
@@ -164,26 +169,25 @@ https://css-tricks.com/hash-tag-links-padding/
     padding-left: 8px;
 
     div.mara-nav-entry-icon {
-      font-size: 16px;
       margin-right: 10px;
       text-align: center;
     }
   }
 
   .mara-nav-entry.level-2 > a {
-    padding-left: 8px;
+    padding-left: 39px;
   }
 
   .mara-nav-entry.level-3 > a {
-    padding-left: 20px;
+    padding-left: 54px;
   }
 
   .mara-nav-entry.level-4 > a {
-    padding-left: 32px;
+    padding-left: 69px;
   }
 
   .mara-nav-entry.level-5 > a {
-    padding-left: 44px;
+    padding-left: 74px;
   }
 
   .highlighted > a {
@@ -195,37 +199,21 @@ body.navigation-collapsed > #mara-navigation {
   width: 0px;
 }
 
-body.navigation-collapsed > #mara-navigation div.mara-nav-entry .mara-caret {
-  opacity: 0;
-  transition: opacity 0s;
-}
-
 /*
 * main area
 */
 
 body > #mara-main {
-  background-color: #e0e0e0;
-
-  //position: absolute;
-  margin-left: $navigation-bar-width;
-  transition: margin-left .3s;
-  top: 60px;
-  //width: 100%;
-  padding-top: 15px;
+  position: absolute;
+  left: $navigation-bar-width;
+  transition: left .3s;
+  top: $page-header-height;
+  width: 100%;
+  padding: 32px;
 }
 
 body.navigation-collapsed > #mara-main, body.navigation-collapsed > #alerts {
   left: 0px;
-  transition: margin-left .3s;
-}
-
-body.touch > #alerts {
-  padding-left: 30px;
-}
-
-body.navigation-collapsed > #mara-main, body.touch.navigation-collapsed > #alerts {
-  margin-left: 0px;
 }
 
 body > #mara-main div.container-fluid {
@@ -234,12 +222,12 @@ body > #mara-main div.container-fluid {
 
 body > #alerts {
   position: fixed;
-  left: 0px;
   transition: left .3s;
   width: 100%;
   bottom: 0px;
-  padding-left: $navigation-bar-width + 30px; /* nav collapsed + 30 */
-  padding-right: 30px;
+  left: $navigation-bar-width;
+  padding: $content-area-padding * 1.5;
+  padding-bottom: 0px;
   opacity: 0.95;
 }
 
@@ -249,6 +237,7 @@ body > #alerts {
 
 #mara-main div.card {
   margin-bottom: 16px;
+  border: none;
 }
 
 #mara-main div.card div.card-header {

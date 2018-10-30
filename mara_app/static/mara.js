@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     var navigationUrl = '/mara-app/navigation-bar';
+
     $.ajax({
         url: navigationUrl,
         success: function (navigationEntries) {
@@ -12,20 +13,23 @@ $(document).ready(function () {
             // highlight navigation entry for current uri
             highlightNavigationEntry(window.location.pathname + window.location.search + window.location.hash);
 
-            // debugging
-            toggleNavigation();
-
+            // on navigation entries navigate within a page, also update the navigation
             window.onhashchange = function () {
                 highlightNavigationEntry(window.location.pathname + window.location.search + window.location.hash);
+                collapseNavigation();
             };
 
+            // store navigation in localstorage
             localStorage.setItem('navigation-bar', navigationEntries);
+
+            // extend the collapse timeout when somebody moves over the navigation
+            $('#mara-navigation').mousemove(restartCollapseTimeout);
         },
         error: function (xhr, textStatus, errorThrown) {
-            showAlert(icon + textStatus + ' while fetching "<a href="' + navigationUrl + '">' + navigationUrl + '</a>": ' + errorThrown,
+            showAlert(textStatus + ' while fetching "<a href="' + navigationUrl + '">' + navigationUrl + '</a>": ' + errorThrown,
                 'danger');
             $('#mara-navigation').empty().append('<div class="fa fa-bug"> </div>');
-        },
+        }
     });
 
     // float headers of all tables with class `.mara-table`
@@ -70,12 +74,13 @@ function highlightNavigationEntry(uri) {
 function toggleNavigationEntry(a) {
 
     if ($(a).parent().hasClass('expanded')) {
+        // collapse entry
         $(a).parent().removeClass('expanded');
         $(a).siblings().removeClass('visible')
             .css('height', '') // reset height if it was left over from a previous slide action
             .slideUp({queue: true});
     } else {
-        console.log($(a).parent().siblings());
+        // expand entry
         $(a).parent().siblings().parent().find('.expanded > a').each(function() {
             $(this).parent().removeClass('expanded');
             $(this).siblings().removeClass('visible')
@@ -88,8 +93,19 @@ function toggleNavigationEntry(a) {
             .css('height', '') // reset height if it was left over from a previous slide action
             .slideDown({queue: true});
     }
+    restartCollapseTimeout();
 }
 
+
+// renew a timeout for collapsing the navigation whenever somebody hovers over the navigation
+var collapseTimeout;
+
+function restartCollapseTimeout() {
+    if (collapseTimeout) {
+        clearTimeout(collapseTimeout);
+    }
+    collapseTimeout=setTimeout(collapseNavigation, 3000);
+}
 
 // expands the navigation sidebar
 function expandNavigation() {
@@ -99,16 +115,19 @@ function expandNavigation() {
             .css('height', '') // reset height if it was left over from a previous slide action
             .show(0);
         if (currentNavigationEntry) {
-            currentNavigationEntry[0].scrollIntoView();
+            currentNavigationEntry[0].scrollIntoView(false);
         }
+        restartCollapseTimeout();
     }
 }
 
 // collapses the navigation side bar
 function collapseNavigation() {
     $('body').addClass('navigation-collapsed');
-    // $('#mara-navigation .mara-nav-entry.level-2.visible').slideUp({queue: true});
+
 }
+
+
 
 // expands or collapses the navigation side bar
 function toggleNavigation() {

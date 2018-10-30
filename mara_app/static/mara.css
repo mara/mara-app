@@ -9,8 +9,8 @@ html {
 
 body {
   position: relative;
-  background-color: white;
-  font-family: 'Source Sans Pro', sans-serif; }
+  font-family: 'Source Sans Pro', sans-serif;
+  background-color: #F4F6F8; }
 
 a:hover {
   cursor: pointer; }
@@ -27,41 +27,35 @@ a:hover {
   border-bottom: 1px solid #ddd;
   background-color: #ffffff;
   padding: 0px;
-  padding-left: 15px;
-  padding-right: 15px; }
-
-#mara-page-header > * {
-  align-self: center;
-  margin: 0px; }
-
-#mara-page-header > div.action-buttons, #mara-page-header > h1 {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis; }
-
-@media (max-width: 600px) {
-  #mara-page-header > img {
-    display: none; } }
-#mara-page-header > img {
-  height: 40px;
-  margin-right: 10px; }
-
-#mara-page-header > h1 {
-  font-size: 20px;
-  font-weight: normal; }
-
-#mara-page-header > .action-buttons {
-  flex-grow: 1;
-  text-align: right;
-  margin-left: 20px; }
-
-#mara-page-header > .action-buttons > a.btn {
-  padding: 0px;
-  margin-left: 20px; }
-
-#mara-page-header > .navigation-toggle-button {
-  padding-right: 10px;
-  text-decoration: none; }
+  padding-left: 49.5px;
+  padding-right: 49.5px; }
+  #mara-page-header > * {
+    align-self: center;
+    margin: 0px; }
+  #mara-page-header > .navigation-toggle-button {
+    padding-right: 20px;
+    font-size: 26px;
+    text-decoration: none; }
+  #mara-page-header > img.logo {
+    height: 30px;
+    margin-right: 10px; }
+  #mara-page-header > h1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 20px;
+    font-weight: normal; }
+  #mara-page-header > div.action-buttons {
+    white-space: nowrap;
+    flex-grow: 1;
+    text-align: right;
+    margin-left: 20px; }
+    #mara-page-header > div.action-buttons > a.btn {
+      padding: 0px;
+      margin-left: 20px; }
+  @media (max-width: 600px) {
+    #mara-page-header > img {
+      display: none; } }
 
 /*
 make sure that anchor links are not hidden behind the header
@@ -86,11 +80,13 @@ https://css-tricks.com/hash-tag-links-padding/
   overflow-x: hidden;
   overflow-y: auto;
   display: block;
-  color: #222B36; }
+  color: #222B36;
+  background-color: white; }
   #mara-navigation .mara-nav-entry {
     width: 224px; }
   #mara-navigation .mara-nav-entry > a:hover {
     border-radius: 3px;
+    color: #0291FF;
     background-color: rgba(2, 145, 255, 0.05); }
   #mara-navigation .mara-nav-entry > a {
     padding-top: 8px;
@@ -106,10 +102,7 @@ https://css-tricks.com/hash-tag-links-padding/
     #mara-navigation .mara-nav-entry > a .mara-nav-entry-text {
       flex-grow: 1; }
     #mara-navigation .mara-nav-entry > a .mara-caret {
-      padding-left: 8px;
-      opacity: 1;
-      transition: opacity 0.3s;
-      transition-delay: 0.2s; }
+      padding-left: 8px; }
   #mara-navigation .level-1:not(:first-child) > a {
     border-top: 1px solid #DFE3E9; }
   #mara-navigation .mara-nav-entry.level-1 > a {
@@ -117,66 +110,55 @@ https://css-tricks.com/hash-tag-links-padding/
     padding-bottom: 10px;
     padding-left: 8px; }
     #mara-navigation .mara-nav-entry.level-1 > a div.mara-nav-entry-icon {
-      font-size: 16px;
       margin-right: 10px;
       text-align: center; }
   #mara-navigation .mara-nav-entry.level-2 > a {
-    padding-left: 8px; }
+    padding-left: 39px; }
   #mara-navigation .mara-nav-entry.level-3 > a {
-    padding-left: 20px; }
+    padding-left: 54px; }
   #mara-navigation .mara-nav-entry.level-4 > a {
-    padding-left: 32px; }
+    padding-left: 69px; }
   #mara-navigation .mara-nav-entry.level-5 > a {
-    padding-left: 44px; }
+    padding-left: 74px; }
   #mara-navigation .highlighted > a {
     color: #0291FF !important; }
 
 body.navigation-collapsed > #mara-navigation {
   width: 0px; }
 
-body.navigation-collapsed > #mara-navigation div.mara-nav-entry .mara-caret {
-  opacity: 0;
-  transition: opacity 0s; }
-
 /*
 * main area
 */
 body > #mara-main {
-  background-color: #e0e0e0;
-  margin-left: 272px;
-  transition: margin-left .3s;
+  position: absolute;
+  left: 272px;
+  transition: left .3s;
   top: 60px;
-  padding-top: 15px; }
+  width: 100%;
+  padding: 32px; }
 
 body.navigation-collapsed > #mara-main, body.navigation-collapsed > #alerts {
-  left: 0px;
-  transition: margin-left .3s; }
-
-body.touch > #alerts {
-  padding-left: 30px; }
-
-body.navigation-collapsed > #mara-main, body.touch.navigation-collapsed > #alerts {
-  margin-left: 0px; }
+  left: 0px; }
 
 body > #mara-main div.container-fluid {
   padding: 0px; }
 
 body > #alerts {
   position: fixed;
-  left: 0px;
   transition: left .3s;
   width: 100%;
   bottom: 0px;
-  padding-left: 302px;
-  /* nav collapsed + 30 */
-  padding-right: 30px;
+  left: 272px;
+  padding: 48px;
+  padding-bottom: 0px;
   opacity: 0.95; }
 
 /*
 * Cards
 */
 #mara-main div.card {
-  margin-bottom: 16px; }
+  margin-bottom: 16px;
+  border: none; }
 
 #mara-main div.card div.card-header {
   width: 100%;
