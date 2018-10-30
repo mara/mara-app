@@ -106,7 +106,7 @@ def navigation_bar() -> [str]:
             return _.div(class_='mara-nav-entry level-' + str(level),
                          style='display:none' if level > 1 else '')[
                 _.a(**attrs)[
-                    _.div(class_='mara-nav-entry-icon fa fa-fw fa-' + entry.icon + (' fa-lg' if level == 1 else ''))[
+                    _.div(class_='mara-nav-entry-icon fa fa-fw fa-' + entry.icon)[
                         ''] if entry.icon and level == 1 else '',
                     _.div(class_='mara-nav-entry-text')[entry.label.replace('_', '_<wbr>')],
                     _.div(class_='mara-caret fa fa-caret-down')[''] if entry.children else ''],
