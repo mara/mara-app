@@ -8,7 +8,7 @@ $(document).ready(function () {
             $('#mara-navigation').empty().append(navigationEntries).fadeIn(500);
 
             // enable tooltips
-            $('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
 
             // highlight navigation entry for current uri
             highlightNavigationEntry(window.location.pathname + window.location.search + window.location.hash);

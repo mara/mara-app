@@ -27,8 +27,8 @@ a:hover {
   border-bottom: 1px solid #ddd;
   background-color: #ffffff;
   padding: 0px;
-  padding-left: 49.5px;
-  padding-right: 49.5px; }
+  padding-left: 56px;
+  padding-right: 56px; }
   #mara-page-header > * {
     align-self: center;
     margin: 0px; }
@@ -129,13 +129,56 @@ body.navigation-collapsed > #mara-navigation {
 /*
 * main area
 */
-body > #mara-main {
+#mara-main {
   position: absolute;
   left: 272px;
   transition: left .3s;
   top: 60px;
   width: 100%;
   padding: 32px; }
+  #mara-main > *:not(div) {
+    padding-left: 24px; }
+  #mara-main > h2 {
+    margin-top: 60px;
+    margin-bottom: 12px; }
+
+div.mara-card {
+  margin-bottom: 32px;
+  border: none; }
+  div.mara-card div.card-header {
+    color: #222B36;
+    font-size: 18px;
+    width: 100%;
+    display: flex;
+    background-color: white;
+    border: none;
+    padding: 24px;
+    padding-top: 22px; }
+    div.mara-card div.card-header > div {
+      flex-grow: 1;
+      align-self: center;
+      margin: 0px; }
+    div.mara-card div.card-header div.card-header-right {
+      text-align: right;
+      padding-left: 10px; }
+  div.mara-card div.card-header.fixed-header-height > div {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; }
+  div.mara-card div.card-block {
+    padding: 24px;
+    padding-top: 22px; }
+    div.mara-card div.card-block > div.card-block-content {
+      overflow-x: auto;
+      overflow-y: hidden; }
+      div.mara-card div.card-block > div.card-block-content > *:first-child {
+        padding-top: 0px;
+        margin-top: 0px; }
+      div.mara-card div.card-block > div.card-block-content > *:last-child {
+        padding-bottom: 0px;
+        margin-bottom: 0px; }
+  div.mara-card div.card-section {
+    border-top: 1px solid rgba(0, 0, 0, 0.1); }
 
 body.navigation-collapsed > #mara-main, body.navigation-collapsed > #alerts {
   left: 0px; }
@@ -156,49 +199,6 @@ body > #alerts {
 /*
 * Cards
 */
-#mara-main div.card {
-  margin-bottom: 16px;
-  border: none; }
-
-#mara-main div.card div.card-header {
-  width: 100%;
-  display: flex;
-  background-color: white;
-  border: none; }
-
-#mara-main div.card div.card-header > div {
-  flex-grow: 1;
-  align-self: center;
-  margin: 0px; }
-
-#mara-main div.card div.card-header div.card-header-right {
-  text-align: right;
-  padding-left: 10px; }
-
-#mara-main div.card div.card-header.fixed-header-height > div {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis; }
-
-#mara-main div.card div.card-block > div.card-block-content {
-  overflow-x: auto;
-  overflow-y: hidden; }
-
-#mara-main div.card div.card-block > div.card-block-content > *:first-child {
-  padding-top: 0px;
-  margin-top: 0px; }
-
-#mara-main div.card div.card-block > div.card-block-content > *:last-child {
-  padding-bottom: 0px;
-  margin-bottom: 0px; }
-
-#mara-main div.card div.card-block {
-  padding-top: 1rem;
-  padding-bottom: 1rem; }
-
-#mara-main div.card div.card-section {
-  border-top: 1px solid rgba(0, 0, 0, 0.1); }
-
 /*
 * tables
 */

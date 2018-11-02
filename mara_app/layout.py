@@ -48,19 +48,20 @@ def body_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
 
 def css_files(response: mara_page.response.Response) -> [xml.XMLElement]:
     """The list of all css files to include in the page"""
-    return [flask.url_for('mara_app.static', filename='bootstrap-4.0.0-alpha.6/bootstrap.min.css'),
+    return ['https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
             'https://use.fontawesome.com/releases/v5.4.2/css/solid.css',
             'https://use.fontawesome.com/releases/v5.4.2/css/fontawesome.css',
-            flask.url_for('mara_app.static', filename='tether-1.3.3/tether.min.css'),
+            # flask.url_for('mara_app.static', filename='tether-1.3.3/tether.min.css'),
             flask.url_for('mara_app.static', filename='mara.css')
             ] + response.css_files
 
 
 def js_files(response: mara_page.response.Response):
     """The list of all js files to include in the page"""
-    return [flask.url_for('mara_app.static', filename='jquery-3.1.1.min.js'),
-            flask.url_for('mara_app.static', filename='tether-1.3.3/tether.min.js'),
-            flask.url_for('mara_app.static', filename='bootstrap-4.0.0-alpha.6/bootstrap.min.js'),
+    return ['https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',
+            # flask.url_for('mara_app.static', filename='tether-1.3.3/tether.min.js'),
+            'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js',
             flask.url_for('mara_app.static', filename='jquery.floatThead.2.0.3.min.js'),
             flask.url_for('mara_app.static', filename='mara.js')
             ] + response.js_files
@@ -71,7 +72,7 @@ def page_header(response: mara_page.response.Response):
     return _.nav(id='mara-page-header', class_='navbar fixed-top')[
         _.a(class_='navigation-toggle-button fa fa-bars', onclick='toggleNavigation()')[' '],
         _.img(class_='logo', src=config.logo_url() + '?' + _current_git_commit()),
-        _.h1[response.title],
+        #_.h1[response.title],
         _.div(class_='action-buttons')[map(action_button, response.action_buttons)],
 
     ]
@@ -101,7 +102,10 @@ def navigation_bar() -> str:
 
 def content_area(response: mara_page.response.Response) -> xml.XMLElement:
     """Renders the main content area"""
-    return _.div(id='mara-main', class_='container-fluid')[response.response]
+    return _.div(id='mara-main', class_='container-fluid')[
+        _.h1[response.title],
+        response.response
+    ]
 
 
 def flash_messages(response: mara_page.response.Response) -> xml.XMLElement:
