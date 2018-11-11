@@ -211,7 +211,7 @@ body.navigation-collapsed > #mara-navigation {
   padding: 32px;
 
   > *:not(div) {
-    padding-left: $card-padding;
+    //padding-left: $card-padding;
   }
 
   > h2 {
@@ -232,7 +232,7 @@ div.mara-card {
     background-color: white;
     border: none;
     padding: $card-padding;
-    padding-top: $card-padding - 2px;
+    padding-top: $card-padding - 5px;
 
     > div {
       flex-grow: 1;
@@ -242,18 +242,22 @@ div.mara-card {
 
     div.card-header-right {
       text-align: right;
-      padding-left: 10px;
+      padding-left: 18px;
     }
   }
 
-  div.card-header.fixed-header-height > div {
-    overflow: hidden;
+
+  div.card-header.fixed-header-height > div.card-header-left {
     white-space: nowrap;
-    text-overflow: ellipsis;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+
+  div.card-header.fixed-header-height > div.card-header-right {
+    white-space: nowrap;
   }
 
   div.card-block {
-    //background-color: lightgoldenrodyellow;
     padding: $card-padding;
     padding-top: $card-padding - 2px;
 
@@ -357,3 +361,6 @@ a.mara-button:focus, a.mara-button:active {
   border-radius: 0px;
   color: black;
 }
+
+
+svg g { font-weight: 300; }
