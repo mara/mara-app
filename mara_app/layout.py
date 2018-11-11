@@ -40,6 +40,7 @@ def body_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
     return [
         page_header(response),
         navigation_bar(),
+        filter_panel(response),
         content_area(response),
         [_.script(src=url + '?' + _current_git_commit())[''] for url in js_files(response)],
         flash_messages(response)
@@ -74,7 +75,8 @@ def page_header(response: mara_page.response.Response):
         _.img(class_='logo', src=config.logo_url() + '?' + _current_git_commit()),
         #_.h1[response.title],
         _.div(class_='action-buttons')[map(action_button, response.action_buttons)],
-
+        _.div(class_='filter-toggle-button fa fa-filter', onclick='toggleFilters()')[' ']
+        if response.filter_panel else ''
     ]
 
 
@@ -99,6 +101,10 @@ def navigation_bar() -> str:
 })();            
             """]]
 
+def filter_panel(response: mara_page.response.Response) -> xml.XMLElement:
+    return _.div(id='mara-filter-panel')[
+        _.div[response.filter_panel]
+    ]
 
 def content_area(response: mara_page.response.Response) -> xml.XMLElement:
     """Renders the main content area"""

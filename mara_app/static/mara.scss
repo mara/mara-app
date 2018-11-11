@@ -18,6 +18,8 @@ $navigation-bar-width: 272px;
 
 $navigation-bar-padding: 24px;
 
+$filter-panel-width: 304px;
+
 $content-area-padding: 32px;
 
 $page-header-height: 60px;
@@ -198,6 +200,30 @@ body.navigation-collapsed > #mara-navigation {
   width: 0px;
 }
 
+/* filters */
+#mara-filter-panel{
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  top: $page-header-height;
+  bottom: 0;
+  width: $filter-panel-width;
+  transition: width .3s;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: block;
+  color: $color-grey-1;
+  background-color: white;
+
+  > div {
+    padding: 24px;
+  }
+}
+
+body.filters-collapsed > #mara-filter-panel {
+  width: 0px;
+}
+
 /*
 * main area
 */
@@ -205,20 +231,30 @@ body.navigation-collapsed > #mara-navigation {
 #mara-main {
   position: absolute;
   left: $navigation-bar-width;
-  transition: left .3s;
+  transition: left .3s, right .3s;
+  right: $filter-panel-width;
+  width: auto;
   top: $page-header-height;
-  width: 100%;
   padding: 32px;
-
-  > *:not(div) {
-    //padding-left: $card-padding;
-  }
 
   > h2 {
     margin-top: 60px;
     margin-bottom: 12px;
   }
 }
+
+body.navigation-collapsed > #mara-main, body.navigation-collapsed > #alerts {
+  left: 0px;
+}
+
+body.filters-collapsed > #mara-main, body.filters-collapsed > #alerts {
+  right: 0px;
+}
+
+body > #mara-main div.container-fluid {
+  padding: 0px;
+}
+
 
 div.mara-card {
   margin-bottom: 32px;
@@ -282,13 +318,6 @@ div.mara-card {
   }
 }
 
-body.navigation-collapsed > #mara-main, body.navigation-collapsed > #alerts {
-  left: 0px;
-}
-
-body > #mara-main div.container-fluid {
-  padding: 0px;
-}
 
 body > #alerts {
   position: fixed;

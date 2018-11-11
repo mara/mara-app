@@ -126,19 +126,49 @@ https://css-tricks.com/hash-tag-links-padding/
 body.navigation-collapsed > #mara-navigation {
   width: 0px; }
 
+/* filters */
+#mara-filter-panel {
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  top: 60px;
+  bottom: 0;
+  width: 304px;
+  transition: width .3s;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: block;
+  color: #222B36;
+  background-color: white; }
+  #mara-filter-panel > div {
+    padding: 24px; }
+
+body.filters-collapsed > #mara-filter-panel {
+  width: 0px; }
+
 /*
 * main area
 */
 #mara-main {
   position: absolute;
   left: 272px;
-  transition: left .3s;
+  transition: left .3s, right .3s;
+  right: 304px;
+  width: auto;
   top: 60px;
-  width: 100%;
   padding: 32px; }
   #mara-main > h2 {
     margin-top: 60px;
     margin-bottom: 12px; }
+
+body.navigation-collapsed > #mara-main, body.navigation-collapsed > #alerts {
+  left: 0px; }
+
+body.filters-collapsed > #mara-main, body.filters-collapsed > #alerts {
+  right: 0px; }
+
+body > #mara-main div.container-fluid {
+  padding: 0px; }
 
 div.mara-card {
   margin-bottom: 32px;
@@ -179,12 +209,6 @@ div.mara-card {
         margin-bottom: 0px; }
   div.mara-card div.card-section {
     border-top: 1px solid rgba(0, 0, 0, 0.1); }
-
-body.navigation-collapsed > #mara-main, body.navigation-collapsed > #alerts {
-  left: 0px; }
-
-body > #mara-main div.container-fluid {
-  padding: 0px; }
 
 body > #alerts {
   position: fixed;

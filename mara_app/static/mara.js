@@ -139,6 +139,24 @@ function toggleNavigation() {
 }
 
 
+function toggleFilters() {
+    if ($('body').hasClass('filters-collapsed')) {
+        expandFilters();
+    } else {
+        collapseFilters();
+    }
+}
+
+function collapseFilters() {
+    $('body').addClass('filters-collapsed');
+}
+
+function expandFilters() {
+    if ($('body').hasClass('filters-collapsed')) {
+        $('body').removeClass('filters-collapsed');
+    }
+}
+
 // adds an alert to the bottom of the page
 function showAlert(message, category) {
     alert = $('<div style="display:none" class="alert alert-' + category + ' alert-dismissible" role="alert">' +
