@@ -1,0 +1,41 @@
+@import '../../scss/variables.scss';
+
+#mara-main {
+    > h2 {
+        color: $color_ebonyGrey;
+        margin-top: 96px;
+        margin-bottom: 32px;
+        font-weight: 600;
+    }
+
+    > p {
+        font-size: 16px;
+    }
+
+    code {
+        background-color: transparent;
+        padding: 0;
+        border-radius: 0;
+        color: $color_ebonyGrey;
+    }
+}
+
+.mara-main__header {
+    overflow: hidden;
+
+    > h1 {
+        height: 48px;
+        width: 468px;
+        color: $color_ebonyGrey;
+        font-size: 38px;
+        line-height: 48px;
+        font-weight: 600;
+    }
+
+    .badge {
+        margin-left: 8px;
+        font-size: 16px;
+        position: relative;
+        top: -4px;
+    }
+}

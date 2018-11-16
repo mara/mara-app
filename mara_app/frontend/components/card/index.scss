@@ -1,0 +1,65 @@
+@import '../../scss/variables.scss';
+
+$baseClass: 'mara-card';
+
+.#{$baseClass} {
+    margin-bottom: 32px;
+    border: none;
+
+    .card-header {
+        color: $color_ebonyGrey;
+        font-size: 18px;
+        font-weight: 600;
+        width: 100%;
+        display: flex;
+        background-color: $color_white;
+        border: none;
+        padding: #{$card-padding - 5px} $card-padding 0;
+
+        > div {
+            flex-grow: 1;
+            align-self: center;
+            margin: 0;
+        }
+
+        .card-header-right {
+            text-align: right;
+            padding-left: 18px;
+        }
+    }
+
+    .card-header.fixed-header-height {
+        & > .card-header-left {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        & > .card-header-right {
+            white-space: nowrap;
+        }
+    }
+
+    .card-block {
+        padding: #{$card-padding - 2px} $card-padding #{$card-padding - 12px};
+
+        > .card-block-content {
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            > *:first-child {
+                padding-top: 0;
+                margin-top: 0;
+            }
+
+            > *:last-child {
+                padding-bottom: 0;
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .card-section {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+}

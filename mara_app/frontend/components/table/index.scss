@@ -1,0 +1,41 @@
+@import '../../scss/variables.scss';
+
+.mara-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    tr {
+        background-color: $color_white;
+
+        &:hover {
+            background-color: none;
+
+            td {
+                background-color: $color_lightGrey;
+            }
+        }
+    }
+
+    th {
+        border-top: 1px solid #dfe3e9;
+        border-bottom: 1px solid #dfe3e9;
+        text-transform: capitalize;
+        vertical-align: middle;
+    }
+
+    td {
+        border-top: 1px solid #eee;
+    }
+
+    th,
+    td {
+        padding: 8px 16px;
+        white-space: nowrap;
+    }
+
+    td pre,
+    code {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+}

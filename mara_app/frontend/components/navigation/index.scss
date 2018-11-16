@@ -1,0 +1,65 @@
+@import '../../scss/variables.scss';
+
+.mara-navigation {
+    padding: 20px 16px;
+
+    .highlighted > a {
+        color: $color_azureRadiance !important;
+    }
+}
+
+.mara-nav-entry {
+    &.level-1 {
+        > a {
+            padding: 10px 8px 10px 8px;
+            font-weight: 600;
+        }
+
+        &:not(:first-child) > a {
+            border-top: 1px solid $color_athensGrey;
+        }
+    }
+
+    & > & {
+        padding-left: 28px;
+    }
+
+    & > & > & {
+        padding-left: 16px;
+    }
+
+    .badge {
+        margin-left: 8px;
+        position: relative;
+        top: -2px;
+    }
+}
+
+.mara-nav-entry > a {
+    padding: 8px;
+    align-items: baseline;
+    display: flex;
+    width: 100%;
+    color: $color_ebonyGrey;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+        border-radius: 3px;
+        color: $color_azureRadiance;
+        background-color: rgba(2, 145, 255, 0.05);
+    }
+
+    .mara-nav-entry-text {
+        flex-grow: 1;
+    }
+
+    .mara-caret {
+        padding-left: 8px;
+    }
+}
+
+.mara-nav-entry-icon {
+    margin-right: 10px;
+    text-align: center;
+}

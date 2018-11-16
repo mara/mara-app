@@ -1,0 +1,10 @@
+$baseClass: 'alert';
+
+.#{$baseClass} {
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+
+    &--hidden {
+        visibility: hidden;
+        opacity: 0;
+    }
+}

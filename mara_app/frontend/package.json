@@ -1,0 +1,19 @@
+{
+    "name": "mara_app",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "devDependencies": {
+        "autoprefixer": "^9.3.1",
+        "js": "^0.1.0",
+        "parcel": "^1.10.3",
+        "postcss-modules": "^1.4.1",
+        "sass": "^1.14.3"
+    },
+    "scripts": {
+        "dev": "parcel watch ./entries/*.js -d ../static --no-hmr --log-level 4",
+        "prod": "parcel build ./entries/*.js -d ../static"
+    },
+    "author": "",
+    "license": "ISC"
+}
