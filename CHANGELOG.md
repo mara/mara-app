@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.6.0 (2018-11-27)
+
+- Enable python 3.7 (and future 3.x versions)
+
+**required changes**
+
+- Run `make .copy-mara-app-scripts` to copy [.scripts/install.mk](https://github.com/mara/mara-app/blob/master/.scripts/install.mk) to local project (that's part of `make update-packages`). 
+- If not possible, copy manually.
+
+
 ## 1.5.0 - 1.5.2 (2018-04-08)
 
 - Move auto-migrate feature to mara-db package
