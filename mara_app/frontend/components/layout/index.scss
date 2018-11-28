@@ -1,13 +1,24 @@
 @import '../../scss/variables.scss';
-$baseClass: 'layout';
 
-.#{$baseClass} {
+.layout {
     position: relative;
     width: 100%;
     padding-top: $page-header-height;
+
+    &.layout--show-navigation {
+        .layout__navigation {
+            transform: translate(100%, 0);
+        }
+    }
+
+    &.layout--show-filters {
+        .layout__filters {
+            transform: translate(-100%, 0);
+        }
+    }
 }
 
-.#{$baseClass}__header {
+.layout__header {
     position: fixed;
     top: 0;
     left: 0;
@@ -15,13 +26,14 @@ $baseClass: 'layout';
     width: 100%;
 }
 
-.#{$baseClass}__navigation {
+.layout__navigation {
     position: fixed;
     z-index: 1000;
-    left: -$navigation-bar-width;
+    left: -$navigation-panel-width;
     top: $page-header-height;
-    width: $navigation-bar-width;
+    width: $navigation-panel-width;
     height: 100%;
+    border-right: 1px solid $color_lightGrey;
 
     background-color: #ffffff;
     overflow-x: hidden;
@@ -30,19 +42,16 @@ $baseClass: 'layout';
 
     transform: translate(0, 0);
     transition: transform 0.3s ease-in-out;
-
-    body.show-navigation & {
-        transform: translate(100%, 0);
-    }
 }
 
-.#{$baseClass}__filters {
+.layout__filters {
     position: fixed;
     z-index: 1000;
-    right: -$filter-panel-width;
+    right: -320px;
     top: $page-header-height;
-    width: $filter-panel-width;
+    width: 320px;
     height: calc(100% - #{$page-header-height});
+    border-left: 1px solid $color_lightGrey;
 
     background-color: $color_white;
     overflow: hidden;
@@ -50,34 +59,37 @@ $baseClass: 'layout';
 
     transform: translate(0, 0);
     transition: transform 0.3s ease-in-out;
-
-    body.show-filters & {
-        transform: translate(-100%, 0);
-    }
 }
 
-.#{$baseClass}__content {
+.layout__content {
     padding: 32px 16px;
 }
 
-.#{$baseClass}__alerts {
+.layout__alerts {
     position: fixed;
     z-index: 9999;
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: $content-area-padding $content-area-padding 0;
+    padding: 32px 32px 0;
     transition: padding 0.3s ease-in-out;
 }
 
+@media (min-width: 344px) {
+    .layout__filters {
+        right: -$filter-panel-width;
+        width: $filter-panel-width;
+    }
+}
+
 @media (min-width: 480px) {
-    .#{$baseClass}__content {
+    .layout__content {
         padding: 48px 32px;
     }
 }
 
 @media (max-width: 768px) {
-    .#{$baseClass} {
+    .layout {
         &::before {
             position: fixed;
             z-index: 1;
@@ -94,8 +106,8 @@ $baseClass: 'layout';
             transition: all 0.3s ease-in-out;
         }
 
-        body.show-navigation &,
-        body.show-filters & {
+        &.layout--show-navigation,
+        &.layout--show-filters {
             &::before {
                 visibility: visible;
                 opacity: 1;
@@ -105,27 +117,29 @@ $baseClass: 'layout';
 }
 
 @media (min-width: 769px) {
-    .#{$baseClass} {
+    .layout {
         transition: padding 0.3s ease-in-out;
     }
 }
 
 @media (min-width: 769px) {
-    .#{$baseClass} {
+    .layout {
         transition: padding 0.3s ease-in-out;
-    }
 
-    body.show-navigation {
-        .#{$baseClass},
-        .#{$baseClass}__alerts {
-            padding-left: $navigation-bar-width;
+        &.layout--show-navigation {
+            padding-left: $navigation-panel-width;
+
+            .layout__alerts {
+                padding-left: $navigation-panel-width + 32px;
+            }
         }
-    }
 
-    body.show-filters {
-        .#{$baseClass},
-        .#{$baseClass}__alerts {
+        &.layout--show-filters {
             padding-right: $filter-panel-width;
+
+            .layout__alerts {
+                padding-right: $filter-panel-width + 32px;
+            }
         }
     }
 }

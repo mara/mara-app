@@ -15,5 +15,8 @@
         "prod": "parcel build ./entries/*.js -d ../static"
     },
     "author": "",
-    "license": "ISC"
+    "license": "ISC",
+    "dependencies": {
+        "js-cookie": "^2.2.0"
+    }
 }

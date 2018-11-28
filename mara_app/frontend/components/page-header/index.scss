@@ -1,22 +1,20 @@
 @import '../../scss/variables.scss';
 @import '../../scss/mixins.scss';
 
-$baseClass: 'page-header';
-
-.#{$baseClass} {
+.page-header {
     display: flex;
     align-items: center;
     flex-direction: row;
     flex-wrap: nowrap;
     flex-shrink: 0;
     height: $page-header-height;
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
+    border-bottom: 1px solid $color_athensGrey;
+    background-color: $color_white;
     padding-left: 16px;
     padding-right: 16px;
 }
 
-.#{$baseClass}__menu {
+.page-header__menu {
     @include resetElement;
     display: block;
     cursor: pointer;
@@ -26,12 +24,13 @@ $baseClass: 'page-header';
     margin-right: 20px;
     width: 26px;
     height: 19px;
+    flex-shrink: 0;
 
     transition: transform 0.3s ease-in-out;
     transform-origin: center;
 
     &::before,
-    .#{$baseClass}__menu-inner,
+    .page-header__menu-inner,
     &::after {
         content: '';
         display: block;
@@ -67,38 +66,43 @@ $baseClass: 'page-header';
             transform: translate(0, -8px) rotate(-45deg);
         }
 
-        .#{$baseClass}__menu-inner {
+        .page-header__menu-inner {
             opacity: 0;
         }
     }
 }
 
-.#{$baseClass}__menu-inner {
-    top: calc(50% - 1px);
+.page-header__menu-inner {
+    top: calc(50% - 2px);
     width: 100%;
 
     transition: opacity 0.3s ease-in-out;
 }
 
-.#{$baseClass}__logo {
+.page-header__logo {
     height: 30px;
     margin-right: 10px;
 }
 
-.#{$baseClass}__actions {
+.page-header__actions {
+    margin-left: 20px;
     flex-grow: 1;
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
-.#{$baseClass}__filters {
+.page-header__filters {
     margin-left: 20px;
 }
 
 @media (min-width: 480px) {
-    .#{$baseClass} {
+    .page-header {
         padding-left: 32px;
         padding-right: 32px;
+    }
+
+    .page-header__filters {
+        width: 200px;
     }
 }

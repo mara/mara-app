@@ -1,60 +1,11 @@
 import './index.scss';
 
-import Window from '../../js/window';
-import Filters from '../filters';
 import Alert from '../alert';
 
 // the nav entry that matches the current page uri best
 var currentNavigationEntry;
 
 export default class Navigation {
-    // expands the navigation sidebar
-    static expandNavigation() {
-        $('#mara-navigation .mara-nav-entry.visible:not(.level-1)')
-            .css('height', '') // reset height if it was left over from a previous slide action
-            .show(0);
-
-        const $body = $('body');
-        $body.addClass('show-navigation');
-
-        if (currentNavigationEntry) {
-            currentNavigationEntry[0].scrollIntoView(false);
-        }
-
-        if (window.matchMedia('(max-width: 1280px)').matches) {
-            Filters.collapseFilters();
-        }
-
-        document
-            .querySelector('.js-page-header__menu')
-            .classList.add('page-header__menu--open');
-
-        Window.triggerResize();
-    }
-
-    // collapses the navigation side bar
-    static collapseNavigation() {
-        const $body = $('body');
-        $body.removeClass('show-navigation');
-
-        document
-            .querySelector('.js-page-header__menu')
-            .classList.remove('page-header__menu--open');
-
-        Window.triggerResize();
-    }
-
-    // expands or collapses the navigation side bar
-    static toggleNavigation(event) {
-        const $body = $('body');
-
-        if ($body.hasClass('show-navigation')) {
-            Navigation.collapseNavigation();
-        } else {
-            Navigation.expandNavigation();
-        }
-    }
-
     // expands and highlights the navigation entry that matches an uri best
     static highlightNavigationEntry() {
         const uri =
@@ -77,19 +28,22 @@ export default class Navigation {
 
             currentNavigationEntry.siblings().removeClass('highlighted');
 
-            currentNavigationEntry
-                .addClass('highlighted')
-                .addClass('visible')
-                .addClass('expanded');
+            currentNavigationEntry.addClass('highlighted visible expanded');
 
             currentNavigationEntry
                 .parentsUntil('#mara-navigation')
-                .addClass('expanded')
-                .addClass('highlighted')
-                .addClass('visible')
+                .addClass('expanded highlighted visible')
                 .children('div')
                 .addClass('visible');
+
+            if (currentNavigationEntry) {
+                currentNavigationEntry[0].scrollIntoView(false);
+            }
         }
+
+        $('#mara-navigation .mara-nav-entry.visible:not(.level-1)')
+            .css('height', '')
+            .show();
     }
 
     // expands or collapses a navigation entry
@@ -176,4 +130,3 @@ $(document).ready(() => {
 });
 
 window.toggleNavigationEntry = Navigation.toggleNavigationEntry;
-window.toggleNavigation = Navigation.toggleNavigation;

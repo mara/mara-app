@@ -3,7 +3,7 @@
 #mara-main {
     > h2 {
         color: $color_ebonyGrey;
-        margin-top: 96px;
+        margin-top: 32px;
         margin-bottom: 32px;
         font-weight: 600;
     }
@@ -37,5 +37,13 @@
         font-size: 16px;
         position: relative;
         top: -4px;
+    }
+}
+
+@media (min-width: 480px) {
+    #mara-main {
+        > h2 {
+            margin-top: 96px;
+        }
     }
 }

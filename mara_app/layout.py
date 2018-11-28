@@ -12,12 +12,13 @@ from mara_page import navigation, _, xml
 
 def layout(response: mara_page.response.Response) -> str:
     """Renders a complete html page for the response"""
+
     return '<!DOCTYPE html>\n' + str(
         _.html(lang='en')[
             _.head[
                 head_elements(response)
             ],
-            _.body()[
+            _.body[
                 body_elements(response)
             ]
         ]
@@ -39,7 +40,7 @@ def head_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
 def body_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
     """All elements inside the body section of the html page"""
     return [
-        _.div(class_="layout")[
+        _.div(class_="layout", id="layout")[
             _.div(class_="layout__header")[
                 page_header(response),
             ],
@@ -52,9 +53,16 @@ def body_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
             _.div(class_="layout__content")[
                 content_area(response),
             ],
-            [_.script(src=url + '?' + _current_git_commit())[''] for url in js_files(response)],
+            [
+                _.script(src=url + '?' + _current_git_commit())[''] for url in js_files(response)
+            ],
             _.div(class_="layout__alerts")[
                 flash_messages(response)
+            ],
+            _.script[f'''
+document.addEventListener("DOMContentLoaded", function(){{
+    Layout("layout");
+}});'''
             ]
         ]
     ]
@@ -98,7 +106,7 @@ def page_header(response: mara_page.response.Response):
             map(action_button, response.action_buttons),
             _.div(class_='page-header__filters')[
                 _.button(
-                    class_='mara-button mara-button--padding',
+                    class_='mara-button',
                     onclick='toggleFilters()'
                 )[
                     'Filters',
@@ -114,7 +122,7 @@ def page_header(response: mara_page.response.Response):
 def action_button(button: mara_page.response.ActionButton):
     """Renders an action button"""
     return [
-        _.a(class_='btn', href=button.action, title=button.title)[
+        _.a(href=button.action, title=button.title)[
             _.span(class_='fa fa-' + button.icon)[''], ' ',
             button.label
         ]
@@ -128,7 +136,7 @@ def navigation_bar() -> str:
     return [
         _.nav(id='mara-navigation', class_='mara-navigation')[' '],
         _.script[
-"""
+    """
 (function () {
     var navigationEntries = localStorage.getItem('navigation-bar');
     if (navigationEntries) {

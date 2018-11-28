@@ -1,8 +1,8 @@
 @import '../../scss/variables.scss';
 
-$baseClass: 'mara-card';
+$card-padding: 24px;
 
-.#{$baseClass} {
+.mara-card {
     margin-bottom: 32px;
     border: none;
 
