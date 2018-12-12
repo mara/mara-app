@@ -1,0 +1,45 @@
+.mara-button {
+    @include resetElement;
+
+    height: 42px;
+    width: 100%;
+    color: $color_white;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 3px;
+    background-color: $color_azureRadiance;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.1s ease-in-out;
+    padding-left: 16px;
+    padding-right: 16px;
+
+    &:hover,
+    &:focus {
+        background-color: lighten($color_azureRadiance, 10);
+    }
+
+    &--ghost {
+        background-color: transparent;
+        border: 1px solid $color_azureRadiance;
+        color: $color_azureRadiance;
+
+        &:hover,
+        &:focus {
+            background-color: $color_azureRadiance;
+            color: $color_white;
+        }
+    }
+
+    &--disabled {
+        pointer-events: none;
+        background-color: $color_osloGrey;
+    }
+}
+
+.mara-button__icon {
+    margin-left: 8px;
+}

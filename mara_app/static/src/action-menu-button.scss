@@ -1,0 +1,28 @@
+.action-menu-button {
+    display: flex;
+    color: $color_ebonyGrey;
+    text-decoration: none !important;
+
+    & + & {
+        margin-top: 16px;
+    }
+}
+
+.action-menu-button__icon {
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & + .action-menu-button__text {
+        margin-left: 12px;
+    }
+}
+
+.action-menu-button__text {
+    white-space: nowrap;
+    font-weight: normal;
+    color: $color_ebonyGrey;
+    font-size: 16px;
+    line-height: 20px;
+}

@@ -1,6 +1,7 @@
 *.egg-info/
 __pycache__
 .idea
+.vscode
 
 mara_app/static/.sass-cache/
 mara_app/static/mara.css.map

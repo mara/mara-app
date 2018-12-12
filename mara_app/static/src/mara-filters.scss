@@ -1,0 +1,26 @@
+$baseClass: 'mara-filters';
+
+.#{$baseClass} {
+    color: $color_ebonyGrey;
+}
+
+.#{$baseClass}__inner {
+    height: calc(100vh - #{$page-header-height});
+    display: flex;
+    flex-direction: column;
+}
+
+.#{$baseClass}__content {
+    padding: 20px 24px;
+    flex-grow: 1;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.#{$baseClass}__submit {
+    padding: 20px 24px;
+    border-top: 1px solid #dfe3e9;
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-end;
+}

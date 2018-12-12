@@ -1,0 +1,38 @@
+.action-menu {
+    position: relative;
+    display: inline-block;
+    text-align: left;
+
+    &:hover {
+        .action-menu__content {
+            visibility: visible;
+            opacity: 1;
+            transition: visibility 0.1s, opacity 0.1s ease-in-out;
+        }
+    }
+}
+
+.action-menu__trigger {
+    padding: 0;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 30px;
+    line-height: 16px;
+}
+
+.action-menu__content {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    padding: 24px;
+    border-radius: 3px;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+    background: #fff;
+
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0 linear 0.1s, opacity 0.3s ease-in-out 0.1s;
+}
