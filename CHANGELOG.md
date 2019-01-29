@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.7.0 (2019-01-30)
+
+- Temporarily pin pip to version 18.1, because 19.0 removes --process-dependency-links option (`no such option: --process-dependency-links`)
+
+
+**required changes**
+
+- To get this change, manually upgrade `mara-app` to this version (git pull) and then run `make .copy-mara-app-scripts` in project dir. Remove `.venv` dir and rebuild with `make update-packages`.
+
+
 ## 1.6.0 (2018-11-27)
 
 - Enable python 3.7 (and future 3.x versions)
