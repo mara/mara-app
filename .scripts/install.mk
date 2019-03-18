@@ -1,7 +1,7 @@
 # virtual env creation, package updates, db migration
 
 # determine the right python binary
-.PYTHON3:=$(shell PATH=$(subst $(CURDIR)/.venv/bin:,,$(PATH)) which python3)
+.PYTHON3:=$(shell PATH='$(subst $(CURDIR)/.venv/bin:,,$(PATH))' which python3)
 
 
 setup-mara:
