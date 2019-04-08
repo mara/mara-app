@@ -9,9 +9,9 @@ setup(
     python_requires='>=3.6',
 
     install_requires=[
-        'mara-page>=1.2.3',
+        'mara-page>=1.4.1',
         'mara-db>=3.0.0',
-        'flask>=0.12'
+        'flask>=1.0.2'
     ],
 
     dependency_links=[
