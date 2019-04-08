@@ -24,6 +24,8 @@ def _config_modules(with_functions=True):
     for name, module in copy.copy(sys.modules).items():
         if 'MARA_CONFIG_MODULES' in dir(module):
             modules = getattr(module, 'MARA_CONFIG_MODULES')
+            if isinstance(modules, typing.Callable):
+                modules = modules()
             assert (isinstance(modules, typing.Iterable))
             for config_module in modules:
                 assert (isinstance(config_module, types.ModuleType))

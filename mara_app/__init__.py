@@ -1,13 +1,29 @@
-from mara_app import views, config
+"""Make the functionalities of this package auto-discoverable by mara-app"""
 
-MARA_CONFIG_MODULES = [config]
 
-MARA_FLASK_BLUEPRINTS = [views.blueprint]
+def MARA_CONFIG_MODULES():
+    from . import config
+    return [config]
 
-MARA_AUTOMIGRATE_SQLALCHEMY_MODELS = []
 
-MARA_ACL_RESOURCES = [views.acl_resource]
+def MARA_FLASK_BLUEPRINTS():
+    from . import views
+    return [views.blueprint]
 
-MARA_CLICK_COMMANDS = []
 
-MARA_NAVIGATION_ENTRY_FNS = [views.navigation_entry]
+def MARA_AUTOMIGRATE_SQLALCHEMY_MODELS():
+    return []
+
+
+def MARA_ACL_RESOURCES():
+    from . import views
+    return {'Configuration': views.acl_resource}
+
+
+def MARA_CLICK_COMMANDS():
+    return []
+
+
+def MARA_NAVIGATION_ENTRIES():
+    from . import views
+    return {'Package Configs': views.package_configs_navigation_entry()}

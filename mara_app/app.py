@@ -5,12 +5,41 @@ Flask app with auto-discovery of blueprints, cli commands etc.
 import copy
 import functools
 import sys
+import types
 import typing
 
+import click
 import flask
+
 from mara_app import config, layout
-from mara_page import navigation, response, _, bootstrap
+from mara_page import response, _, bootstrap, navigation
 from werkzeug import exceptions
+
+
+def module_functionalities(module: types.ModuleType, MARA_XXX: str, type) -> []:
+    """
+    Returns some functionalities of a module that is declared in a MARA_XXX variable or function
+
+    `module.MARA_XXX` can be
+    - a function that returns a list or dict
+    - a list
+    - a dict
+    """
+    if MARA_XXX in dir(module):
+        functionalities = getattr(module, MARA_XXX)
+        if isinstance(functionalities, typing.Callable):
+            functionalities = functionalities()
+        if isinstance(functionalities, typing.Dict):
+            functionalities = functionalities.values()
+        if not isinstance(functionalities, typing.Iterable):
+            raise TypeError(
+                f'{module.__name__}.{MARA_XXX} should be or return a list or dict of {type.__name__}. Got "{functionalities}".')
+        for functionality in functionalities:
+            if not isinstance(functionality, type):
+                raise TypeError(f'In {module.__name__}.{MARA_XXX}: Expected a {type.__name__}, got "{functionality}"')
+        return functionalities
+    else:
+        return []
 
 
 class MaraApp(flask.Flask):
@@ -18,7 +47,6 @@ class MaraApp(flask.Flask):
         super().__init__('mara')
         self.register_blueprints()
         self.register_commands()
-        self.register_navigation_entries()
         self.register_page_layout()
         self.register_error_handlers()
         self.disable_caching()
@@ -27,50 +55,19 @@ class MaraApp(flask.Flask):
 
     def register_blueprints(self):
         """Searches for all declared blueprints and adds them to the app"""
-        for name, module in copy.copy(sys.modules).items():
-            if 'MARA_FLASK_BLUEPRINTS' in dir(module):
-                blueprints = getattr(module, 'MARA_FLASK_BLUEPRINTS')
-                assert (isinstance(blueprints, typing.Iterable))
-                for blueprint in blueprints:
-                    assert (isinstance(blueprint, flask.Blueprint))
-                    self.register_blueprint(blueprint)
+        for module in copy.copy(sys.modules).values():
+            for blueprint in module_functionalities(module, 'MARA_FLASK_BLUEPRINTS', flask.Blueprint):
+                self.register_blueprint(blueprint)
 
     def register_commands(self):
         """Searches for all declared click commands and adds them to the app, grouped by package"""
-        for name, module in copy.copy(sys.modules).items():
-            if 'MARA_CLICK_COMMANDS' in dir(module):
-                commands = getattr(module, 'MARA_CLICK_COMMANDS')
-                assert (isinstance(commands, typing.Iterable))
-                for command in commands:
-                    if 'callback' in command.__dict__ and command.__dict__['callback']:
-                        package = command.__dict__['callback'].__module__.rpartition('.')[0]
-                        if package != 'flask':
-                            command.name = package + '.' + command.name
-                            self.cli.add_command(command)
-
-    def register_navigation_entries(self):
-        """Collects and merges all instances of NavigationEntry"""
-        self.navigation_root = config.navigation_root()
-
-        def all_children(navigation_entry: navigation.NavigationEntry) -> {navigation.NavigationEntry}:
-            return functools.reduce(set.union, [all_children(child) for child in navigation_entry.children],
-                                    set([navigation_entry]))
-
-        # all navigation entries that have already been registered via `config.navigation_root`
-        existing_navigation_entries = all_children(self.navigation_root)
-
-        for name, module in copy.copy(sys.modules).items():
-            if 'MARA_NAVIGATION_ENTRY_FNS' in dir(module):
-                fns = getattr(module, 'MARA_NAVIGATION_ENTRY_FNS')
-                assert (isinstance(fns, typing.Iterable))
-                for fn in fns:
-                    assert (isinstance(fn, typing.Callable))
-                    navigation_entry = fn()
-                    assert (isinstance(navigation_entry, navigation.NavigationEntry))
-
-                    # only add navigation entries that have not been added yet via `config.navigation_root`
-                    if not navigation_entry in existing_navigation_entries and navigation_entry != self.navigation_root:
-                        self.navigation_root.add_child(navigation_entry)
+        for module in copy.copy(sys.modules).values():
+            for command in module_functionalities(module, 'MARA_CLICK_COMMANDS', click.Command):
+                if 'callback' in command.__dict__ and command.__dict__['callback']:
+                    package = command.__dict__['callback'].__module__.rpartition('.')[0]
+                    if package != 'flask':
+                        command.name = package + '.' + command.name
+                        self.cli.add_command(command)
 
     def register_page_layout(self):
         """Adds a global layout with navigation etc. to pages"""
@@ -117,3 +114,27 @@ class MaraApp(flask.Flask):
         https://stackoverflow.com/questions/16713644/why-is-flask-url-for-too-slow"""
         original_url_for = flask.url_for
         flask.url_for = functools.lru_cache(maxsize=None)(original_url_for)
+
+
+@functools.lru_cache(maxsize=None)
+def combine_navigation_entries() -> navigation.NavigationEntry:
+    """Collects and merges all instances of NavigationEntry"""
+    navigation_root = config.navigation_root()
+
+    def all_children(navigation_entry: navigation.NavigationEntry) -> {navigation.NavigationEntry}:
+        return functools.reduce(set.union, [all_children(child) for child in navigation_entry.children],
+                                set([navigation_entry]))
+
+    # all navigation entries that have already been registered via `config.navigation_root`
+    existing_navigation_entries = all_children(navigation_root)
+
+    for module in copy.copy(sys.modules).values():
+        for fn in module_functionalities(module,'MARA_NAVIGATION_ENTRY_FNS',typing.Callable):
+            navigation_entry = fn()
+            assert (isinstance(navigation_entry, navigation.NavigationEntry))
+
+            # only add navigation entries that have not been added yet via `config.navigation_root`
+            if not navigation_entry in existing_navigation_entries and navigation_entry != navigation_root:
+                navigation_root.add_child(navigation_entry)
+
+    return navigation_root
