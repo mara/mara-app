@@ -23,7 +23,7 @@ $(document).ready(function () {
             localStorage.setItem('navigation-bar', navigationEntries);
         },
         error: function (xhr, textStatus, errorThrown) {
-            showAlert(icon + textStatus + ' while fetching "<a href="' + navigationUrl + '">' + navigationUrl + '</a>": ' + errorThrown,
+            showAlert(textStatus + ' while fetching "<a href="' + navigationUrl + '">' + navigationUrl + '</a>": ' + errorThrown,
                 'danger');
             $('#mara-navigation').empty().append('<div class="fa fa-bug"> </div>');
         },
