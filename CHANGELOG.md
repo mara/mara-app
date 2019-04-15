@@ -1,12 +1,13 @@
 # Changelog
 
-## 2.0.0 (2019-04-09)
+## 2.0.0 - 2.0.1 (2019-04-09)
 
 - Change MARA_XXX variables to functions to delay importing of imports
 - Delay computation of navigation tree to the first time it's needed (in order to save load time)
 - Remove dependency_links from setup.py to regain compatibility with recent pip versions
 - Bump flask & mara db dependency
 - Get working on Windows
+- Fix bug in auto discovery of navigation entries
 
 
 **required changes**

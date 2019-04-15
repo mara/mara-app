@@ -129,9 +129,7 @@ def combine_navigation_entries() -> navigation.NavigationEntry:
     existing_navigation_entries = all_children(navigation_root)
 
     for module in copy.copy(sys.modules).values():
-        for fn in module_functionalities(module,'MARA_NAVIGATION_ENTRY_FNS',typing.Callable):
-            navigation_entry = fn()
-            assert (isinstance(navigation_entry, navigation.NavigationEntry))
+        for navigation_entry in module_functionalities(module, 'MARA_NAVIGATION_ENTRIES', navigation.NavigationEntry):
 
             # only add navigation entries that have not been added yet via `config.navigation_root`
             if not navigation_entry in existing_navigation_entries and navigation_entry != navigation_root:

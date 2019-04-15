@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='mara-app',
-    version='2.0.0',
+    version='2.0.1',
 
     description="Framework for distributing flask apps across separate packages with minimal dependencies",
 
