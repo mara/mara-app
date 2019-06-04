@@ -4,8 +4,8 @@ $(document).ready(function () {
         $('#mara-navigation').mouseleave(collapseNavigation);
     }
 
-    var navigationUrl = '/mara-app/navigation-bar';
     $.ajax({
+        // navigationUrl is set in layout.py
         url: navigationUrl,
         success: function (navigationEntries) {
             $('#mara-navigation').empty().append(navigationEntries).fadeIn(500);
