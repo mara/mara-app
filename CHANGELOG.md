@@ -14,7 +14,7 @@
 
 **required changes**
 
-This release should be backward compatible with older other mara packages. However, when updating to packages that rely on this version of mara-app, changes to the application bootstrap process are required. Please have a look at the [`__init__.py of the mara example project](https://github.com/mara/mara-example-project/blob/master/app/ui/__init__.py) for how to setup navigation and ACL.
+This release should be backward compatible with older other mara packages. However, when updating to packages that rely on this version of mara-app, changes to the application bootstrap process are required. Please have a look at the [`__init__.py` of the mara example project](https://github.com/mara/mara-example-project/blob/master/app/ui/__init__.py) for how to setup navigation and ACL.
 
 For updating your own module's `__init__.py`, please have a look at the one of [mara-acl](https://github.com/mara/mara-example-project/blob/master/app/ui/__init__.py)  
 
