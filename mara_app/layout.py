@@ -39,7 +39,9 @@ def body_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
     """All elements inside the body section of the html page"""
     return [
         _.script['var isTouchDevice = ("ontouchstart" in document.documentElement); ',
-                 'window.document.getElementsByTagName("body")[0].className += isTouchDevice ? " touch" : " no-touch";'],
+                 'window.document.getElementsByTagName("body")[0].className += isTouchDevice ? " touch" : " no-touch";',
+                 f"var navigationUrl = '{flask.url_for('mara_app.navigation_bar')}';"
+        ],
         page_header(response),
         navigation_bar(),
         content_area(response),
