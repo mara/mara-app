@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.1.0 (2019-08-06)
+
+- Remove last usages of dependency links 
+- Unpin pip version
+- Add PyPi upload
+
+**required changes**
+
+- If you get the message `no such option: --process-dependency-links` while running `make update-packages`, then manually update `mara-app` and then run `make .copy-mara-app-scripts`
+- Potentially also unpin `pip` in your deploy scripts
+
+
 ## 2.0.0 - 2.0.2 (2019-06-11)
 
 - Change MARA_XXX variables to functions to delay importing of imports
