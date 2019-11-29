@@ -43,6 +43,22 @@ update-packages:
 # set environment variables
 	echo export FLASK_DEBUG=1 >> .venv/bin/activate
 	echo export FLASK_APP=$(shell pwd)/app/app.py >> .venv/bin/activate
+
+# on Mac, some operations in a multiprocessing environment chrash Python with this message:
+#     +[__NSCFConstantString initialize] may have been in progress in another thread when fork() was called.
+#     We cannot safely call it or ignore it in the fork() child process. Crashing instead.
+#     Set a breakpoint on objc_initializeAfterForkError to debug.
+#
+# See https://stackoverflow.com/questions/50168647/multiprocessing-causes-python-to-crash-and-gives-an-error-may-have-been-in-progr
+	echo export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES >> .venv/bin/activate
+
+# On Mac, some http operations in a multiprocessing environment segfault Python with this message:
+#     EXC_BAD_ACCESS (SIGSEGV)
+#      .. crashed on child side of fork pre-exec
+#
+# See https://blog.yimingliu.com/2015/07/22/python-multiprocessing-code-crashes-on-os-x-under-ipython/
+	echo export no_proxy='*' >> .venv/bin/activate
+
 # add the project directory to path
 	echo $(shell pwd) > `echo .venv/lib/*/site-packages`/mara-path.pth
 
