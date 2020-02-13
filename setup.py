@@ -8,7 +8,7 @@ def get_long_description():
 
 setup(
     name='mara-app',
-    version='2.1.1',
+    version='2.1.2',
 
     description="Framework for distributing flask apps across separate packages with minimal dependencies",
 

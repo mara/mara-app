@@ -1,9 +1,9 @@
 # Changelog
 
-## 2.1.1 (2019-11-29)
+## 2.1.1 - 2.1.2 (2019-11-29)
 
 - Set two environment variables in activate script for preventing crashes related to multiprocessing on Mac
-
+- Improve check for new package versions
 
 ## 2.1.0 (2019-08-06)
 
