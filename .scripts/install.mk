@@ -22,7 +22,7 @@ update-packages:
 	make -j check-for-unpushed-package-changes .venv/bin/python
 	.venv/bin/python -m pip install --upgrade pip wheel requests setuptools pipdeptree
 	PYTHONWARNINGS="ignore" .venv/bin/python -m pip install --requirement=requirements.txt --src=./packages --upgrade --exists-action=w
-	make -j check-for-inconstent-package-dependencies .copy-mara-app-scripts
+	make -j check-for-inconsistent-package-dependencies .copy-mara-app-scripts
 
 # write freeze file
 # pkg-ressources is automatically added on ubuntu, but breaks the install.
@@ -86,7 +86,7 @@ run-flask:
 
 # run https://github.com/naiquevin/pipdeptree to check whether the currently installed packages have
 # incompatible dependencies
-check-for-inconstent-package-dependencies:
+check-for-inconsistent-package-dependencies:
 	.venv/bin/pipdeptree --warn=fail
 
 
