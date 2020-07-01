@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.3 (2020-07-01)
+
+- Always upgrade packages used in makefile to latest version (#29)
+- Add target for deleting all pip installed code
+
+
 ## 2.1.1 - 2.1.2 (2019-11-29)
 
 - Set two environment variables in activate script for preventing crashes related to multiprocessing on Mac
