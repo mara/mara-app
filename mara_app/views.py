@@ -88,7 +88,7 @@ def package_configs_navigation_entry():
                 label=module_name, icon='list', description=config['doc'],
                 uri_fn=lambda _module_name=module_name: flask.url_for('mara_app.configuration_page',
                                                                       _anchor=_module_name))
-            for module_name, config in sorted(_config_modules().items())]
+            for module_name, config in sorted(_config_modules(with_functions=False).items())]
     )
 
 

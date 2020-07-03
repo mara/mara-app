@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.2.0 (2020-07-03)
+
+- Improve loading speed of navigation entries
+
+
 ## 2.1.3 (2020-07-01)
 
 - Always upgrade packages used in makefile to latest version (#29)
