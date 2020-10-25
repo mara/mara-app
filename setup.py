@@ -1,9 +1,18 @@
+import pathlib
 from setuptools import setup, find_packages
 
 
 def get_long_description():
     with open('README.md') as f:
         return f.read()
+
+def static_files() -> [str]:
+    module_path = pathlib.Path('mara_app')
+    files = []
+    for p in module_path.glob('static/**/*'):
+        if p.is_file():
+            files.append(str(p.relative_to(module_path)))
+    return files
 
 
 setup(
@@ -28,6 +37,7 @@ setup(
     },
 
     packages=find_packages(),
+    package_data={'mara_app': static_files()},
 
     author='Mara contributors',
     license='MIT',
