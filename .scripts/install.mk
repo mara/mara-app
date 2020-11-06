@@ -13,7 +13,7 @@ setup-mara:
 # install exact package versions from requirements.txt.freeze
 install-packages:
 	make -j .venv/bin/python check-for-unpushed-package-changes
-	.venv/bin/python -m pip install --upgrade pip wheel requests setuptools pipdeptree
+	.venv/bin/python -m pip install --upgrade pip wheel setuptools pipdeptree
 	.venv/bin/python -m pip install --requirement=requirements.txt.freeze --src=./packages --upgrade --exists-action=w
 
 
