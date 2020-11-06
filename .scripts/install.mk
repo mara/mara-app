@@ -20,7 +20,7 @@ install-packages:
 # update packages from requirements.txt and create requirements.txt.freeze
 update-packages:
 	make -j check-for-unpushed-package-changes .venv/bin/python
-	.venv/bin/python -m pip install --upgrade pip wheel requests setuptools pipdeptree
+	.venv/bin/python -m pip install --upgrade pip wheel setuptools pipdeptree
 	PYTHONWARNINGS="ignore" .venv/bin/python -m pip install --requirement=requirements.txt --src=./packages --upgrade --exists-action=w
 	make -j check-for-inconsistent-package-dependencies .copy-mara-app-scripts
 
