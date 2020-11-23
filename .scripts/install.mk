@@ -17,6 +17,13 @@ install-packages:
 	.venv/bin/python -m pip install --requirement=requirements.txt.freeze --src=./packages --upgrade --exists-action=w
 
 
+# same as target install-packages just without checking for unpushed changes
+install-packages-force:
+	make -j .venv/bin/python
+	.venv/bin/python -m pip install --upgrade pip wheel requests setuptools pipdeptree
+	.venv/bin/python -m pip install --requirement=requirements.txt.freeze --src=./packages --upgrade --exists-action=w
+
+
 # update packages from requirements.txt and create requirements.txt.freeze
 update-packages:
 	make -j check-for-unpushed-package-changes .venv/bin/python
