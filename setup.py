@@ -6,14 +6,18 @@ def get_long_description():
     with open('README.md') as f:
         return f.read()
 
-def static_files() -> [str]:
-    module_path = pathlib.Path('mara_app')
+
+def add_file_to_package(main_path: str, sub_path: str) -> [str]:
+    module_path = pathlib.Path(main_path)
     files = []
-    for p in module_path.glob('static/**/*'):
-        if p.is_file():
-            files.append(str(p.relative_to(module_path)))
+    for file in module_path.glob(sub_path):
+        if file.is_file():
+            files.append(str(file.relative_to(module_path)))
     return files
 
+
+packaged_files = add_file_to_package(main_path="mara_app", sub_path="static/**/*") + \
+        add_file_to_package(main_path="", sub_path=".scripts/**")
 
 setup(
     name='mara-app',
@@ -37,7 +41,7 @@ setup(
     },
 
     packages=find_packages(),
-    package_data={'mara_app': static_files()},
+    package_data={'mara_app': packaged_files},
 
     author='Mara contributors',
     license='MIT',
