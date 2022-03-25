@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.1 (2022-03-25)
+
+- fix missing static files in pip package (#32)
+
 ## 2.2.0 (2020-07-03)
 
 - Improve loading speed of navigation entries

@@ -17,7 +17,7 @@ def static_files() -> [str]:
 
 setup(
     name='mara-app',
-    version='2.2.0',
+    version='2.2.1',
 
     description="Framework for distributing flask apps across separate packages with minimal dependencies",
 
