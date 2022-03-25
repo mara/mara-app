@@ -52,7 +52,7 @@ def body_elements(response: mara_page.response.Response) -> [xml.XMLElement]:
 
 def css_files(response: mara_page.response.Response) -> [xml.XMLElement]:
     """The list of all css files to include in the page"""
-    return [flask.url_for('mara_app.static', filename='bootstrap-4.0.0-alpha.6/bootstrap.min.css'),
+    return [flask.url_for('mara_app.static', filename='bootstrap/bootstrap.min.css'),
             flask.url_for('mara_app.static', filename='font-awesome-4.7.0/css/font-awesome.min.css'),
             flask.url_for('mara_app.static', filename='tether-1.3.3/tether.min.css'),
             flask.url_for('mara_app.static', filename='mara.css')
@@ -61,10 +61,10 @@ def css_files(response: mara_page.response.Response) -> [xml.XMLElement]:
 
 def js_files(response: mara_page.response.Response):
     """The list of all js files to include in the page"""
-    return [flask.url_for('mara_app.static', filename='jquery-3.1.1.min.js'),
+    return [flask.url_for('mara_app.static', filename='jquery.min.js'),
             flask.url_for('mara_app.static', filename='tether-1.3.3/tether.min.js'),
-            flask.url_for('mara_app.static', filename='bootstrap-4.0.0-alpha.6/bootstrap.min.js'),
-            flask.url_for('mara_app.static', filename='jquery.floatThead.2.0.3.min.js'),
+            flask.url_for('mara_app.static', filename='bootstrap/bootstrap.min.js'),
+            flask.url_for('mara_app.static', filename='jquery.floatThead.min.js'),
             flask.url_for('mara_app.static', filename='mara.js')
             ] + response.js_files
 
