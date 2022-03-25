@@ -17,7 +17,7 @@ def add_file_to_package(main_path: str, sub_path: str) -> [str]:
 
 
 packaged_files = add_file_to_package(main_path="mara_app", sub_path="static/**/*") + \
-        add_file_to_package(main_path="", sub_path=".scripts/**")
+        add_file_to_package(main_path="mara_app", sub_path=".scripts/*")
 
 setup(
     name='mara-app',
