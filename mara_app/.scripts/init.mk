@@ -7,8 +7,9 @@ SHELL=.scripts/mara-app/makeshell $(or $@,-)
 .SILENT:
 
 # copy scripts from mara-app package to project code
+.copy-mara-app-scripts: MODULE_LOCATION != .venv/bin/python -m pip show mara-app | sed -n -e 's/Location: //p'
 .copy-mara-app-scripts:
-	rsync --archive --recursive --itemize-changes  --delete packages/mara-app/.scripts/ .scripts/mara-app/
+	rsync --archive --recursive --itemize-changes  --delete $(MODULE_LOCATION)/mara_app/.scripts/ .scripts/mara-app/
 
 
 
