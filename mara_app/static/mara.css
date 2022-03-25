@@ -284,6 +284,7 @@ body > #alerts {
     text-overflow: ellipsis;
 }
 
+#mara-main div.card div.card-body > div.card-text,
 #mara-main div.card div.list-group > div.list-group-item {
     overflow-x: auto;
     overflow-y: hidden;
