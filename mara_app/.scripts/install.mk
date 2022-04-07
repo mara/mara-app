@@ -81,7 +81,13 @@ migrate-mara-db:
 
 # run flask development server
 run-flask:
-	. .venv/bin/activate; flask run --with-threads --reload --eager-loading 2>&1
+	. .venv/bin/activate; flask run --host "$${MARA_BIND_ADDRESS:-0.0.0.0}" --port $${MARA_PORT:-5000} --with-threads --reload --eager-loading 2>&1
+
+
+# run gunicorn server
+# Requires to add the gunicorn package manually to requirements.txt
+run-gunicorn:
+	.venv/bin/gunicorn --bind "$${MARA_BIND_ADDRESS:-0.0.0.0}:$${MARA_PORT:-5000}" --workers $${SERVER_WORKER_AMOUNT:-1} --worker-class $${SERVER_WORKER_CLASS:-gthread} --threads $${SERVER_THREADS_AMOUNT:-20} --timeout $${GUNICORN_TIMEOUT:-60} --limit-request-line $${SERVER_LIMIT_REQUEST_LINE:-0} --limit-request-field_size $${SERVER_LIMIT_REQUEST_FIELD_SIZE:-0} --reload "app.app:wsgi_app" 2>&1
 
 
 # run https://github.com/naiquevin/pipdeptree to check whether the currently installed packages have
