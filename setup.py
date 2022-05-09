@@ -21,7 +21,7 @@ packaged_files = add_file_to_package(main_path="mara_app", sub_path="static/**/*
 
 setup(
     name='mara-app',
-    version='2.2.1',
+    version='2.3.0',
 
     description="Framework for distributing flask apps across separate packages with minimal dependencies",
 

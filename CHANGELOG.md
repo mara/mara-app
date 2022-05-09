@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.0 (2022-05-09)
+- adding .scripts files into the PyPI package
+
+**required changes**
+- If you use the Makefile/.scripts logic, you need to copy once the file `mara_app/.scripts/init.mk` into your scripts folder.<br/>
+  This can be done by executing once `cp packages/mara-app/mara_app/.scripts/init.mk .scripts/mara-app/init.mk` in your shell.
+
 ## 2.2.1 (2022-03-25)
 
 - fix missing static files in pip package (#32)

@@ -1,5 +1,9 @@
 *.egg-info/
+.eggs/
 __pycache__
 .idea
 venv/
+.venv/
 workflow/
+/build
+/dist
