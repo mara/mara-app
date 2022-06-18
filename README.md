@@ -1,5 +1,6 @@
 # Mara App
 
+[![Build status](https://github.com/mara/mara-app/actions/workflows/build_for_deployment.yaml/badge.svg)](https://github.com/mara/mara-app/actions/workflows/build_for_deployment.yaml)
 ![PyPI - License](https://img.shields.io/pypi/l/mara-app.svg)
 [![PyPI version](https://badge.fury.io/py/mara-app.svg)](https://badge.fury.io/py/mara-app)
 [![Slack Status](https://img.shields.io/badge/slack-join_chat-white.svg?logo=slack&style=social)](https://communityinviter.com/apps/mara-users/public-invite)
