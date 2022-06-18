@@ -24,28 +24,29 @@ def patch(original_function: typing.Callable) -> typing.Callable:
     """
     A decorator for replacing a function in another module
 
-    Example:
-    >>> # in some_package.some_module:
-    ... def some_function(x):
-    ...     return x + 1
+    Examples:
+        >>> # in some_package.some_module:
+        ... def some_function(x):
+        ...     return x + 1
 
-    >>> some_package.some_module.some_function(1)
-    2
+        >>> some_package.some_module.some_function(1)
+        2
 
-    >>> @patch(some_package.some_module.some_function)
-    ... def new_function(x):
-    ...      return x + 2
+        >>> @patch(some_package.some_module.some_function)
+        ... def new_function(x):
+        ...      return x + 2
 
-    >>> some_package.some_module.some_function(1)
-    3
+        >>> some_package.some_module.some_function(1)
+        3
 
-    >>> # equivalent:
-    >>> patch(some_package.some_module.some_function)(lambda x: x + 2)
+        >>> # equivalent:
+        >>> patch(some_package.some_module.some_function)(lambda x: x + 2)
 
     Args:
         original_function: The function or method to patch
 
-    Returns: The replaced function
+    Returns:
+        The replaced function
     """
 
     def decorator(new_function):
@@ -70,25 +71,26 @@ def wrap(original_function: typing.Callable) -> typing.Callable:
     """
     A decorator for wrapping a function in another module
 
-    Example:
-    >>> # in some_package.some_module:
-    ... def some_function(x):
-    ...     return x + 1
+    Examples:
+        >>> # in some_package.some_module:
+        ... def some_function(x):
+        ...     return x + 1
 
-    >>> some_package.some_module.some_function(1)
-    2
+        >>> some_package.some_module.some_function(1)
+        2
 
-    >>> @wrap(some_package.some_module.some_function)
-    ... def new_function(original_function, x):
-    ...      return original_function(x) + 1
+        >>> @wrap(some_package.some_module.some_function)
+        ... def new_function(original_function, x):
+        ...      return original_function(x) + 1
 
-    >>> some_package.some_module.some_function(1)
-    3
+        >>> some_package.some_module.some_function(1)
+        3
 
     Args:
         original_function: The function or method to wrap
 
-    Returns: The wrapped function
+    Returns:
+        The wrapped function
     """
 
     def decorator(new_function):
