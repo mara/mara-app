@@ -1,9 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
 *.egg-info/
 .eggs/
-__pycache__
+
+# Sphinx documentation
+docs/_build/
+
+# Dev tools
 .idea
-venv/
-.venv/
-workflow/
-/build
-/dist
+
+# Environments
+/.venv
