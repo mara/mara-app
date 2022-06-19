@@ -21,7 +21,7 @@ These packages will be installed automatically when installing Mara App.
 [Mara DB]: https://mara-db.readthedocs.io/
 
 
-Install Mara ACL
+Install Mara App
 ----------------
 
 To use the library directly, use pip:

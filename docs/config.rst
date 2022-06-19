@@ -5,7 +5,7 @@ Configuration
 Mara Configuration Values
 -------------------------
 
-The following configuration values are used by this module. They are defined as python functions in ``mara_acl.config``
+The following configuration values are used by this module. They are defined as python functions in ``mara_app.config``
 and can be changed with the `monkey patch`_ from `Mara App`_. An example can be found `here <https://github.com/mara/mara-example-project-1/blob/master/app/local_setup.py.example>`_.
 
 .. _monkey patch: https://github.com/mara/mara-app/blob/master/mara_app/monkey_patch.py
