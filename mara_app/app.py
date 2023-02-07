@@ -66,8 +66,11 @@ class MaraApp(flask.Flask):
                 if 'callback' in command.__dict__ and command.__dict__['callback']:
                     package = command.__dict__['callback'].__module__.rpartition('.')[0]
                     if package != 'flask':
-                        command.name = package + '.' + command.name
-                        self.cli.add_command(command)
+                        if isinstance(command, click.MultiCommand):
+                            self.cli.add_command(command)
+                        else:
+                            command.name = package + '.' + command.name
+                            self.cli.add_command(command)
 
     def register_page_layout(self):
         """Adds a global layout with navigation etc. to pages"""
