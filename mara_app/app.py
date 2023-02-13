@@ -66,11 +66,7 @@ class MaraApp(flask.Flask):
                 if 'callback' in command.__dict__ and command.__dict__['callback']:
                     package = command.__dict__['callback'].__module__.rpartition('.')[0]
                     if package != 'flask':
-                        if isinstance(command, click.MultiCommand):
-                            self.cli.add_command(command)
-                        else:
-                            command.name = package + '.' + command.name
-                            self.cli.add_command(command)
+                        register_command(self, command, package)
 
     def register_page_layout(self):
         """Adds a global layout with navigation etc. to pages"""
@@ -117,6 +113,22 @@ class MaraApp(flask.Flask):
         https://stackoverflow.com/questions/16713644/why-is-flask-url-for-too-slow"""
         original_url_for = flask.url_for
         flask.url_for = functools.lru_cache(maxsize=None)(original_url_for)
+
+
+def register_command(app: MaraApp, command: click.Command, package: str):
+    """
+    Register a new command to a mara flask app.
+
+    Args
+        app: the mara flask app
+        command: the command to be added
+        package: the python package name the command comes from
+    """
+    if isinstance(command, click.MultiCommand):
+        app.cli.add_command(command)
+    else:
+        command.name = package + '.' + command.name
+        app.cli.add_command(command)
 
 
 @functools.lru_cache(maxsize=None)
