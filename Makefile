@@ -53,4 +53,4 @@ download-bootstrap:
 	curl https://cdn.jsdelivr.net/npm/bootstrap@$(BOOTSTRAP_VERSION)/dist/js/bootstrap.min.js -o mara_app/static/bootstrap/bootstrap.min.js
 
 download-web-packages:
-	make -j upgrade-jquery upgrade-bootstrap
+	make -j upgrade-jquery jquery-floatThead upgrade-bootstrap
