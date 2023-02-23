@@ -29,9 +29,3 @@ To use the library directly, use pip:
 ``` bash
 $ pip install mara-app
 ```
-
-or
-
-``` bash
-$ pip install git+https://github.com/mara/mara-app.git
-```
