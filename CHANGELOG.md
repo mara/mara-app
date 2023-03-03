@@ -29,7 +29,7 @@
 
 ## 2.1.0 (2019-08-06)
 
-- Remove last usages of dependency links 
+- Remove last usages of dependency links
 - Unpin pip version
 - Add PyPi upload
 
@@ -55,7 +55,7 @@
 
 This release should be backward compatible with older other mara packages. However, when updating to packages that rely on this version of mara-app, changes to the application bootstrap process are required. Please have a look at the [`__init__.py` of the mara example project](https://github.com/mara/mara-example-project/blob/master/app/ui/__init__.py) for how to setup navigation and ACL.
 
-For updating your own module's `__init__.py`, please have a look at the one of [mara-acl](https://github.com/mara/mara-example-project/blob/master/app/ui/__init__.py)  
+For updating your own module's `__init__.py`, please have a look at the one of [mara-acl](https://github.com/mara/mara-example-project/blob/master/app/ui/__init__.py)
 
 
 ## 1.7.0 (2019-01-30)
@@ -74,7 +74,7 @@ For updating your own module's `__init__.py`, please have a look at the one of [
 
 **required changes**
 
-- Run `make .copy-mara-app-scripts` to copy [.scripts/install.mk](https://github.com/mara/mara-app/blob/master/.scripts/install.mk) to local project (that's part of `make update-packages`). 
+- Run `make .copy-mara-app-scripts` to copy [.scripts/install.mk](https://github.com/mara/mara-app/blob/master/.scripts/install.mk) to local project (that's part of `make update-packages`).
 - If not possible, copy manually.
 
 
@@ -82,7 +82,7 @@ For updating your own module's `__init__.py`, please have a look at the one of [
 
 - Move auto-migrate feature to mara-db package
 - cope with absense of local git checkout in layout._current_git_commit
-- Wipe incompatible local copies when pip installing packages 
+- Wipe incompatible local copies when pip installing packages
 - Fix bug in appending git commit to js file url
 
 
@@ -94,17 +94,17 @@ For updating your own module's `__init__.py`, please have a look at the one of [
 - bug fixes for auto-migration
 - bug fixes for monkey patching
 - improve configuration page
- 
+
 
 
 ## 1.3.0 - 1.3.6 (2017-12-30)
 
-- modularize Makefile and stop overwriting project Makefile from package 
+- modularize Makefile and stop overwriting project Makefile from package
 - asynchronous loading of navigation bar for better page rendering experience
 - store height of asynchronously loaded content in local storage for improved rendering experience
-- show a list of all patched and wrapped functions in /configuration page 
+- show a list of all patched and wrapped functions in /configuration page
 - improve configuration ui
-- add error handling for asynchronous loading of navigation 
+- add error handling for asynchronous loading of navigation
 - use MARA_AUTOMIGRATE_SQLALCHEMY_MODELS for finding sqlalchemy models (instead of walking through GC)
 - add workaround for failing pip on Ubuntu/Debian (#22)
 - fix dependency links
@@ -133,7 +133,7 @@ include .scripts/mara-app/install.mk
 - Changed discovery of blueprints, commands, navigation entries etc. from inspecting gc to explicit module inventories
 - Automatic creation of mara backend db if it does not exist in migrations
 - Performance improvements in response rendering
-- Improved css for cards, tables, page headers 
+- Improved css for cards, tables, page headers
 - Added floating of table headers
 - Fix for setting flask app configuration
 - Other minor fixes
@@ -143,7 +143,7 @@ include .scripts/mara-app/install.mk
 
 - requires update of [mara-page](https://github.com/mara/mara-page) to at least 1.2.0
 - packages now need to explicitly declare which blueprints, commands, sql alchemy models etc. should be registered by `mara_app`. Example: the [`__init__.py`](https://github.com/mara/mara-app/blob/master/mara_app/__init__.py) from this package:
- 
+
 ```python
 from mara_app import views, cli, config
 
@@ -173,10 +173,10 @@ MARA_NAVIGATION_ENTRY_FNS = [views.navigation_entry]
 
 
 
-## 1.0.0 - 1.0.4 (2017-03-12) 
+## 1.0.0 - 1.0.4 (2017-03-12)
 
 - Initial version plus bug fixes
-- Configuration improvements: frontend only displays config modules in `packages` folder, started flask config 
+- Configuration improvements: frontend only displays config modules in `packages` folder, started flask config
 - migrations work without activating the virtualenv first
 - improved updating of virtualenvs
 - minor improvements for _/admin/configuration_ page

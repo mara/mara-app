@@ -98,7 +98,7 @@ def navigation_bar() -> str:
     if (navigationEntries) {
         document.getElementById('mara-navigation').innerHTML = navigationEntries;
     }
-})();            
+})();
             """]]
 
 

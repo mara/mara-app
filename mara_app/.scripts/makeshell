@@ -45,14 +45,14 @@ elif [ "$COMMAND" == "make" ]; then
     $COMMAND_WITH_ARGS
 elif [ -t 1 ]; then
     # The command is invoked as part of make recipe
-    
+
     # time measurement (only in seconds because Macs don't have gnu time)
     start=`date +%s`
 
     # prints the make target and recipe command, with colors
     echo $WHITE$1:$CYAN ${@:3}$NO_COLOR
 
-    # runs the command 
+    # runs the command
     /bin/bash -o pipefail -c "${@:3}" 2> >(
         # makes stderr output red
         while IFS= read line; do
@@ -75,5 +75,3 @@ else
     # the command is invoked from make via $(shell command)
     /bin/bash -o pipefail -c "$COMMAND_WITH_ARGS"
 fi
-
-

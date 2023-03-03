@@ -1,6 +1,6 @@
-#!/bin/bash 
+#!/bin/bash
 
-# checks whether the git repository in $1 has newer tags available 
+# checks whether the git repository in $1 has newer tags available
 
 set -o pipefail
 
@@ -16,6 +16,3 @@ if [[ $(git tag) ]]; then
        echo -e "\033[32m newer version available for $1 ($current_tag -> $latest_tag)\033[0m"
    fi
 fi
-
-
-

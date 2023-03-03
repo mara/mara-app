@@ -155,4 +155,3 @@ function loadContentAsynchronously(containerId, url, divHeightKey) {
         }
     });
 }
-
