@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.0 (2023-05-01)
+
+- upgrade to bootstrap 4.6 (from alpha 4)<br>
+  *Caution:* Some CSS classes changed between Boostram Alpha 4 and 4.6. You might need to upgrade other mara packages as well, e.g. mara-pipelines and mara-app.
+- do not modify the click command name when it is a MultiCommand #42 (#44)
+
 ## 2.3.0 (2022-05-09)
 - adding .scripts files into the PyPI package
 
