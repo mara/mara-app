@@ -284,27 +284,28 @@ body > #alerts {
     text-overflow: ellipsis;
 }
 
-#mara-main div.card div.card-block > div.card-block-content {
+#mara-main div.card div.card-body > div.card-text,
+#mara-main div.card div.list-group > div.list-group-item {
     overflow-x: auto;
     overflow-y: hidden;
 }
 
-#mara-main div.card div.card-block > div.card-block-content > *:first-child {
+#mara-main div.card div.list-group > div.list-group-item > *:first-child {
     padding-top: 0px;
     margin-top: 0px;
 }
 
-#mara-main div.card div.card-block > div.card-block-content > *:last-child {
+#mara-main div.card div.list-group > div.list-group-item > *:last-child {
     padding-bottom: 0px;
     margin-bottom: 0px;
 }
 
-#mara-main div.card div.card-block {
+#mara-main div.card div.card-body {
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
 
-#mara-main div.card div.card-section {
+#mara-main div.card div.list-group {
     border-top: 1px solid rgba(0, 0, 0, .1);
 }
 
