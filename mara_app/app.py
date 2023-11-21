@@ -43,8 +43,13 @@ def module_functionalities(module: types.ModuleType, MARA_XXX: str, type) -> []:
 
 
 class MaraApp(flask.Flask):
-    def __init__(self):
+    def __init__(self, shorten_cli_commands: bool = False):
+        """
+        Args:
+            shorten_cli_commands: (Optional) if set, the cli command prefix 'mara-' and 'mara_' will be removed
+        """
         super().__init__('mara')
+        self.shorten_cli_commands = shorten_cli_commands
         self.register_blueprints()
         self.register_commands()
         self.register_page_layout()
@@ -66,7 +71,7 @@ class MaraApp(flask.Flask):
                 if 'callback' in command.__dict__ and command.__dict__['callback']:
                     package = command.__dict__['callback'].__module__.rpartition('.')[0]
                     if package != 'flask':
-                        register_command(self, command, package)
+                        register_command(self, command, package, self.shorten_cli_commands)
 
     def register_page_layout(self):
         """Adds a global layout with navigation etc. to pages"""
@@ -115,7 +120,7 @@ class MaraApp(flask.Flask):
         flask.url_for = functools.lru_cache(maxsize=None)(original_url_for)
 
 
-def register_command(app: MaraApp, command: click.Command, package: str):
+def register_command(app: MaraApp, command: click.Command, package: str, shorten_cli_commands: bool = False):
     """
     Register a new command to a mara flask app.
 
@@ -125,8 +130,14 @@ def register_command(app: MaraApp, command: click.Command, package: str):
         package: the python package name the command comes from
     """
     if isinstance(command, click.MultiCommand):
+        if shorten_cli_commands and (command.name.startswith('mara-') or \
+                                     command.name.startswith('mara_')):
+            command.name = command.name[5:]
         app.cli.add_command(command)
     else:
+        if shorten_cli_commands and (package.startswith('mara-') or \
+                                     package.startswith('mara_')):
+            package = package[5:]
         command.name = package + '.' + command.name
         app.cli.add_command(command)
 
