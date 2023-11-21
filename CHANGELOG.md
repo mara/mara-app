@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.0 (2023-11-21)
+
+- add option to shorten cli commands (#48)
+
 ## 2.4.0 (2023-05-01)
 
 - upgrade to bootstrap 4.6 (from alpha 4)<br>
