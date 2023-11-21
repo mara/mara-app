@@ -49,6 +49,7 @@ class MaraApp(flask.Flask):
             shorten_cli_commands: (Optional) if set, the cli command prefix 'mara-' and 'mara_' will be removed
         """
         super().__init__('mara')
+        self.shorten_cli_commands = shorten_cli_commands
         self.register_blueprints()
         self.register_commands()
         self.register_page_layout()
@@ -56,7 +57,6 @@ class MaraApp(flask.Flask):
         self.disable_caching()
         self.patch_flask_url_for()
         self.config.update(config.flask_config())
-        self.shorten_cli_commands = shorten_cli_commands
 
     def register_blueprints(self):
         """Searches for all declared blueprints and adds them to the app"""
