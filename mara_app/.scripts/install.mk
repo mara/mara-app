@@ -81,7 +81,7 @@ migrate-mara-db:
 
 # run flask development server
 run-flask:
-	. .venv/bin/activate; flask run --with-threads --reload --eager-loading 2>&1
+	. .venv/bin/activate; flask run --with-threads --reload 2>&1
 
 
 # run https://github.com/naiquevin/pipdeptree to check whether the currently installed packages have
